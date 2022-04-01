@@ -36,18 +36,14 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         Cookie[] cookies = request.getCookies();
         // 没有cookie信息，则重定向到登录界面
         if (null == cookies) {
-//            System.out.println("?????????????");
             request.setAttribute("msg","无权限，请登录");
             request.getRequestDispatcher("/login").forward(request,response);
-//            response.sendRedirect(request.getContextPath() + "/login");
             return false;
         }
         // 定义cookie_username，用户的一些登录信息，例如：用户名，密码等
         String cookie_username = null;
         // 获取cookie里面的一些用户信息
         for (Cookie item : cookies) {
-//            System.out.println(item.getName()+" ???"+item.getValue());
-//            System.out.println(item.getName()+"");
             if ("cookie_username".equals(item.getName())) {
                 cookie_username = item.getValue();
                 break;
@@ -55,18 +51,14 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         }
         // 如果cookie里面没有包含用户的一些登录信息，则重定向到登录界面
         if (StringUtils.isEmpty(cookie_username)) {
-//            System.out.println("HH??????????");
             request.setAttribute("msg","无权限，请登录");
             request.getRequestDispatcher("/login").forward(request,response);
-//            response.sendRedirect(request.getContextPath() + "/login");
             return false;
         }
 
 
         if (null == obj) {
             // 根据用户登录账号获取数据库中的用户信息
-//            System.out.println("now  "+cookie_username);
-//            System.out.println(Integer.parseInt(cookie_username));
             User user = userService.getUserById(Integer.parseInt(cookie_username));
             // 将用户保存到session中
             session.setAttribute("username", cookie_username);
@@ -75,13 +67,5 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         // 已经登录
         return true;
 
-//        Object username=request.getSession().getAttribute("username");
-//        if(username== null){
-//            request.setAttribute("msg","无权限，请登录");
-//            request.getRequestDispatcher("/login").forward(request,response);
-//            return false;
-//        }else{
-//            return true;
-//        }
     }
 }
