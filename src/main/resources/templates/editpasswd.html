@@ -42,33 +42,33 @@
     <p style="color:#ff0000" th:text="${msg}" th:if="${! #strings.isEmpty(msg)}" ></p>
     <div class="col-sm-8 col-md-5 center-auto pd-sm-50 pd-xs-20 main_content">
         <a href="/index"><p class="text-center font16"><span class="glyphicon glyphicon-home" style="color: rgb(255, 255, 255);"> 欢迎进入本网站</span></p></a>
-        <form th:action="@{/user/login}" method="post">
+        <form th:action="@{/user/passwd/edit}" method="post">
             <div class="form-group">
                 <div class="form-group mg-t20">
                     <i class="icon-user icon_font"></i>
-                    <input class="login_input" required="required" id="inputUsername" name="username" placeholder="Enter id" />
+                    <input class="login_input" required="required" th:value = " ${id}" id="id" name="id" placeholder="Enter id" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-group mg-t20">
-                    <i class="icon-lock icon_font"></i>
-                    <input class="login_input" required="required" id="inputPassword"  name="password"  type="password" placeholder="Enter password" />
+                    <i class="icon-user icon_font"></i>
+                    <input class="login_input" required="required" id="inputPassword" name="pwd" placeholder="Enter old password" />
                 </div>
             </div>
             <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" id="rememberPasswordCheck0" type="hidden checkbox" style="display:none" name = "pass" value = "nopass" />
-                    <input class="custom-control-input" id="rememberPasswordCheck1" type="checkbox" name = "pass" value = "pass" />
-                    <label class="custom-control-label" for="rememberPasswordCheck1">Remember password</label>
+                <div class="form-group mg-t20">
+                    <i class="icon-user icon_font"></i>
+                    <input class="login_input" required="required" id="inputPasswordNew" name="npwd" placeholder="Enter new password" />
                 </div>
             </div>
-            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                <button type="submit" class="login_btn">登录</button>
+            <div class="form-group">
+                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                    <button type="submit" class="login_btn">修改密码</button>
+                </div>
             </div>
         </form>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-            <a href="/register"><button type="submit" class="login_btn">注册</button></a>
-            <a href="/user/passwd"><span class="glyphicon glyphicon-tag" style="color: rgb(255, 255, 255);"> Modify password</span></a>
+            <a href="/login"><button type="submit" class="login_btn">返回登录</button></a>
         </div>
     </div><!--row end-->
 </div><!--container end-->
