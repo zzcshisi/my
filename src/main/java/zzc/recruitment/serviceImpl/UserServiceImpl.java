@@ -92,5 +92,11 @@ public class UserServiceImpl implements UserService {
     }
 
     //查询需要填报的总用户数量
-    public int getAllUserNum(){ return userMapper.getAllUserNum();};
+    public int getAllUserNum(){ return userMapper.getAllUserNum();}
+
+    /**
+     * 模糊查找
+     * @return
+     */
+    public List<User> searchId(String id){return userMapper.searchId(id);}
 }

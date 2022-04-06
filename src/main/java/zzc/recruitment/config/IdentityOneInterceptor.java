@@ -26,7 +26,7 @@ public class IdentityOneInterceptor implements HandlerInterceptor{
         Object obj1 = session.getAttribute("identity");
         String loginIdentity = (String) obj1;                    // 强制转换成 String
         // 如果权限不足就返回主界面
-        if (loginIdentity.equals("0")||loginIdentity.equals("1")) {
+        if (!loginIdentity.equals("2")) {
             request.setAttribute("msg","无权限，请登录");
             request.getRequestDispatcher("/login").forward(request,response);
             return false;

@@ -19,22 +19,11 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/index1").setViewName("index1");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/register").setViewName("register");
-        registry.addViewController("/main.html").setViewName("teaindex");
-        registry.addViewController("/teaindex.html").setViewName("teaindex");
-        registry.addViewController("/forms").setViewName("forms");
-        registry.addViewController("/tables").setViewName("tables");
-        registry.addViewController("/test").setViewName("test");
-        registry.addViewController("/user/student").setViewName("stuindex.html");
-//        registry.addViewController("/user/teacher").setViewName("teacher/teaindex.html");
-        registry.addViewController("/user/teacher/forms").setViewName("teacher/forms.html");
-        registry.addViewController("/user/manage").setViewName("manage/manindex.html");
-        registry.addViewController("/user/manage").setViewName("manage/manindex.html");
-
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginHandlerInterceptor(userService)).addPathPatterns("/**").excludePathPatterns("/user/login","/login","/logout","/user/register","/register","/user/passwd","/user/passwd/edit","/index","/","/css/*","/js/*","/assets/**","/img/**");
-        registry.addInterceptor(new IdentityOneInterceptor(userService)).addPathPatterns("");
+        registry.addInterceptor(new IdentityOneInterceptor(userService)).addPathPatterns("/manager/**");
         registry.addInterceptor(new IdentityTwoInterceptor(userService)).addPathPatterns("");
     }
 }

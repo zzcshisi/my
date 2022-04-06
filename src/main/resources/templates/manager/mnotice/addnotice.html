@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" href="img/icon.jpg">
 
-    <title>编辑用户</title>
+    <title>添加公告</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,45 +31,29 @@
     <div class="row">
         <div th:replace="~{commons/managercommon::sidebar1}"></div>
         <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
-            <h1 class="page-header">编辑用户</h1>
+            <h1 class="page-header">添加公告</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item">管理员界面</li>
-                <li class="breadcrumb-item"><a href="/manager/muser">用户管理</a></li>
-                <li class="breadcrumb-item active">编辑用户</li>
+                <li class="breadcrumb-item"><a href="/manager/mnotice">公告管理</a></li>
+                <li class="breadcrumb-item active">添加公告</li>
             </ol>
             <div class="container-fluid">
-                <form class="form-horizontal" th:action="@{/manager/muser/edit}" method="post">
+                <form class="form-horizontal" th:action="@{/manager/mnotice/add}" method="post">
                     <div class="form-group">
-                        <label  class="col-sm-2  control-label">账号</label>
+                        <label  class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-8">
-                            <input th:value = " ${user.getId()}" class="form-control" readonly="readonly"  name = "id">
+                            <input class="form-control" required="required"  name = "title" placeholder="输入标题">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label  class="col-sm-2 control-label">用户名</label>
+                        <label  class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-8">
-                            <input th:value = " ${user.getUserName()}" class="form-control"  name = "userName">
+                            <textarea name = "content" placeholder="输入内容" cols="30" rows="25" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword" class="col-sm-2 control-label">密码</label>
-                        <div class="col-sm-8">
-                            <input th:value = " ${user.getPwd()}" class="form-control" id="inputPassword" placeholder="Password" name = "pwd">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">身份</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" name = "identity">
-                                <option th:selected="${user.getIdentity()=='0'}" value="0">求职用户</option>
-                                <option th:selected="${user.getIdentity()=='1'}" value="1">企业用户</option>
-                                <option th:selected="${user.getIdentity()=='2'}" value="2">管理员</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-5 ">
-                            <button type="submit" class="btn btn-success">提交修改</button>
+                        <div class="col-md-offset-5 ">
+                            <button type="submit" class="btn btn-lg btn-success">添加</button>
                         </div>
                     </div>
                 </form>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.NoticeMapper">
+
+    <insert parameterType="zzc.recruitment.bean.Notice" id="addNotice">INSERT InTO notice (title,content)values(#{title},#{content}) </insert>
+
+    <delete parameterType="int" id="deleteNotice">DELETE FROM notice WHERE id = #{id}</delete>
+
+    <select resultType="zzc.recruitment.bean.Notice" id="searchNotice">SELECT *FROM notice where id=#{id}</select>
+
+    <select resultType="zzc.recruitment.bean.Notice" id="getAll">SELECT *FROM notice </select>
+
+    <select resultType="zzc.recruitment.bean.Notice" id="getCarousel">SELECT *FROM notice where title like '*Carousel*%'</select>
+    <!--模糊查找，返回一个List<Bean>-->
+    <update parameterType="zzc.recruitment.bean.Notice" id="updateNotice">UPDATE Notice SET title = #{title},content = #{content}WHERE id = #{id} </update>
+
+    <select resultType="zzc.recruitment.bean.Notice" id="searchTitle">SELECT * FROM notice where title like concat('%',concat(#{title},'%'))</select>
+</mapper>

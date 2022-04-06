@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" href="img/icon.jpg">
 
-    <title>管理员主页</title>
+    <title>搜索公告</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,97 +31,92 @@
     <div class="row">
         <div th:replace="~{commons/managercommon::sidebar1}"></div>
         <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
-            <h1 class="page-header">用户管理</h1>
+            <h1 class="page-header">搜索公告</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a >管理员界面</a></li>
-                <li class="breadcrumb-item active">用户管理</li>
+                <li class="breadcrumb-item">管理员界面</li>
+                <li class="breadcrumb-item"><a href="/manager/mnotice">公告管理</a></li>
+                <li class="breadcrumb-item active">搜索公告</li>
             </ol>
             <div class="card mb-4">
                 <div class="card-header">
-                    用户信息
+                    搜索结果
                 </div>
             </div>
             <div class="card-body">
-                <h2><a class = "btn btn-sm btn-success" th:href="@{/manager/muser/add}">添加用户</a></h2>
                 <div class="row">
                     <div class="col-lg-3">
-                        <form  th:action="@{/manager/muser/search}" method="post">
+                        <form  th:action="@{/manager/mnotice/search}" method="post">
                             <div class="input-group">
-                                <span class="input-group-btn"><button class="btn btn-sm btn-success">搜索用户</button></span>
-                                <input type="text" placeholder="搜索用户id"  id="SearchId" name="searchid" class="form-control">
+                                <span class="input-group-btn"><button class="btn btn-sm btn-success">搜索公告</button></span>
+                                <input th:value = " ${last_search}" type="text" placeholder="搜索标题"  id="Title" name="title" class="form-control">
                             </div>
                         </form>
                     </div>
                 </div>                <!--                    <h2></h2>-->
                 <div class="table-responsive" id="confirmld" th:fragment="ld">
                     <!--text-nowrap-->
-                    <table class="table table-bordered table-hover" id="dataTable" cellspacing="0">
+                    <table class="table table-bordered table-hover" style="table-layout:fixed" id="dataTable"  cellspacing="0">
                         <thead>
                         <tr>
-                            <th>操作</th>
-                            <th>账号</th>
-                            <th>用户名</th>
-                            <th>用户密码</th>
-                            <th>用户身份</th>
+                            <th width="10%">标题</th>
+                            <th width="60%">内容</th>
+                            <th width="10%">操作</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        <tr th:each="userinfo:${pageInfo.getList()}">
+                        <tr th:each="noticeinfo:${pageInfo.getList()}">
+                            <td th:text="${noticeinfo.getTitle}"></td>
+                            <td th:text="${noticeinfo.getContent()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td>
                             <td>
-                                <a class = "btn btn-sm btn-primary" th:href="@{/manager/muser/edit/}+${userinfo.getId()}">编辑</a>
-                                <a class = "btn btn-sm btn-danger" th:href="@{/manager/muser/delete/}+${userinfo.getId()}">删除</a>
+                                <a class = "btn btn-sm btn-primary" th:href="@{/manager/mnotice/edit/}+${noticeinfo.getId()}">编辑</a>
+                                <a class = "btn btn-sm btn-danger" th:href="@{/manager/mnotice/delete/}+${noticeinfo.getId()}">删除</a>
                             </td>
-                            <td th:text="${userinfo.getId()}"></td>
-                            <td th:text="${userinfo.getUserName()}"></td>
-                            <td th:text="${userinfo.getPwd()}"></td>
-                            <td th:text="${userinfo.getIdentity()}"></td>
                         </tr>
                         </tbody>
                     </table>
-
-                    </ul>
                 </div>
                 <div class="modal-footer no-margin-top" >
                     <div class="col-md-6">
-                        正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
+                        当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
                     </div>
                     <div class="row">
-                        <form  th:action="@{/manager/muser}" method="post">
-                        <div class="col-lg-1">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="pageNum">
-                                <span class="input-group-btn"><button class="btn btn-default" type="submit">跳转</button></span>
-                            </div><!-- /input-group -->
-                        </div><!-- /.col-lg-6 -->
+                        <form  th:action="@{/manager/mnotice/search}" method="post">
+                            <div class="col-lg-1">
+                                <div class="input-group">
+                                    <input th:value = " ${last_search}" type="text" name="title" class="form-control hidden disabled">
+                                    <input type="text" class="form-control" name="pageNum">
+                                    <span class="input-group-btn"><button class="btn btn-default" type="submit">跳转</button></span>
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
                         </form>
                     </div>
                     <ul class="pagination pull-right no-margin">
                         <li th:if="${pageInfo.hasPreviousPage}">
-                            <a th:href="'/manager/muser?pageNum=1'">首页</a>
+                            <a th:href="'/manager/mnotice/search?pageNum=1&title='+${last_search}">首页</a>
                         </li>
 
                         <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-                            <a th:href="'/manager/muser?pageNum='+${pageInfo.prePage}">
+                            <a th:href="'/manager/mnotice/search?pageNum='+${pageInfo.prePage}+'&title='+${last_search}">
                                 <i class="ace-icon fa fa-angle-double-left"></i>
                             </a>
                         </li>
-                        <!--遍历条数:这里分页数与每页大小相同？-->
+                        <!--遍历条数-->
                         <li th:each="nav:${pageInfo.navigatepageNums}">
-                            <a th:href="'/manager/muser?pageNum='+${nav}" th:text="${nav}"
+                            <a th:href="'/manager/mnotice/search?pageNum='+${nav}+'&title='+${last_search}" th:text="${nav}"
                                th:if="${nav != pageInfo.pageNum}"></a>
                             <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
                                   th:text="${nav}"></span>
                         </li>
 
                         <li class="next" th:if="${pageInfo.hasNextPage}">
-                            <a th:href="'/manager/muser?pageNum='+${pageInfo.nextPage}">
+                            <a th:href="'/manager/mnotice/search?pageNum='+${pageInfo.nextPage}+'&title='+${last_search}">
                                 <i class="ace-icon fa fa-angle-double-right"></i>
                             </a>
                         </li>
 
                         <li>
-                            <a th:href="'/manager/muser?pageNum='+${pageInfo.pages}">尾页</a>
+                            <a th:href="'/manager/mnotice/search?pageNum='+${pageInfo.pages}+'&title='+${last_search}">尾页</a>
                         </li>
                     </ul>
                 </div>
@@ -132,12 +127,12 @@
 
 
 <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/vendor/jquery.min.js"><\/script>')</script>
-        <script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/js/bootstrap.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/js/bootstrap.min.js"></script>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/ie10-viewport-bug-workaround.js"></script>
 
 </body>
 </html>

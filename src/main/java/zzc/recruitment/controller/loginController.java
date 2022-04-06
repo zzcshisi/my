@@ -27,11 +27,11 @@ public class loginController {
     @PostMapping("/user/login")
     public String login(@RequestParam("username")String username, @RequestParam("password")String password, @RequestParam("pass")String pass,Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response){
         User user = userService.getUserById(Integer.parseInt(username));
-        if(user!=null&&!StringUtils.isEmpty(username)&&user.getPwd().equals(password)){
+        if(user!=null&&!StringUtils.isEmpty(username)&&user.getPwd().equals(password)) {
             //System.out.println(pass);
-            if(pass!=null&&!pass.equals("nopass")){
+            if (pass != null && !pass.equals("nopass")) {
 
-                Cookie cookie_username = new Cookie("cookie_username",username);
+                Cookie cookie_username = new Cookie("cookie_username", username);
                 // 设置cookie的持久化时间，30天
                 cookie_username.setMaxAge(30 * 24 * 60 * 60);
                 // 设置为当前项目下都携带这个cookie
@@ -40,10 +40,16 @@ public class loginController {
                 response.addCookie(cookie_username);
                 System.out.println("成功设置cookie");
             }
-            session.setAttribute("username",username);
-            session.setAttribute("identity",user.getIdentity());
+            session.setAttribute("username", username);
+            session.setAttribute("identity", user.getIdentity());
 //            Coolie
-            return "redirect:/index";
+            if (user.getIdentity().equals('0')) {
+                return "redirect:/index";
+            } else if (user.getIdentity().equals('1')) {
+                return "redirect:/index";
+            } else {
+                return "redirect:/manager/muser";
+            }
         }
         else{
             model.addAttribute("msg","用户名或密码错误！");

@@ -44,4 +44,8 @@
 
 
     <select resultType="int" id="getAllUserNum">SELECT count(*) FROM user where identity != 2</select>
+
+    <!--模糊查找，返回一个List<Bean>-->
+
+    <select resultType="zzc.recruitment.bean.User" id="searchId">SELECT * FROM user where id like concat(#{id},'%')</select>
 </mapper>
