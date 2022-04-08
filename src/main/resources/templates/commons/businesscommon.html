@@ -3,27 +3,24 @@
 
 <!--导航栏-->
 <!-- Fixed navbar -->
-<nav class="navbar navbar-inverse navbar-fixed-top "  th:fragment="nvbar">
+<nav class="navbar navbar-fixed-top " style="background: #F0E68C" th:fragment="nvbar">
     <div id="Fix_nav" class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span style="font-size: 25px;">人才招聘网</span></a>
+            <a class="navbar-brand" href="#"><span style="font-size: 25px;color: rgb(0, 0, 0);">人才招聘网:企业端</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/index"><span style="font-size: 15px;">首页</span></a></li>
-                <li><a href="/index"><span style="font-size: 15px;">热门岗位</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;">筛选岗位</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;">查找公司</span></a></li>
+                <li class="active"><a href="/index"><span style="font-size: 15px;color: rgb(0, 0, 0);">企业信息</span></a></li>
+                <li><a href="/index"><span style="font-size: 15px;color: rgb(0, 0, 0);">管理岗位</span></a></li>
+                <li><a href="#"><span style="font-size: 15px;color: rgb(0, 0, 0);">邀请人才</span></a></li>
+                <li><a href="#"><span style="font-size: 15px;color: rgb(0, 0, 0);">管理投递信息</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人中心 <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: rgb(0, 0, 0);">登陆操作 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/info">个人中心</a></li>
-                        <li><a href="#">我的简历</a></li>
-                        <li><a href="#">我的投递</a></li>
-                        <li><a href="#">收藏岗位</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li><a href="、index">查看首页</a></li>
+                        <li role="separator" class="divider">登录操作</li>
                         <li class="dropdown-header"></li>
                         <li><a href="/login">登录/切换</a></li>
                         <li><a href="/user/passwd">修改密码</a></li>
@@ -31,13 +28,6 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right" th:action="@{/user/search}" method="post">
-                <div class="form-group">
-                    <span class="input-group-text glyphicon glyphicon-search" style="color: rgb(84, 122, 255);font-size: 20px;"> </span>
-                    <input type="text" placeholder="找工作/查公司" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Search</button>
-            </form>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
@@ -65,10 +55,10 @@
     <ul class="nav nav-sidebar">
         <li><a href="#"><span class="glyphicon glyphicon-user" style="color: rgb(0, 0, 0);font-size: 28px;"> 个人中心</span></a></li>
         <h1>  </h1>
-        <li><a href="/index"><span class="glyphicon glyphicon-home" style="color: rgb(0, 0, 0);">  首页  </span></a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-home" style="color: rgb(0, 0, 0);">  首页  </span></a></li>
     </ul>
     <ul class="nav nav-sidebar">
-        <li><a href="/user/info"><span class="glyphicon glyphicon-file" style="color: rgb(0, 0, 0);"> 个人信息</span></a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-file" style="color: rgb(0, 0, 0);"> 个人信息</span></a></li>
         <li><a href="/index"><span class="glyphicon glyphicon-inbox" style="color: rgb(0, 0, 0);"> 我的简历</span></a></li>
         <li><a href=""><span class="glyphicon glyphicon-list" style="color: rgb(0, 0, 0);"> 投递信息</span></a></li>
     </ul>

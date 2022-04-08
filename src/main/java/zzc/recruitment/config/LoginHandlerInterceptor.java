@@ -36,7 +36,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         Cookie[] cookies = request.getCookies();
         // 没有cookie信息，则重定向到登录界面
         if (null == cookies) {
-            request.setAttribute("msg","无权限，请登录");
+            request.setAttribute("msg","未登录，请登录");
             request.getRequestDispatcher("/login").forward(request,response);
             return false;
         }
@@ -51,7 +51,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         }
         // 如果cookie里面没有包含用户的一些登录信息，则重定向到登录界面
         if (StringUtils.isEmpty(cookie_username)) {
-            request.setAttribute("msg","无权限，请登录");
+            request.setAttribute("msg","未登录，请登录");
             request.getRequestDispatcher("/login").forward(request,response);
             return false;
         }

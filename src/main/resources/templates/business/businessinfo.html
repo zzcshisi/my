@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" href="img/icon.jpg">
 
-    <title>主页</title>
+    <title>企业端</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,18 +26,18 @@
 
 <body>
 <div class="container">
-    <div th:replace="~{commons/usercommon::nvbar}"></div>
+    <div th:replace="~{commons/businesscommon::nvbar}"></div>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div id="wrapper">
             <div class="overlay"></div>
-            <div th:replace="~{commons/usercommon::sidebar}"></div>
+            <div th:replace="~{commons/businesscommon::sidebar}"></div>
             <div id="page-content-wrapper">
                 <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
-                <span class="hamb-top"></span>
-                <span class="hamb-middle"></span>
-                <span class="hamb-bottom"></span>
+                    <span class="hamb-top"></span>
+                    <span class="hamb-middle"></span>
+                    <span class="hamb-bottom"></span>
                 </button>
                 <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
                     <h1 class="page-header">Dashboard</h1>
