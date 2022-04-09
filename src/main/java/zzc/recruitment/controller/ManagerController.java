@@ -6,6 +6,8 @@ import zzc.recruitment.bean.Notice;
 import zzc.recruitment.service.NoticeService;
 import zzc.recruitment.bean.User;
 import zzc.recruitment.service.UserService;
+import zzc.recruitment.bean.Userinfo;
+//import zzc.recruitment.service.UserinfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -119,7 +121,7 @@ public class ManagerController {
 
 
 
-    //岗位管理
+    //公告管理
     @RequestMapping("/manager/mnotice")
     public String mnotice(Model model,
                               @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
@@ -192,7 +194,7 @@ public class ManagerController {
         return "manager/mnotice/searchnotice";
     }
 
-    //    用户编辑页面
+    //    公告编辑页面
     @GetMapping("/manager/mnotice/edit/{id}")
     public String toEditnotice(@PathVariable("id") Integer id, Model model) {
         Notice notice = noticeService.searchNotice(id);
@@ -200,7 +202,7 @@ public class ManagerController {
         return "/manager/mnotice/editnotice";
     }
 
-    //    用户编辑响应
+    //    公告编辑响应
     @PostMapping("/manager/mnotice/edit")
     public String Editnotice(Notice notice,Model model) {
         //String con=notice.getContent();
@@ -208,6 +210,84 @@ public class ManagerController {
         noticeService.updateNotice(notice);
         return "redirect:/manager/mnotice";
     }
+
+    //用户信息管理
+    @RequestMapping("/manager/minfo")
+    public String minfo(Model model,
+                              HttpServletRequest request,
+                              @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                              @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            List<Userinfo> userinfos= new ArrayList<>();
+            PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(userinfos, pageSize);
+            model.addAttribute("pageInfo",pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+        return "manager/minfo/minfo";
+//        model.addAttribute("pageInfo", null);
+    }
+
+
+    //    用户信息删除请求
+    @GetMapping("/manager/minfo/delete/{id}")
+    public String toDeleteinfo(@PathVariable("id") Integer id,Model model) {
+        userService.dropUser(id);
+        return "redirect:/manager/minfo";
+    }
+
+    //搜索
+    @RequestMapping("/manager/minfo/search")
+    public String SearchInfo(Model model,
+                           @RequestParam("searchid")String id,
+                           @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                           @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            List<User> userinfos = userService.searchId(id);
+            PageInfo<User> pageInfo = new PageInfo<User>(userinfos, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+        model.addAttribute("last_search",id);
+        return "manager/muser/searchuser";
+    }
+
+    //    用户信息编辑页面
+    @GetMapping("/manager/minfo/edit/{id}")
+    public String toEditInfo(@PathVariable("id") Integer id, Model model) {
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "/manager/minfo/edituser";
+    }
+
+    //    用户编辑响应
+    @PostMapping("/manager/minfo/edit")
+    public String Edituserinfo(User user,Model model) {
+        userService.modifyUser(user);
+        return "redirect:/manager/muser";
+    }
+
 }
 
 
