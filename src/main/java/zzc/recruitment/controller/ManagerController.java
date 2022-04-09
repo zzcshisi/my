@@ -270,7 +270,7 @@ public class ManagerController {
             PageHelper.clearPage();
         }
         model.addAttribute("last_search",id);
-        return "manager/muser/searchuser";
+        return "manager/minfo/searchuser";
     }
 
     //    用户信息编辑页面
@@ -281,7 +281,7 @@ public class ManagerController {
         return "/manager/minfo/edituser";
     }
 
-    //    用户编辑响应
+    //    用户信息编辑响应
     @PostMapping("/manager/minfo/edit")
     public String Edituserinfo(User user,Model model) {
         userService.modifyUser(user);
