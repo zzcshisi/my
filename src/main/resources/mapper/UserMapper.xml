@@ -21,7 +21,7 @@
     <!--根据ID查询用户信息-->
 
 
-    <select resultType="zzc.recruitment.bean.User" parameterType="int" id="selectUserById">SELECT * FROM userWHERE id = #{id} </select>
+    <select resultType="zzc.recruitment.bean.User" parameterType="int" id="selectUserById">SELECT * FROM user WHERE id = #{id} </select>
 
     <!--插入新用户信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
 

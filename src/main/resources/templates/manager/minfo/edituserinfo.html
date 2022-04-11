@@ -45,7 +45,7 @@
             </ol>
             <div class="card mb-4">
                 <div class="card-header">
-                    修改用户个人信息
+                    <span class="glyphicon glyphicon-user"> 修改用户信息</span>
                 </div>
             </div>
             <div class="card-body">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">毕业日期：</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2">
                             <div class='input-group date mt-2 w-50' id='datetimepicker1'>
                                 <input type='text' class="form-control" name="gradeyear"/>
                                 <span class="input-group-addon ml-2">
@@ -251,7 +251,7 @@
             },
             error: function(xhr) {
                 alert("错误操作" + xhr.status);
-                location.href = "";
+                location.reload();
             }
         });
     });
