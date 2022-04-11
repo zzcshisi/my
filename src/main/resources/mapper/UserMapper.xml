@@ -48,4 +48,8 @@
     <!--模糊查找，返回一个List<Bean>-->
 
     <select resultType="zzc.recruitment.bean.User" id="searchId">SELECT * FROM user where id like concat(#{id},'%')</select>
+
+    <select resultType="int" id="getUserNum">SELECT count(*) FROM user where identity = 0</select>
+    <select resultType="int" id="getBusinessNum">SELECT count(*) FROM user where identity = 1</select>
+    <select resultType="int" id="getManagerNum">SELECT count(*) FROM user where identity = 2</select>
 </mapper>

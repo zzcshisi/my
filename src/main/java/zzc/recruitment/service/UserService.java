@@ -29,9 +29,12 @@ public interface UserService {
     //查询所有用户
     List<User> getAllUser();
 
-    //查询需要填报的总用户数量
-    int getAllUserNum();
-
     //根据id模糊查找
     List<User> searchId(String id);
+
+    int getUserNum();
+
+    int getManagerNum();
+
+    int getBusinessNum();
 }

@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" th:href="@{/img/icon.jpg}">
+    <title>管理员首页</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.min.js"></script>
 </head>
 <body>
-$END$
+
+<div th:replace="~{commons/managercommon::nvbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/managercommon::sidebar1}"></div>
+        <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
+                <h1 class="page-header">首页</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a >管理员界面</a></li>
+                </ol>
+                <div id="mainchart" style="width: 600px;height:400px;" class="col-sm-4  col-sm-offset-3 "></div>
+                <script th:inline="javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var a = '[[${a}]]'
+                    var b = '[[${b}]]'
+                    var c = '[[${c}]]'
+                    var myChart = echarts.init(document.getElementById('mainchart'))
+                    myChart.setOption({
+                        title: {
+                            text: '用户比例'
+                        },
+                        series : [
+                            {
+                                //roseType: 'angle',
+                                name: '今日填报占比',
+                                type: 'pie',
+                                radius: '55%',
+                                data:[
+                                    {value: a, name:'求职者'+a+'人'},
+                                    {value: b, name:'企业'+b+"人"},
+                                    {value: c, name:'管理员'+c+"人"},
+                                ]
+                            }
+                        ]
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 </body>
+
+
 </html>

@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" th:href="@{/img/icon.jpg}">
 
-    <title>管理员主页</title>
+    <title>用户管理</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
         <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
             <h1 class="page-header">用户管理</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a >管理员界面</a></li>
+                <li class="breadcrumb-item"><a href="/manager/mindex">管理员界面</a></li>
                 <li class="breadcrumb-item active">用户管理</li>
             </ol>
             <div class="card mb-4">
@@ -42,7 +42,31 @@
                 </div>
             </div>
             <div class="card-body">
-                <h2><a class = "btn btn-sm btn-success" th:href="@{/manager/muser/add}">添加用户</a></h2>
+                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#adduser">
+                    快速添加用户
+                </button>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="adduser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="adduserLabel">
+                                    添加用户
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div th:replace="~{manager/muser/adduser::adduser}"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
                 <div class="row">
                     <div class="col-lg-3">
                         <form  th:action="@{/manager/muser/search}" method="post">
@@ -55,7 +79,7 @@
                 </div>                <!--                    <h2></h2>-->
                 <div class="table-responsive" id="confirmld" th:fragment="ld">
                     <!--text-nowrap-->
-                    <table class="table table-bordered table-hover" id="dataTable" cellspacing="0">
+                    <table class="table table-bordered table-hover table-striped" id="dataTable" cellspacing="0">
                         <thead>
                         <tr>
                             <th>操作</th>
@@ -70,7 +94,32 @@
                         <tr th:each="userinfo:${pageInfo.getList()}">
                             <td>
                                 <a class = "btn btn-sm btn-primary" th:href="@{/manager/muser/edit/}+${userinfo.getId()}">编辑</a>
-                                <a class = "btn btn-sm btn-danger" th:href="@{/manager/muser/delete/}+${userinfo.getId()}">删除</a>
+                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+                                    删除
+                                </button>
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    删除确认
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                确认删除？
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <a class = "btn btn-sm btn-danger" th:href="@{/manager/muser/delete/}+${userinfo.getId()}">确认</a>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
                             </td>
                             <td th:text="${userinfo.getId()}"></td>
                             <td th:text="${userinfo.getUserName()}"></td>
@@ -130,7 +179,20 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    Modal.prototype.adjustDialog = function () {
+        var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
 
+        this.$element.css({
+            paddingLeft:  !this.bodyIsOverflowing && modalIsOverflowing ? this.scrollbarWidth : '',
+        paddingRight: this.bodyIsOverflowing && !modalIsOverflowing ? this.scrollbarWidth : ''
+    })
+        // 是弹出框居中。。。
+        var $modal_dialog = $(this.$element[0]).find('.modal-dialog);
+        var m_top = ( $(document).height() - $modal_dialog.height() )/2;
+        $modal_dialog.css({'margin': m_top + 'px auto'});
+    }
+</script>
 <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/vendor/jquery.min.js"><\/script>')</script>

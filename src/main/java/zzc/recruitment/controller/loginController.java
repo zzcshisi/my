@@ -48,7 +48,7 @@ public class loginController {
             } else if (user.getIdentity().equals('1')) {
                 return "redirect:/index";
             } else {
-                return "redirect:/manager/muser";
+                return "redirect:/manager/mindex";
             }
         }
         else{
