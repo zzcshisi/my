@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.UserinfoMapper">
+
+    <!--插入新用户信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
+
+
+    <insert parameterType="zzc.recruitment.bean.Userinfo" id="addUser">INSERT InTO userinfo(id,avatar,sex, intro,phone,email,home,gradeyear,xueli,school,zhuanye,status,hposition,hplace,hleft,hright)values(#{id},#{avatar},#{sex},#{intro},#{phone},#{email},#{home},date_format(#{gradeyear},'%Y-%m-%d'),#{xueli},#{school},#{zhuanye},#{status},#{hposition},#{hplace},#{hleft},#{hright}) </insert>
+
+    <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
+    
+    <delete parameterType="int" id="deleteUser">DELETE FROM userinfo WHERE id = #{id} </delete>
+
+    <!--根据ID修改用户信息，返回数据库操作影响行数，为0则是失败-->
+
+
+    <update parameterType="zzc.recruitment.bean.Userinfo" id="updateUser">UPDATE userinfo SET sex=#{sex},intro=#{intro},phone=#{phone},email=#{email},home=#{home},gradeyear=date_format(#{gradeyear},'%Y-%m-%d'),xueli=#{xueli},school=#{school},zhuanye=#{zhuanye},status=#{status},hposition=#{hposition},hplace=#{hplace},hleft=#{hleft},hright=#{hright} WHERE id = #{id} </update>
+    <update id="updateAvatar">UPDATE userinfo SET avatar=#{avatar} WHERE id = #{id} </update>
+    <!--查询所有用户信息，返回一个List<Bean>-->
+
+    <select resultType="zzc.recruitment.bean.Userinfo" id="getAllUser">SELECT * FROM userinfo </select>
+
+
+    <select resultType="zzc.recruitment.bean.Userinfo" id="getById">SELECT * FROM userinfo where id=#{id}</select>
+
+    <!--模糊查找，返回一个List<Bean>-->
+
+    <select resultType="zzc.recruitment.bean.Userinfo" id="searchId">SELECT * FROM userinfo where id like concat(#{id},'%')</select>
+
+</mapper>
