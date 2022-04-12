@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.BusinessinfoMapper">
+
+    <!--插入新用户信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
+
+
+    <insert parameterType="zzc.recruitment.bean.Businessinfo" id="addBusinessinfo">INSERT InTO businessinfo(id,avatar,city,address,businessname,web,founding,industry,bscale,nature,intro,postnum) values (#{id},#{avatar},#{city},#{address},#{businessname},#{web},date_format(#{founding},'%Y-%m-%d'),#{industry},#{bscale},#{nature},#{intro},#{postnum})</insert>
+
+    <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
+
+    <delete parameterType="int" id="deleteBusiness">DELETE FROM businessinfo WHERE id = #{id} </delete>
+
+    <!--根据ID修改用户信息，返回数据库操作影响行数，为0则是失败-->
+
+
+    <update parameterType="zzc.recruitment.bean.Businessinfo" id="updateBusiness">UPDATE businessinfo SET city=#{city},address=#{address},businessname=#{businessname},web=#{web},founding=date_format(#{founding},'%Y-%m-%d'),industry=#{industry},bscale=#{bscale},nature=#{nature},intro=#{intro},postnum=#{postnum} WHERE id = #{id} </update>
+    <update id="updateAvatar">UPDATE businessinfo SET avatar=#{avatar} WHERE id = #{id} </update>
+    <!--查询所有用户信息，返回一个List<Bean>-->
+
+    <select resultType="zzc.recruitment.bean.Businessinfo" id="getAllBusiness">SELECT * FROM businessinfo </select>
+
+
+    <select resultType="zzc.recruitment.bean.Businessinfo" id="getById">SELECT * FROM businessinfo where id=#{id}</select>
+
+    <!--模糊查找，返回一个List<Bean>-->
+
+    <select resultType="zzc.recruitment.bean.Businessinfo" id="searchId">SELECT * FROM businessinfo where id like concat(#{id},'%')</select>
+
+</mapper>

@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" th:href="@{/img/icon.jpg}">
 
-    <title>修改用户信息</title>
+    <title>修改企业信息</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,10 +40,10 @@
     <div class="row">
         <div th:replace="~{commons/managercommon::sidebar1}"></div>
         <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
-            <h1 class="page-header">求职者信息修改</h1>
+            <h1 class="page-header">企业信息修改</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="/manager/mindex">管理员界面</a></li>
-                <li class="breadcrumb-item"><a href="/manager/minfo">求职者信息管理</a></li>
+                <li class="breadcrumb-item"><a href="/manager/mbusinessinfo">企业信息管理</a></li>
                 <li class="breadcrumb-item active">修改用户信息</li>
             </ol>
             <div class="card mb-4">
@@ -56,7 +56,7 @@
                 <form id="form-change-avatar" class="form-horizontal" role="form">
                     <div class="form-group row placeholders">
                         <div class="col-sm-10 placeholder">
-                            <img id="img-avatar" th:src="'/img/avatar/'+${userinfo.getAvatar()}" style="width:120px;height:120px;" class="img-circle img-responsive">
+                            <img id="img-avatar" th:src="'/img/avatar/'+${businessinfo.getAvatar()}" style="width:200px;height:200px;" class="img-thumbnail">
                             <div class="row">
                                 <div class="col-sm-offset-5 col-sm-12">
                                     <input type="file" name="avatar_name">
@@ -70,19 +70,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input name='id' type="text" class="form-control hidden" th:value="${userinfo.getId()}" readonly="readonly">
+                        <input name='id' type="text" class="form-control hidden" th:value="${businessinfo.getId()}" readonly="readonly">
                     </div>
                 </form>
-                <form class="form-horizontal" th:action="@{/manager/minfo/edit}" method="post">
+                <form class="form-horizontal" th:action="@{/manager/mbusinessinfo/edit}" method="post">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">账号：</label>
                         <div class="col-sm-8">
-                            <input id="id" name='id' type="text" class="form-control" th:value="${userinfo.getId()}" readonly="readonly">
+                            <input id="id" name='id' type="text" class="form-control" th:value="${businessinfo.getId()}" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-10">
-                            <input id="avatar" name='avatar' type="text" class="form-control hidden" th:value="${userinfo.getAvatar()}" readonly="readonly">
+                            <input id="avatar" name='avatar' type="text" class="form-control hidden" th:value="${businessinfo.getAvatar()}" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-group">
@@ -92,45 +92,51 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">性别：</label>
+                        <label class="col-sm-2 control-label">企业名：</label>
                         <div class="col-sm-8">
-                            <label class="radio-inline">
-                                <input id="gender-male" type="radio" name="sex" value="1" th:checked="${userinfo.sex}==1">男
-                            </label>
-                            <label class="radio-inline">
-                                <input id="gender-female" type="radio" name="sex" value="0" th:checked="${userinfo.sex}==0">女
-                            </label>
+                            <input  type="text" class="form-control" th:value="${businessinfo.getBusinessname()}" name="businessname">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label  class="col-sm-2 control-label">个人简介：</label>
+                        <label class="col-sm-2 control-label">企业官网：</label>
                         <div class="col-sm-8">
-                            <textarea th:text="${userinfo.getIntro()}" id="Intro" name = "intro" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                            <input  type="text" class="form-control" th:value="${businessinfo.getWeb()}" name="web">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">电话号码：</label>
+                        <label  class="col-sm-2 control-label">公司简介：</label>
                         <div class="col-sm-8">
-                            <input id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" th:value="${userinfo.getPhone()}">
+                            <textarea th:text="${businessinfo.getIntro()}" id="Intro" name = "intro" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">电子邮箱：</label>
+                        <label class="col-sm-2 control-label">所在城市：</label>
                         <div class="col-sm-8">
-                            <input id="email" name="email" type="text" class="form-control" placeholder="请输入电子邮箱" th:value="${userinfo.getEmail()}">
+                            <input  type="text" class="form-control disabled" placeholder="所在城市" th:value="${businessinfo.getCity()}" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">家庭住址：</label>
+                        <label class="col-sm-2 control-label">选择所在城市：</label>
                         <div class="col-sm-8">
-                            <input id="home" name="home" type="text" class="form-control" placeholder="家庭住址" th:value="${userinfo.getHome()}">
+                            <select id="selectProv" onchange="prov_onChange()">
+                                <option>请选择省份</option>
+                            </select>
+                            <select id="selectCity" onchange="city_onChange()" name="city">
+                                <option>全部</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">毕业日期：</label>
+                        <label class="col-sm-2 control-label">具体地址：</label>
+                        <div class="col-sm-8">
+                            <input id="home" name="address" type="text" class="form-control" placeholder="具体地址" th:value="${businessinfo.getAddress()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">创建日期：</label>
                         <div class="col-sm-2">
                             <div class='input-group date mt-2 w-50' id='datetimepicker1'>
-                                <input type='text' class="form-control" name="gradeyear" />
+                                <input type='text' class="form-control" name="founding" />
                                 <span class="input-group-addon ml-2">
                             <i class="fa fa-calendar"></i></span>
                             </div>
@@ -142,7 +148,7 @@
                             format: 'YYYY-MM-DD',
                             locale: moment.locale('zh-cn'),
                             showTodayButton:true,
-                            defaultDate: [[${userinfo.getGradeyear()}]]
+                            defaultDate: [[${businessinfo.getFounding()}]]
                         /*4.17版本一些可能用得到的方法参数*/
                         /*
                                 showClose:true	//是否显示关闭 按钮
@@ -157,73 +163,44 @@
                     </script>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">学历：</label>
+                        <label class="col-sm-2 control-label">行业：</label>
                         <div class="col-sm-8">
-                            <select class="form-control" name = "xueli">
-                                <option th:selected="${userinfo.getXueli()=='专科'}" value="专科">专科</option>
-                                <option th:selected="${userinfo.getXueli()=='本科'}" value="本科">本科</option>
-                                <option th:selected="${userinfo.getXueli()=='硕士'}" value="硕士">硕士</option>
-                                <option th:selected="${userinfo.getXueli()=='博士'}" value="博士">博士</option>
+                            <select class="form-control" name = "industry">
+                                <option th:selected="${businessinfo.getIndustry()=='专科'}" value="专科">专科</option>
+                                <option th:selected="${businessinfo.getIndustry()=='本科'}" value="本科">本科</option>
+                                <option th:selected="${businessinfo.getIndustry()=='硕士'}" value="硕士">硕士</option>
+                                <option th:selected="${businessinfo.getIndustry()=='博士'}" value="博士">博士</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">学校：</label>
+                        <label class="col-sm-2 control-label">规模：</label>
                         <div class="col-sm-8">
-                            <input id="school" name="school" type="text" class="form-control" placeholder="输入学校" th:value="${userinfo.getSchool()}">
+                            <input id="school" name="school" type="text" class="form-control" placeholder="输入规模" th:value="${businessinfo.getBscale()}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">专业：</label>
+                        <label class="col-sm-2 control-label">公司性质：</label>
                         <div class="col-sm-8">
-                            <input id="zhuanye" name="zhuanye" type="text" class="form-control" placeholder="选择专业" th:value="${userinfo.getZhuanye()}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">求职状态：</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" name = "status">
-                                <option th:selected="${userinfo.getStatus()=='实习'}" value="实习">实习</option>
-                                <option th:selected="${userinfo.getStatus()=='校招'}" value="校招">校招</option>
-                                <option th:selected="${userinfo.getStatus()=='社招'}" value="社招">社招</option>
+                            <select class="form-control" name = "nature">
+                                <option th:selected="${businessinfo.getNature()=='其他'}" value="其他">其他</option>
+                                <option th:selected="${businessinfo.getNature()=='国企'}" value="国企">国企</option>
+                                <option th:selected="${businessinfo.getNature()=='外企'}" value="外企">外企</option>
+                                <option th:selected="${businessinfo.getNature()=='民营'}" value="民营">民营</option>
+                                <option th:selected="${businessinfo.getNature()=='合资'}" value="合资">合资</option>
+                                <option th:selected="${businessinfo.getNature()=='上市公司'}" value="上市公司">上市公司</option>
+                                <option th:selected="${businessinfo.getNature()=='股份制企业'}" value="股份制企业">股份制企业</option>
+                                <option th:selected="${businessinfo.getNature()=='事业单位'}" value="事业单位">事业单位</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">期望工作职位：</label>
+                        <label class="col-sm-2 control-label">在招职位数：</label>
                         <div class="col-sm-8">
-                            <input id="hposition" name="hposition" type="text" class="form-control" placeholder="期望工作职位" th:value="${userinfo.getHposition()}">
+                            <input id="position" name="postnum" type="text" class="form-control" placeholder="在招职位数" th:value="${businessinfo.getPostnum()}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">期望工作地：</label>
-                        <div class="col-sm-8">
-                            <input  type="text" class="form-control disabled" placeholder="期望工作地" th:value="${userinfo.getHplace()}" readonly="readonly">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">选择城市：</label>
-                        <div class="col-sm-8">
-                            <select id="selectProv" onchange="prov_onChange()">
-                                <option>请选择省份</option>
-                            </select>
-                            <select id="selectCity" onchange="city_onChange()" name="hplace">
-                                <option>全部</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">期望薪资：</label>
-                        <div class="col-sm-3">
-                            <input id="hleft" name="hleft" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" class="form-control" placeholder="期望最低薪资" th:value="${userinfo.getHleft()}">
-                        </div>
-                        <div class="col-sm-2">
-                            <span>至</span>
-                        </div>
-                        <div class="col-sm-3">
-                            <input id="hright" name="hright" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" class="form-control" placeholder="期望最高薪资" th:value="${userinfo.getHright()}">
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <div class="col-sm-offset-5 ">
                             <input id="btn-change-info" type="submit" class="btn btn-primary" value="修改" />
@@ -249,7 +226,7 @@
 <script type="text/javascript">
     $("#btn-change-avatar").click(function() {
         $.ajax({
-            url: "/manager/minfo/editavatar",
+            url: "/manager/mbusinessinfo/editavatar",
             type: "POST",
             data: new FormData($("#form-change-avatar")[0]),
             dataType: "JSON",

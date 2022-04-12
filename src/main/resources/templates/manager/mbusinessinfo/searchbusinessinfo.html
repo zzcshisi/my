@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" th:href="@{/img/icon.jpg}">
+
+    <title>企业信息搜索</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div th:replace="~{commons/managercommon::nvbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/managercommon::sidebar1}"></div>
+        <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
+            <h1 class="page-header">企业信息搜索</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="/manager/mindex">管理员界面</a></li>
+                <li class="breadcrumb-item"><a href="/manager/mbusinessinfo">企业信息管理</a></li>
+                <li class="breadcrumb-item active">搜索企业信息</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header">
+                    企业信息
+                </div>
+            </div>
+            <div class="card-body">
+                <h2><a class = "btn btn-sm btn-success" th:href="@{/manager/muser}">转至用户账号管理</a></h2>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <form  th:action="@{/manager/mbusinessinfo/search}" method="post">
+                            <div class="input-group">
+                                <span class="input-group-btn"><button class="btn btn-sm btn-success">搜索企业用户</button></span>
+                                <input type="text" th:value = " ${last_search}" placeholder="搜索用户id"  id="SearchId" name="searchid" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                </div>                <!--                    <h2></h2>-->
+                <div class="table-responsive" id="confirmld" th:fragment="ld">
+                    <!--text-nowrap-->
+                    <table class="table table-bordered table-hover table-striped" id="dataTable" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="5%">头像</th>
+                            <th width="10%">账号</th>
+                            <th width="10%">公司名</th>
+                            <th width="30%">公司简介</th>
+                            <th width="20%">操作</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="businessinfo:${pageInfo.getList()}">
+                            <td><img id="avatar" th:src="'/img/avatar/'+${businessinfo.getAvatar()}" style="width:80px;height:80px;" class="img-thumbnail"></td>
+                            <td th:text="${businessinfo.getId()}"></td>
+                            <td th:text="${businessinfo.getBusinessname()}"></td>
+                            <td th:text="${businessinfo.getIntro()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td>
+                            <td>
+                                <a class = "btn btn-sm btn-primary" th:href="@{/manager/mbusinessinfo/edit/}+${businessinfo.getId()}">编辑信息</a>
+                                <a class = "btn btn-sm btn-success" th:href="@{/manager/muser/edit/}+${businessinfo.getId()}">编辑账密</a>
+                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+                                    删除
+                                </button>
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    删除确认
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                确认删除？
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <a class = "btn btn-sm btn-danger" th:href="@{/manager/mbusinessinfo/delete/}+${businessinfo.getId()}">确认</a>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    </ul>
+                </div>
+                <div class="modal-footer no-margin-top" >
+                    <div class="col-md-6">
+                        当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
+                    </div>
+                    <div class="row">
+                        <form  th:action="@{/manager/mbusinessinfo/search}" method="post">
+                            <div class="col-lg-1">
+                                <div class="input-group">
+                                    <input th:value = " ${last_search}" type="text" name="searchid" class="form-control hidden disabled">
+                                    <input type="text" class="form-control" name="pageNum">
+                                    <span class="input-group-btn"><button class="btn btn-default" type="submit">跳转</button></span>
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </form>
+                    </div>
+                    <ul class="pagination pull-right no-margin">
+                        <li th:if="${pageInfo.hasPreviousPage}">
+                            <a th:href="'/manager/mbusinessinfo/search?pageNum=1&searchid='+${last_search}">首页</a>
+                        </li>
+
+                        <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                            <a th:href="'/manager/mbusinessinfo/search?pageNum='+${pageInfo.prePage}+'&searchid='+${last_search}">
+                                <i class="ace-icon fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <!--遍历条数-->
+                        <li th:each="nav:${pageInfo.navigatepageNums}">
+                            <a th:href="'/manager/mbusinessinfo/search?pageNum='+${nav}+'&searchid='+${last_search}" th:text="${nav}"
+                               th:if="${nav != pageInfo.pageNum}"></a>
+                            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                                  th:text="${nav}"></span>
+                        </li>
+
+                        <li class="next" th:if="${pageInfo.hasNextPage}">
+                            <a th:href="'/manager/mbusinessinfo/search?pageNum='+${pageInfo.nextPage}+'&searchid='+${last_search}">
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a th:href="'/manager/mbusinessinfo/search?pageNum='+${pageInfo.pages}+'&searchid='+${last_search}">尾页</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/js/bootstrap.min.js"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</body>
+</html>
