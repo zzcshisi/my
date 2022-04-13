@@ -1,6 +1,7 @@
 package zzc.recruitment.controller;
 
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import zzc.recruitment.bean.User;
 import zzc.recruitment.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -16,7 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller
@@ -147,5 +149,12 @@ public class loginController {
         return "editpasswd";
     }
 
+    @RequestMapping("/contact")
+    @ResponseBody
+    public Map contact(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("msg","请联系qq294338671或微信zhangzhichao-zzc!");
+        return map;
+    }
 }
 

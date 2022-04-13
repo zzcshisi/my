@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" href="img/icon.jpg">
+
+    <title>企业端</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+</head>
+
+<body>
+<body background="/img/b_bg.png"
+      style=" background-repeat:no-repeat ;
+      background-size:100% 100%;
+      background-attachment: fixed;"
+></body>
+<div class="container">
+    <div th:replace="~{commons/businesscommon::nvbar}"></div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div id="wrapper">
+            <div class="overlay"></div>
+            <div th:replace="~{commons/businesscommon::sidebar}"></div>
+            <div id="page-content-wrapper">
+                <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+                    <span class="hamb-top"></span>
+                    <span class="hamb-middle"></span>
+                    <span class="hamb-bottom"></span>
+                </button>
+                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2 main">
+                    <div id="population_chart" data-sort="false" data-width="1000" class="jChart chart-lg"></div>
+                    <h2> </h2>
+                    <h1 class="page-header">企业信息</h1>
+                    <div class="jumbotron">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" >
+                                <img id="img-avatar" th:src="'/img/avatar/'+${businessinfo.getAvatar()}" style="width:700px;height:400px;" class="img-thumbnail">
+                                <p><a class="btn btn-primary btn-lg" href="/business/info/edit" role="button">编辑企业信息 &raquo;</a></p>
+                            </div>
+                            <div class="col-md-6 col-sm-6" >
+                                <h2 th:text="${businessinfo.getBusinessname()}"></h2>
+                                <h4 th:text="'创立于'+${businessinfo.getFounding()}+'/'+${businessinfo.getBscale()}"></h4>
+                                <h4><span class="label label-info" th:text="${businessinfo.getIndustry()}"></span></h4>
+                                <h4><span class="label label-info" th:text="${businessinfo.getNature()}"></span></h4>
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" th:text="${businessinfo.getCity()}"></h3>
+                                    </div>
+                                    <div class="panel-body" th:text="${businessinfo.getAddress()}">
+                                    </div>
+                                </div>
+                                <div class="well">
+                                    <h3 th:text="'在招岗位:'+${businessinfo.getPostnum()}"></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="blog-post-title">企业简介</h2>
+                        <p class="blog-post-meta"><a th:href="'http://'+${businessinfo.getWeb()}">企业官网</a></p>
+                        <p th:text="${businessinfo.getIntro()}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+</script>
+
+<script th:src="@{/js/jchart.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("#population_chart").jChart({
+            name: "岗位处理情况表",
+            headers: ["在招岗位","待筛选","笔试中","面试中","审核中"],
+            values: [25,47,8,42,42],
+            footers: [0],
+            colors: ["#4169E1","#38BCFF","#00A9FF","#008DD3","#0074AA"],
+            x_label: "数量"
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

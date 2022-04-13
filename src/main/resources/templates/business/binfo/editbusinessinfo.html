@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" href="img/icon.jpg">
 
-    <title>企业端</title>
+    <title>编辑企业信息</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,41 +26,16 @@
 </head>
 
 <body>
+<body background="/img/b_bg.png"
+      style=" background-repeat:no-repeat ;
+      background-size:100% 100%;
+      background-attachment: fixed;"
+></body>
 <div class="container">
     <div th:replace="~{commons/businesscommon::nvbar}"></div>
 </div>
 <div class="container-fluid">
-    <div class="row">
-        <div id="wrapper">
-            <div class="overlay"></div>
-            <div th:replace="~{commons/businesscommon::sidebar}"></div>
-            <div id="page-content-wrapper">
-                <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
-                    <span class="hamb-top"></span>
-                    <span class="hamb-middle"></span>
-                    <span class="hamb-bottom"></span>
-                </button>
-                <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1 main">
-                    <div id="population_chart" data-sort="false" data-width="1000" class="jChart chart-lg"></div>
-                    <h2> </h2>
-                    <h1 class="page-header">企业信息</h1>
-                    <div class="row placeholders">
-                        <div class="col-xs-6 col-sm-6 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /#page-content-wrapper -->
+
 </div>
 <!-- /#wrapper -->
 
@@ -102,20 +77,7 @@
     });
 </script>
 
-<script th:src="@{/js/jchart.js}"></script>
-<script>
-    $(document).ready(function() {
-        $("#population_chart").jChart({
-            name: "岗位处理情况表",
-            headers: ["在招岗位","待筛选","笔试中","面试中","审核中"],
-            values: [25,47,8,42,42],
-            footers: [0],
-            colors: ["#84d6ff","#38BCFF","#00A9FF","#008DD3","#0074AA"],
-            x_label: "数量"
-        });
 
-    });
-</script>
 
 
 </body>
