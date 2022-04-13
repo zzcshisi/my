@@ -18,7 +18,7 @@
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
 
     <!--格式设置等-->
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 
     <!-- 日历控件相关 -->
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -55,7 +55,7 @@
                 <p style="color:#ff0000" th:text="${msg}" th:if="${! #strings.isEmpty(msg)}" ></p>
                 <form id="form-change-avatar" class="form-horizontal" role="form">
                     <div class="form-group row placeholders">
-                        <div class="col-sm-10 placeholder">
+                        <div class="col-sm-10 ">
                             <img id="img-avatar" th:src="'/img/avatar/'+${businessinfo.getAvatar()}" style="width:200px;height:200px;" class="img-thumbnail">
                             <div class="row">
                                 <div class="col-sm-offset-5 col-sm-12">

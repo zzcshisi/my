@@ -17,7 +17,8 @@
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/dashboard/dashboard.css" rel="stylesheet">
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
     <!--格式设置等-->
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -39,16 +40,17 @@
                     <span class="hamb-middle"></span>
                     <span class="hamb-bottom"></span>
                 </button>
-                <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
-                    <h1 class="page-header">Dashboard</h1>
-
+                <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1 main">
+                    <div id="population_chart" data-sort="false" data-width="1000" class="jChart chart-lg"></div>
+                    <h2> </h2>
+                    <h1 class="page-header">企业信息</h1>
                     <div class="row placeholders">
-                        <div class="col-xs-6 col-sm-5 placeholder">
+                        <div class="col-xs-6 col-sm-6 placeholder">
                             <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                             <h4>Label</h4>
                             <span class="text-muted">Something else</span>
                         </div>
-                        <div class="col-xs-6 col-sm-5 placeholder">
+                        <div class="col-xs-6 col-sm-6 placeholder">
                             <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                             <h4>Label</h4>
                             <span class="text-muted">Something else</span>
@@ -97,6 +99,21 @@
         $('[data-toggle="offcanvas"]').click(function () {
             $('#wrapper').toggleClass('toggled');
         });
+    });
+</script>
+
+<script th:src="@{/js/jchart.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("#population_chart").jChart({
+            name: "岗位处理情况表",
+            headers: ["在招岗位","待筛选","笔试中","面试中","审核中"],
+            values: [25,47,8,42,42],
+            footers: [0],
+            colors: ["#84d6ff","#38BCFF","#00A9FF","#008DD3","#0074AA"],
+            x_label: "数量"
+        });
+
     });
 </script>
 
