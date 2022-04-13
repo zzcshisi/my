@@ -2,22 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <!--导航栏-->
-<!-- Fixed navbar -->
-<nav class="navbar navbar-fixed-top " style="background: #F0E68C" th:fragment="nvbar">
+<!-- Fixed navbar  style="background: #F0E68C"-->
+<nav class="navbar navbar-inverse navbar-fixed-top " th:fragment="nvbar">
     <div id="Fix_nav" class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span style="font-size: 25px;color: rgb(0, 0, 0);">人才招聘网:企业端</span></a>
+            <a class="navbar-brand" href="#"><span style="font-size: 25px;">人才招聘网:企业端</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/business/info"><span style="font-size: 15px;color: rgb(0, 0, 0);">企业信息</span></a></li>
-                <li><a href="/index"><span style="font-size: 15px;color: rgb(0, 0, 0);">管理岗位</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;color: rgb(0, 0, 0);">邀请人才</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;color: rgb(0, 0, 0);">管理投递信息</span></a></li>
+                <li class="active"><a href="/business/info"><span style="font-size: 15px;">企业信息</span></a></li>
+                <li><a href="/index"><span style="font-size: 15px;">管理岗位</span></a></li>
+                <li><a href="#"><span style="font-size: 15px;">邀请人才</span></a></li>
+                <li><a href="#"><span style="font-size: 15px;">管理投递信息</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: rgb(0, 0, 0);">登陆操作 <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="">登陆操作 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="、index">查看首页</a></li>
                         <li role="separator" class="divider">登录操作</li>
@@ -33,7 +33,7 @@
 </nav>
 
 <!--侧边栏sidebar-wrapper-->
-<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" th:fragment="sidebar" role="navigation">
+<nav class="navbar navbar-inverse  navbar-fixed-top" id="sidebar-wrapper" th:fragment="sidebar" role="navigation">
     <ul class="nav sidebar-nav">
         <li><a href="#"><span class="glyphicon glyphicon-user" style="font-size: 28px;"> 更多内容</span></a></li>
         <h1>  </h1>

@@ -45,10 +45,11 @@ public class loginController {
             session.setAttribute("username", username);
             session.setAttribute("identity", user.getIdentity());
 //            Coolie
-            if (user.getIdentity().equals('0')) {
+            if (user.getIdentity().equals("0")) {
+                System.out.print(user.getIdentity());
                 return "redirect:/index";
-            } else if (user.getIdentity().equals('1')) {
-                return "redirect:/index";
+            } else if (user.getIdentity().equals("1")) {
+                return "redirect:/business/info";
             } else {
                 return "redirect:/manager/mindex";
             }
@@ -150,11 +151,8 @@ public class loginController {
     }
 
     @RequestMapping("/contact")
-    @ResponseBody
-    public Map contact(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("msg","请联系qq294338671或微信zhangzhichao-zzc!");
-        return map;
+    public String contact(){
+        return "contact";
     }
 }
 
