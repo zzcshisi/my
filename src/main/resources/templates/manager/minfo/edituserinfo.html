@@ -158,10 +158,10 @@
                         <label class="col-sm-2 control-label">学历：</label>
                         <div class="col-sm-8">
                             <select class="form-control" name = "xueli">
-                                <option th:selected="${userinfo.getXueli()=='专科'}" value="专科">专科</option>
-                                <option th:selected="${userinfo.getXueli()=='本科'}" value="本科">本科</option>
-                                <option th:selected="${userinfo.getXueli()=='硕士'}" value="硕士">硕士</option>
-                                <option th:selected="${userinfo.getXueli()=='博士'}" value="博士">博士</option>
+                                <option th:selected="${userinfo.getXueli()==0}" value=0>专科</option>
+                                <option th:selected="${userinfo.getXueli()==1}" value=1>本科</option>
+                                <option th:selected="${userinfo.getXueli()==2}" value=2>硕士</option>
+                                <option th:selected="${userinfo.getXueli()==3}" value=3>博士</option>
                             </select>
                         </div>
                     </div>

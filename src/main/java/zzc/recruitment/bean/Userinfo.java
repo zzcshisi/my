@@ -21,7 +21,7 @@ public class Userinfo {
 
     private String gradeyear;
 
-    private String xueli;
+    private int xueli;
     private String school;
     private String zhuanye;
     private String status;
