@@ -39,6 +39,11 @@
                 </div>
             </div>
             <div class="card-body">
+                <button type="button" class="btn btn-primary" title="展示公告"
+                        data-container="body" data-toggle="popover" data-placement="top"
+                        data-content="在标题前添加“  *Carousel*  ”使公告加入走马灯展示">
+                    查看提示
+                </button>
                 <h2><a class = "btn btn-sm btn-success" th:href="@{/manager/mnotice/add}">添加公告</a></h2>
                 <div class="row">
                     <div class="col-lg-3">
@@ -130,7 +135,11 @@
 <script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
-
+<script>
+    $(function (){
+        $("[data-toggle='popover']").popover();
+    });
+</script>
 </body>
 </html>
 

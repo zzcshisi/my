@@ -504,7 +504,9 @@ public class ManagerController {
 
     //    企业信息编辑页面
     @GetMapping("/manager/mbusinessinfo/edit/{id}")
-    public String toEditBusinessInfo(@PathVariable("id") Integer id, Model model) {
+    public String toEditBusinessInfo(@PathVariable("id") Integer id,
+                                     Model model) {
+
         Businessinfo businessinfo = businessinfoService.getById(id);
         User user = userService.getUserById(id);
         if (user!=null){
