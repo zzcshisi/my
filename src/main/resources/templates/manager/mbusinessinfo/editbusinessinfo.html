@@ -12,13 +12,13 @@
     <title>修改企业信息</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/dashboard/dashboard.css" rel="stylesheet">
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
 
     <!--格式设置等-->
     <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
 
     <!-- 日历控件相关 -->
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -26,8 +26,6 @@
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <script type="text/javascript" language="javascript" th:src="@{/js/linkageProvinceCity.js}"></script>
 

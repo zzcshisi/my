@@ -12,16 +12,13 @@
     <title>企业信息搜索</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/dashboard/dashboard.css" rel="stylesheet">
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
 
     <!--格式设置等-->
     <link th:href="@{/css/style.css}" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="https://fastly.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.35/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
 
 </head>
 
@@ -56,14 +53,14 @@
                 </div>                <!--                    <h2></h2>-->
                 <div class="table-responsive" id="confirmld" th:fragment="ld">
                     <!--text-nowrap-->
-                    <table class="table table-bordered table-hover table-striped" id="dataTable" cellspacing="0">
+                    <table class="table table-bordered table-hover table-striped" style="table-layout:fixed" id="dataTable" cellspacing="0">
                         <thead>
                         <tr>
-                            <th width="5%">头像</th>
+                            <th width="10%">头像</th>
                             <th width="10%">账号</th>
                             <th width="10%">公司名</th>
                             <th width="30%">公司简介</th>
-                            <th width="20%">操作</th>
+                            <th width="15%">操作</th>
                         </tr>
                         </thead>
 
