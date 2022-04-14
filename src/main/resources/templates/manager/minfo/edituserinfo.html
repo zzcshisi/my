@@ -27,7 +27,8 @@
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
     <script type="text/javascript" language="javascript" th:src="@{/js/linkageProvinceCity.js}"></script>
-
+    <script type="text/javascript" language="javascript" th:src="@{/js/linkclass.js}"></script>
+    <script type="text/javascript" language="javascript" th:src="@{/js/linkpost.js}"></script>
 
 </head>
 
@@ -173,7 +174,18 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">专业：</label>
                         <div class="col-sm-8">
-                            <input id="zhuanye" name="zhuanye" type="text" class="form-control" placeholder="选择专业" th:value="${userinfo.getZhuanye()}">
+                            <input id="zhuanye" type="text" readonly="readonly" class="form-control disabled" placeholder="选择专业" th:value="${userinfo.getZhuanye()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择专业：</label>
+                        <div class="col-sm-8">
+                            <select id="selectClass" onchange="class_onChange()">
+                                <option>请选择分类</option>
+                            </select>
+                            <select id="selectSpec" onchange="Spe_onChange()" name="zhuanye">
+                                <option th:value="${userinfo.getZhuanye()}"></option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -189,7 +201,18 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">期望工作职位：</label>
                         <div class="col-sm-8">
-                            <input id="hposition" name="hposition" type="text" class="form-control" placeholder="期望工作职位" th:value="${userinfo.getHposition()}">
+                            <input id="hposition"  type="text" readonly="readonly" class="form-control disabled" placeholder="期望工作职位" th:value="${userinfo.getHposition()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择职位：</label>
+                        <div class="col-sm-8">
+                            <select id="selectField" onchange="field_onChange()">
+                                <option>请选择领域</option>
+                            </select>
+                            <select id="selectPost" onchange="post_onChange()" name="hposition">
+                                <option th:value="${userinfo.getHposition()}"></option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
