@@ -1266,7 +1266,34 @@ input[type=button].btn-block {
 .dropleft .dropdown-toggle-split::before {
     margin-right: 0;
 }
+.dropup,
+.dropright
+.dropdown {
+    position: relative;
+}
+.dropup .caret,.dropright .caret,
+.navbar-fixed-bottom .dropdown .caret {
+    content: "";
+    border-top: 0;
+    border-bottom: 4px dashed;
+    border-bottom: 4px solid \9;
+}
+.dropright .dropdown-menu {
+    right: auto;
+    left: 100%;
+    top: 0;
+}
+.btn-group-justified > .btn-group .dropright .dropdown-menu {
+    left: 100%;
+    top: 0;
+}
+.dropright :hover .dropdown-menu {
+    display: block;
+}
 
+.dropright .btn-lg .caret {
+    border-width: 0 5px 5px;
+}
 .btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split {
     padding-right: 0.375rem;
     padding-left: 0.375rem;
@@ -1496,4 +1523,5 @@ select.form-control:focus::-ms-value {
 .table-responsive > .table-bordered {
     border: 0;
 }
-
+.fl {float:left;}
+.fr {float:right;}

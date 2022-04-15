@@ -15,14 +15,13 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login");
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/index1").setViewName("contact");
+        registry.addViewController("/cantact").setViewName("contact");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/register").setViewName("register");
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginHandlerInterceptor(userService)).addPathPatterns("/**").excludePathPatterns("/user/login","/login","/logout","/user/register","/register","/user/passwd","/user/passwd/edit","/index","/","/css/**","/js/**","/assets/**","/img/**");
+        registry.addInterceptor(new LoginHandlerInterceptor(userService)).addPathPatterns("/**").excludePathPatterns("/user/login","/login","/logout","/user/register","/register","/user/passwd","/user/passwd/edit","/index","/notice","/","/css/**","/js/**","/assets/**","/img/**");
         registry.addInterceptor(new IdentityOneInterceptor(userService)).addPathPatterns("/manager/**");
         registry.addInterceptor(new IdentityTwoInterceptor(userService)).addPathPatterns("/business/**");
     }

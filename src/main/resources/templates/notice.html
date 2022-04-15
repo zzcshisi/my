@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" href="img/icon.jpg">
+
+    <title>查看公告</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+</head>
+
+<body>
+<body background="/img/bg3.jpg"
+      style=" background-repeat:no-repeat ;
+      background-size:100% 100%;
+      background-attachment: fixed;"
+></body>
+<div class="container">
+    <div th:replace="~{commons/usercommon::nvbar}"></div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div id="wrapper">
+            <div class="overlay"></div>
+            <div th:replace="~{commons/usercommon::sidebar}"></div>
+            <div id="page-content-wrapper">
+                <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+                </button>
+                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2 main">
+                    <div class="page-header">
+                        <div class="alert alert-info" role="alert" >
+                            <strong>查看公告</strong> 时刻关注最新就业消息
+                        </div>
+                    </div>
+                    <h2></h2>
+                    <div>
+                        <div class="panel panel-info" >
+                            <div class="panel-heading">
+                                <h3 class="panel-title text-center" th:text="${notice.getTitle()}">
+                                </h3>
+                            </div>
+                            <div class="panel-body" th:text="${notice.getContent()}" style="min-height: 1200px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"><\/script>')</script>
+<script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+</script>
+
+
+</body>
+</html>

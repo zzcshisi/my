@@ -3708,6 +3708,7 @@ tbody.collapse.in {
   bottom: 100%;
   margin-bottom: 2px;
 }
+
 @media (min-width: 768px) {
   .navbar-right .dropdown-menu {
     right: 0;
@@ -3818,6 +3819,7 @@ tbody.collapse.in {
 .dropup .btn-lg .caret {
   border-width: 0 5px 5px;
 }
+
 .btn-group-vertical > .btn,
 .btn-group-vertical > .btn-group,
 .btn-group-vertical > .btn-group > .btn {
