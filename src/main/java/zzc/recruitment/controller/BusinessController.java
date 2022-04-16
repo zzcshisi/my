@@ -218,5 +218,138 @@ public class BusinessController {
         }
         return "/business/bposition/businessposition";
     }
+    //  添加岗位页面
+    @GetMapping("business/position/add")
+    public String toAddpositionpage(HttpServletRequest request,
+                                    Model model) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;// 强制转换成 String
+        int id = Integer.parseInt(loginname);
+        model.addAttribute("bid",id);
+        model.addAttribute("bname",businessinfoService.getById(id).getBusinessname());
+        return "/business/bposition/addposition";
+    }
+
+    //    岗位添加响应
+    @PostMapping("/business/position/add")
+    public String Adduser(Position position,Model model) {
+        try{
+            int res=positionService.addPosition(position);
+            if(res==0){
+                model.addAttribute("msg","添加失败");
+            }
+            else{
+                model.addAttribute("msg","添加成功");
+            }
+        }finally {
+            PageHelper.clearPage();
+        }
+        return "redirect:/business/position";
+    }
+
+    //    岗位删除请求
+    @GetMapping("/business/position/delete/{id}")
+    public String toDelete(@PathVariable("id") Integer id,Model model,HttpServletRequest request) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int uid = Integer.parseInt(loginname);                // 强制转换成 String
+        if(uid==positionService.getByPid(id).getBid()){
+            positionService.deleteByPid(id);
+            return "redirect:/business/position";
+        }
+        else{
+            model.addAttribute("msg","您无权操作非自己发布的岗位，请重新登录");
+            return "/login";
+        }
+    }
+
+    //    岗位编辑页面
+    @GetMapping("/business/position/edit/{id}")
+    public String toEditPosition(@PathVariable("id") Integer id, Model model,HttpServletRequest request) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int uid = Integer.parseInt(loginname);                // 强制转换成 String
+        if(uid==positionService.getByPid(id).getBid()){
+            Position position=positionService.getByPid(id);
+            if (position!=null){
+                model.addAttribute("position", position);
+                return "/business/bposition/editposition";
+            }
+            else{
+                model.addAttribute("msg","该岗位不存在,请添加！");
+                model.addAttribute("bid",id);
+                model.addAttribute("bname",businessinfoService.getById(id).getBusinessname());
+                return "/business/bposition/addposition";
+            }
+        }
+        else{
+            model.addAttribute("msg","您无权操作非自己发布的岗位，请重新登录");
+            return "/login";
+        }
+    }
+
+    //    岗位编辑响应
+    @PostMapping("/business/position/edit")
+    public String Editposition(Position position,Model model,HttpServletRequest request) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int uid = Integer.parseInt(loginname);                // 强制转换成 String
+        if(uid==position.getBid()){
+            positionService.updatePosition(position);
+            model.addAttribute("msg", "修改成功");
+            model.addAttribute("position", position);
+            return "/business/bposition/editposition";
+        }
+        else{
+            model.addAttribute("msg","您无权操作非自己发布的岗位，请重新登录");
+            return "/login";
+        }
+    }
+
+    @RequestMapping("/business/position/search")
+    public String SearchId(Model model,
+                           HttpServletRequest request,
+                           @RequestParam("searchid")String name,
+                           @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                           @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            // 获取HttpSession对象
+            HttpSession session = request.getSession();
+            // 获取我们登录后存在session中的用户信息
+            Object obj = session.getAttribute("username");
+            String loginname = (String) obj;
+            int id = Integer.parseInt(loginname);                // 强制转换成 String
+            List<Position> positions=positionService.getByPname(name,id);
+            PageInfo<Position> pageInfo = new PageInfo<Position>(positions, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+        model.addAttribute("last_search",name);
+        return "business/bposition/searchposition";
+    }
 
 }

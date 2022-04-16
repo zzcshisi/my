@@ -23,7 +23,7 @@ public interface PositionMapper {
 
     List<Position> getByBid(int bid);
 
-    List<Position> getByPname(String pname);
+    List<Position> getByPname(String pname,int bid);
 
     List<Position> searchPosition(String searchword,Position position);
 }

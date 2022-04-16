@@ -4,14 +4,12 @@ package zzc.recruitment.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import zzc.recruitment.bean.Notice;
-import zzc.recruitment.service.BusinessinfoService;
-import zzc.recruitment.service.NoticeService;
+import zzc.recruitment.service.*;
 import zzc.recruitment.bean.User;
-import zzc.recruitment.service.UserService;
 import zzc.recruitment.bean.Userinfo;
-import zzc.recruitment.service.UserinfoService;
 import zzc.recruitment.bean.Businessinfo;
 import zzc.recruitment.service.BusinessinfoService;
+import zzc.recruitment.service.PositionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,8 @@ public class ManagerController {
     NoticeService noticeService;
     @Autowired
     BusinessinfoService businessinfoService;
+    @Autowired
+    PositionService positionService;
 
     @RequestMapping("/manager/mindex")
     public String mindex(Model model,HttpServletRequest request){
@@ -103,6 +103,7 @@ public class ManagerController {
         userService.dropUser(id);
         userinfoService.deleteUser(id);
         businessinfoService.deleteBusiness(id);
+        positionService.deleteByBid(id);
         return "redirect:/manager/muser";
     }
 

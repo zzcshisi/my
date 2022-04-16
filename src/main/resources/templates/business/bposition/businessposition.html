@@ -30,7 +30,7 @@
       background-attachment: fixed;"
 ></body>
 <div class="container">
-    <div th:replace="~{commons/businesscommon::nvbar}"></div>
+    <div th:replace="~{commons/businesscommon::nvbar(active='position')}"></div>
 </div>
 <div class="container-fluid">
     <div class="row">
@@ -55,6 +55,7 @@
                             在招岗位信息
                         </div>
                     </div>
+                    <p style="color:#ff0000" th:text="${msg}" th:if="${! #strings.isEmpty(msg)}" ></p>
                     <div class="card-body">
                         <h2><a class = "btn btn-sm btn-success" th:href="@{/business/position/add}">发布新岗位</a></h2>
                         <div class="row">
@@ -67,11 +68,11 @@
                                 </form>
                             </div>
                         </div>
-
+                        <h2></h2>
                         <div class="table-responsive" id="confirmld" th:fragment="ld">
                             <!--text-nowrap-->
-                            <table class="table table-bordered table-hover table-striped" style="table-layout:fixed" id="dataTable" cellspacing="0">
-                                <thead style="background: #ffffff">
+                            <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;background: #ffffff" id="dataTable" cellspacing="0">
+                                <thead>
                                 <tr>
                                     <th width="10%">岗位名</th>
                                     <th width="10%">岗位类型</th>
@@ -100,7 +101,7 @@
                                     <td th:text="${position.getReleasetime()}"></td>
                                     <td th:text="${position.getEndtime()}"></td>
                                     <td th:text="${position.getIntro()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td>
-                                    <td><span class="label label-info" th:text="${position.getToken1()}"></span><span class="label label-info" th:text="${position.getToken2()}"></span><span class="label label-info" th:text="${position.getToken3()}"></span></td>
+                                    <td><span class="label label-info" th:text="${position.getToken1()}"></span> <span class="label label-info" th:text="${position.getToken2()}"></span> <span class="label label-info" th:text="${position.getToken3()}"></span></td>
                                     <td>
                                         <a class = "btn btn-sm btn-primary" th:href="@{/business/position/edit/}+${position.getPid()}">编辑信息</a>
                                         <a class = "btn btn-sm btn-danger" th:href="@{/business/position/delete/}+${position.getPid()}">删除</a>

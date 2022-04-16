@@ -1,10 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" href="img/icon.jpg">
+
+    <title>搜索岗位</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
 </head>
+
 <body>
-$END$
+<body background="/img/b_bg.png"
+      style=" background-repeat:no-repeat ;
+      background-size:100% 100%;
+      background-attachment: fixed;"
+></body>
+<div class="container">
+    <div th:replace="~{commons/businesscommon::nvbar(active='position')}"></div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div id="wrapper">
+            <div class="overlay"></div>
+            <div th:replace="~{commons/businesscommon::sidebar}"></div>
+            <div id="page-content-wrapper">
+                <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+                    <span class="hamb-top"></span>
+                    <span class="hamb-middle"></span>
+                    <span class="hamb-bottom"></span>
+                </button>
+
+                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2 main">
+                    <h1 class="page-header">岗位管理</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="/business/info">企业端</a></li>
+                        <li class="breadcrumb-item"><a href="/business/position">岗位管理</a></li>
+                        <li class="breadcrumb-item active">搜索岗位</li>
+                    </ol>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            搜索岗位
+                        </div>
+                    </div>
+                    <p style="color:#ff0000" th:text="${msg}" th:if="${! #strings.isEmpty(msg)}" ></p>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <form  th:action="@{/business/position/search}" method="post">
+                                    <div class="input-group">
+                                        <span class="input-group-btn"><button class="btn btn-sm btn-success">搜索岗位</button></span>
+                                        <input type="text" placeholder="搜索岗位名"  id="SearchId" name="searchid" class="form-control" th:value="${last_search}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <h2></h2>
+                        <div class="table-responsive" id="confirmld" th:fragment="ld">
+                            <!--text-nowrap-->
+                            <table class="table table-bordered table-hover table-striped" style="table-layout:fixed;background: #ffffff" id="dataTable" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th width="10%">岗位名</th>
+                                    <th width="10%">岗位类型</th>
+                                    <th width="10%">岗位类别</th>
+                                    <th width="10%">工作城市</th>
+                                    <th width="10%">学历要求</th>
+                                    <th width="10%">经验要求</th>
+                                    <th width="10%">薪酬范围</th>
+                                    <th width="10%">发布时间</th>
+                                    <th width="10%">截止时间</th>
+                                    <th width="30%">岗位介绍</th>
+                                    <th width="20%">岗位标签</th>
+                                    <th width="20%">操作</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="position:${pageInfo.getList()}">
+                                    <td th:text="${position.getPname()}"></td>
+                                    <td th:text="${position.getKind()}"></td>
+                                    <td th:text="${position.getCate()}"></td>
+                                    <td th:text="${position.getCity()}"></td>
+                                    <td th:text="${position.getXueli()}"></td>
+                                    <td th:text="${position.getExp()}"></td>
+                                    <td th:text="${position.getPleft()}+'至'+${position.getPright()}"></td>
+                                    <td th:text="${position.getReleasetime()}"></td>
+                                    <td th:text="${position.getEndtime()}"></td>
+                                    <td th:text="${position.getIntro()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td>
+                                    <td><span class="label label-info" th:text="${position.getToken1()}"></span> <span class="label label-info" th:text="${position.getToken2()}"></span> <span class="label label-info" th:text="${position.getToken3()}"></span></td>
+                                    <td>
+                                        <a class = "btn btn-sm btn-primary" th:href="@{/business/position/edit/}+${position.getPid()}">编辑信息</a>
+                                        <a class = "btn btn-sm btn-danger" th:href="@{/business/position/delete/}+${position.getPid()}">删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            </ul>
+                        </div>
+                        <div class="modal-footer no-margin-top" >
+                            <div class="col-md-6">
+                                正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
+                            </div>
+                            <div class="row">
+                                <form th:action="@{/business/position/search}" method="post">
+                                    <div class="col-lg-1">
+                                        <div class="input-group">
+                                            <input th:value = " ${last_search}" type="text" name="searchid" class="form-control hidden">
+                                            <input type="text" class="form-control" name="pageNum" style="width:50px">
+                                            <span class="input-group-btn"><button class="btn btn-sm btn-default"  type="submit">跳转</button></span>
+                                        </div><!-- /input-group -->
+                                    </div><!-- /.col-lg-6 -->
+                                </form>
+                            </div>
+                            <ul class="pagination pull-right no-margin">
+                                <li th:if="${pageInfo.hasPreviousPage}">
+                                    <a th:href="'/business/position/search?pageNum=1&searchid='+${last_search}">首页</a>
+                                </li>
+
+                                <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                                    <a th:href="'/business/position/search?pageNum='+${pageInfo.prePage}+'&searchid='+${last_search}">
+                                        <i class="ace-icon fa fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <!--遍历条数:这里分页数与每页大小相同？-->
+                                <li th:each="nav:${pageInfo.navigatepageNums}">
+                                    <a th:href="'/business/position/search?pageNum='+${nav} +'&searchid='+${last_search}" th:text="${nav}"
+                                       th:if="${nav != pageInfo.pageNum}"></a>
+                                    <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                                          th:text="${nav}"></span>
+                                </li>
+
+                                <li class="next" th:if="${pageInfo.hasNextPage}">
+                                    <a th:href="'/business/position/search?pageNum='+${pageInfo.nextPage}+'&searchid='+${last_search}">
+                                        <i class="ace-icon fa fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="'/business/position/search?pageNum='+${pageInfo.pages}+'&searchid='+${last_search}">尾页</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"><\/script>')</script>
+<script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+</script>
+
+
 </body>
 </html>

@@ -7,6 +7,8 @@ import zzc.recruitment.mapper.PositionMapper;
 import zzc.recruitment.service.PositionService;
 
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @Service
 public class PositionServiceImpl implements PositionService {
@@ -15,6 +17,9 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public int addPosition(Position position){
+        Date date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        position.setReleasetime(formatter.format(date));
         return positionMapper.addPosition(position);
     }
 
@@ -30,6 +35,11 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public int updatePosition(Position position){
+        if(position.getReleasetime()==null||position.getReleasetime().replace(" ","")==""){
+            Date date=new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            position.setReleasetime(formatter.format(date));
+        }
         return  positionMapper.updatePosition(position);
     }
 
@@ -49,8 +59,8 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public List<Position> getByPname(String pname){
-        return positionMapper.getByPname(pname);
+    public List<Position> getByPname(String pname,int bid){
+        return positionMapper.getByPname(pname,bid);
     }
 
     @Override

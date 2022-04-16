@@ -10,18 +10,18 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/index"><span style="font-size: 15px;">首页</span></a></li>
-                <li><a href="/index"><span style="font-size: 15px;">热门岗位</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;">筛选岗位</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;">查找公司</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;">收到邀请</span></a></li>
-                <li><a href="#"><span style="font-size: 15px;">收藏岗位</span></a></li>
+                <li th:class="${active=='index'?'active':''}"><a href="/index"><span style="font-size: 15px;">首页</span></a></li>
+                <li th:class="${active=='1'?'active':''}"><a href="/index"><span style="font-size: 15px;">热门岗位</span></a></li>
+                <li th:class="${active=='2'?'active':''}"><a href="#"><span style="font-size: 15px;">筛选岗位</span></a></li>
+                <li th:class="${active=='3'?'active':''}"><a href="#"><span style="font-size: 15px;">查找公司</span></a></li>
+                <li th:class="${active=='4'?'active':''}"><a href="#"><span style="font-size: 15px;">收到邀请</span></a></li>
+                <li th:class="${active=='5'?'active':''}"><a href="#"><span style="font-size: 15px;">收藏岗位</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人中心 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/info">个人中心</a></li>
+                        <li th:class="${active=='info'?'active':''}" ><a href="/user/info">个人中心</a></li>
                         <li><a href="#">我的简历</a></li>
                         <li><a href="#">我的投递</a></li>
                         <li><a href="#">收藏岗位</a></li>

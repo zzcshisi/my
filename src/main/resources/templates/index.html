@@ -29,7 +29,7 @@
       background-attachment: fixed;"
 ></body>
 <div class="container">
-    <div th:replace="~{commons/usercommon::nvbar}"></div>
+    <div th:replace="~{commons/usercommon::nvbar(active='index')}"></div>
 </div>
 <div class="container-fluid">
     <div class="row">
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                             <div class="btn-group">
-                                <a href="#">
+                                <a href="/user/search">
                                     <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">全部</button>
                                 </a>
                             </div>
@@ -228,7 +228,7 @@
                                 <h5><span class="label label-success center-block" th:text="'Hello,'+${username}" style="text-align: center;"></span></h5>
                                 <div class="btn-group-vertical  btn-group-justified">
                                     <div class="btn-group">
-                                        <a href="#">
+                                        <a href="user/info">
                                             <button class="btn btn-default " style="height:50px;background: #ffffff" >个人中心</button>
                                         </a>
                                     </div>
