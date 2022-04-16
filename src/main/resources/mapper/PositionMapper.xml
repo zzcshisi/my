@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.PositionMapper">
+
+    <!--插入新信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
+
+
+    <insert parameterType="zzc.recruitment.bean.Position" id="addPosition">INSERT InTO position(bid,pname,bname,kind,cate,city,xueli,exp,pleft,pright,releasetime,endtime,intro,token1,token2,token3)values(#{bid},#{pname},#{bname},#{kind},#{cate},#{city},#{xueli},#{exp},#{pleft},#{pright},date_format(CURRENT_DATE ,'%Y-%m-%d'),#{endtime},#{intro},#{token1},#{token2},#{token3}) </insert>
+
+    <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
+
+    <delete parameterType="int" id="deleteByPid">DELETE FROM position WHERE pid = #{pid} </delete>
+    <delete parameterType="int" id="deleteByBid">DELETE FROM position WHERE bid = #{bid} </delete>
+    <!--根据ID修改用户信息，返回数据库操作影响行数，为0则是失败-->
+
+
+    <update parameterType="zzc.recruitment.bean.Position" id="updatePosition">UPDATE position SET kind=#{kind},city=#{city},xueli=#{xueli},exp=#{exp},pleft=#{pleft},pright=#{pright},releasetime=date_format(#{releasetime},'%Y-%m-%d'),endtime=date_format(#{endtime},'%Y-%m-%d'),intro=#{intro},token1=#{token1},token2=#{token2},token3=#{token3} WHERE pid = #{pid} </update>
+
+    <!--查询所有用户信息，返回一个List<Bean>-->
+
+    <select resultType="zzc.recruitment.bean.Position" id="getAll">SELECT * FROM position </select>
+
+
+    <select resultType="zzc.recruitment.bean.Position" id="getByPid">SELECT * FROM position where pid=#{pid}</select>
+
+    <select resultType="zzc.recruitment.bean.Position" id="getByBid">SELECT * FROM position where bid=#{bid}</select>
+    <!--模糊查找，返回一个List<Bean>-->
+    <select resultType="zzc.recruitment.bean.Position" id="getByPname">SELECT * FROM position where pname like concat('%',concat(#{id},'%'))</select>
+
+    <select resultType="zzc.recruitment.bean.Position" id="searchPosition">SELECT * FROM position where id like concat(#{id},'%')</select>
+
+</mapper>

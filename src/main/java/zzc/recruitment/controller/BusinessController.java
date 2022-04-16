@@ -1,5 +1,7 @@
 package zzc.recruitment.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
@@ -7,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import zzc.recruitment.bean.User;
 import zzc.recruitment.bean.Userinfo;
+import zzc.recruitment.bean.Position;
 import zzc.recruitment.ex.*;
 import zzc.recruitment.service.UserService;
 import zzc.recruitment.bean.Businessinfo;
 import zzc.recruitment.service.BusinessinfoService;
+import zzc.recruitment.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +36,8 @@ public class BusinessController {
     UserService userService;
     @Autowired
     BusinessinfoService businessinfoService;
+    @Autowired
+    PositionService positionService;
 
     @RequestMapping("/business/info")
     public String businessinfo(HttpServletRequest request,Model model){
@@ -180,6 +186,37 @@ public class BusinessController {
         model.addAttribute("userinfo", userinfo);
         model.addAttribute("msg", "上传成功");
         return "/manager/minfo/edituserinfo"; */
+    }
+
+    @RequestMapping("/business/position")
+    public String businessposition(HttpServletRequest request,
+                                   Model model,
+                                   @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                                   @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            // 获取HttpSession对象
+            HttpSession session = request.getSession();
+            // 获取我们登录后存在session中的用户信息
+            Object obj = session.getAttribute("username");
+            String loginname = (String) obj;
+            int id = Integer.parseInt(loginname);                // 强制转换成 String
+            List<Position> positions=positionService.getByBid(id);
+            PageInfo<Position> pageInfo = new PageInfo<Position>(positions, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+        return "/business/bposition/businessposition";
     }
 
 }
