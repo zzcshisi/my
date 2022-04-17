@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" href="img/icon.jpg">
+
+    <title>个人中心</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+</head>
+
+<body>
+<div th:replace="~{commons/usercommon::nvbar(active='info')}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/usercommon::sidebar1}"></div>
+        <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
+            <div class="alert alert-success" role="alert">
+                <strong>欢迎来到您的个人中心!</strong> 编辑您的个人信息.
+            </div>
+            <h1 class="page-header">个人信息</h1>
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3" style="height: 600px">
+                        <img id="img-avatar" th:src="'/img/avatar/'+${userinfo.getAvatar()}" style="width:200px;height:200px;" class="img-thumbnail img-circle center-block">
+                        <h3><span style="width:auto" class="label label-success" th:text="${userinfo.getSex()}==1?'男':'女'"></span> | <span style="width:auto" class="label label-success" th:text="${userinfo.getXueli()==0?'专科':(userinfo.getXueli()==1?'本科':(userinfo.getXueli()==2?'硕士':(userinfo.getXueli()==3?'博士':'')))}"></span> | <span style="width:auto" class="label label-success" th:text="${userinfo.getSchool()}"></span></h3>
+                        <h3><span style="width:auto" class="label label-primary" th:text="'家住'+${userinfo.getHome()}+', '+${userinfo.getGradeyear()}+'毕业'"></span></h3>
+                        <h3><span style="width:auto" class="label label-info" th:text="${userinfo.getPhone()}"></span></h3>
+                        <h3><span style="width:auto" class="label label-warning" th:text="${userinfo.getEmail()}"></span></h3>
+                        <h1> </h1>
+                        <p><a class="btn btn-primary btn-lg" href="/user/info/edit" role="button">编辑个人信息 &raquo;</a></p>
+                    </div>
+                    <div class="col-md-4 col-sm-4" >
+                        <div class="panel panel-info" style="height: 600px">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">求职信息</h3>
+                            </div>
+                            <div class="panel-body" >
+                                <div class="list-group">
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">账号</h4>
+                                        <p class="list-group-item-text" th:text="${userinfo.getId()}"></p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">专业</h4>
+                                        <p class="list-group-item-text" th:text="${userinfo.getZhuanye()}"></p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">求职状态</h4>
+                                        <p class="list-group-item-text" th:text="${userinfo.getStatus()}"></p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">期望工作岗位</h4>
+                                        <p class="list-group-item-text" th:text="${userinfo.getHposition()}"></p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">期望工作地</h4>
+                                        <p class="list-group-item-text" th:text="${userinfo.getHplace()}"></p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">期望薪资</h4>
+                                        <p class="list-group-item-text" th:text="${userinfo.getHleft()}+'至'+${userinfo.getHright()}"></p>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="panel panel-warning" style="height: 600px">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">个人简介</h3>
+                            </div>
+                            <div class="panel-body" th:text="${userinfo.getIntro()}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"><\/script>')</script>
+<script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
+
+
+
+</body>
+</html>
