@@ -38,7 +38,110 @@
                 <strong>这里是您的在线简历!</strong> <a href="/user/resume/edit">点击此处完善您的简历</a>.
             </div>
             <h1 class="page-header">在线简历</h1>
-            <div class="jumbotron">
+            <div class="col-sm-11 col-md-11 container-fluid">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">我的简历</h3>
+                    </div>
+                    <div class="panel-body jumbotron"  style="background: #ffffff;">
+                        <div class="col-sm-3 col-md-3 text-center " style="background: #ffffff;min-height:850px">
+                            <div>
+                                <img id="img-avatar" th:src="'/img/avatar/'+${resume.getAvatar()}" style="width:150px;height:150px;" class="img-thumbnail img-circle center-block">
+                                <h6 class="margin-top" th:text="${resume.getMyname()}"></h6>
+                                <span th:text="${resume.getPost()}+' / '+${resume.getPlace()}"></span>
+                            </div>
+                            <div>
+                                <span class="text-left nav-title"><span class="iconfont icon-wodexinxi_jibenxinxi"></span>基本信息</span>
+                                <HR>
+                                <div class="row">
+                                    <div class="col-sm-5">个人信息</div>
+                                    <div class="col-sm-7" th:text="${resume.getMyname()}+'/'+(${resume.getSex()}==1?'男':'女')+'/'+${resume.getAge()}"></div>
+
+                                    <div class="col-sm-5">居住地址</div>
+                                    <div class="col-sm-7" th:text="${resume.getPlace()}"></div>
+
+                                    <div class="col-sm-5">期望薪资</div>
+                                    <div class="col-sm-7" th:text="${resume.getMoney()}"></div>
+                                </div>
+                            </div>
+                            <div>
+				<span class="text-left nav-title">
+					<span class="iconfont icon-dianhua "></span>联系方式
+				</span>
+                                <HR>
+                                <div class="row">
+                                    <div class="col-sm-5">手机号</div>
+                                    <div class="col-sm-7" th:text="${resume.getPhone()}"></div>
+                                    <div class="col-sm-5">邮箱</div>
+                                    <div class="col-sm-7" th:text="${resume.getEmail()}"></div>
+                                    <div class="col-sm-5">个人主页</div>
+                                    <div class="col-sm-7" >
+                                        <a th:href="'http://'+${resume.getWeb()}">点我直达</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+				<span class="text-left nav-title">
+					<span class="iconfont icon-daima"></span>专业技能
+				</span>
+                                <HR>
+                                <div class="row" th:text="${resume.getSkills()}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-sm-offset-1 col-md-offset-1" style="background: #ffffff;min-height:850px">
+                            <div>
+				<span class="text-left margin-top nav-title">
+					<span class="iconfont icon-daima"></span>项目经历
+				</span>
+                                <HR>
+                                <div class="row">
+                                    <div class="col-sm-10" th:text="${resume.getPro1()}" th:if="${resume.getPro1()}!=null"></div>
+                                    <div class="col-sm-2 text-right" th:text="${resume.getPt1()}" th:if="${resume.getPt1()}!=null"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10" th:text="${resume.getPro2()}" th:if="${resume.getPro2()}!=null"></div>
+                                    <div class="col-sm-2 text-right" th:text="${resume.getPt2()}" th:if="${resume.getPt2()}!=null"></div>
+                                </div>
+                            </div>
+                            <div>
+				<span class="text-left margin-top nav-title">
+					<span class="iconfont icon-daima"></span>工作经历
+				</span>
+                                <HR>
+                                <div class="row">
+                                    <div class="col-sm-10" th:text="${resume.getWork1()}" th:if="${resume.getWork1()}!=null"></div>
+                                    <div class="col-sm-2 text-right" th:text="${resume.getWt1()}" th:if="${resume.getWt1()}!=null"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10" th:text="${resume.getWork2()}" th:if="${resume.getWork2()}!=null"></div>
+                                    <div class="col-sm-2 text-right" th:text="${resume.getWt2()}" th:if="${resume.getWt2()}!=null"></div>
+                                </div>
+                            </div>
+
+                            <div>
+				<span class="text-left margin-top nav-title">
+					<span class="iconfont icon-daima"></span>教育经历
+				</span>
+                                <HR>
+                                <div class="row">
+                                    <div class="col-sm-10" th:text="${resume.getEdu()}" th:if="${resume.getEdu()}!=null"></div>
+                                </div>
+                            </div>
+
+                            <div>
+				<span class="text-left margin-top nav-title">
+					<span class="iconfont icon-daima"></span>自我评价
+				</span>
+                                <HR>
+                                <div class="row">
+                                    <div class="col-sm-12" th:text="${resume.getSelfeval()}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

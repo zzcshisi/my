@@ -28,7 +28,6 @@
                   pt2=#{pt2},
                   wt1=#{wt1},
                   wt2=#{wt2},
-                  et=#{et},
                   selfeval=#{selfeval}
                   WHERE id = #{id} </update>
 

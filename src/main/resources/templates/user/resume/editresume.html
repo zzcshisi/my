@@ -83,10 +83,10 @@
                         <label class="col-sm-2 control-label">性别：</label>
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input id="gender-male" type="radio" name="sex" value="1" th:checked="${resume.getSex()}==1">男
+                                <input id="gender-male" type="radio" name="sex" value=1 th:checked="${resume.getSex()}==1">男
                             </label>
                             <label class="radio-inline">
-                                <input id="gender-female" type="radio" name="sex" value="0" th:checked="${resume.getSex()}==0">女
+                                <input id="gender-female" type="radio" name="sex" value=0 th:checked="${resume.getSex()}==0">女
                             </label>
                         </div>
                     </div>
@@ -100,6 +100,18 @@
                         <label class="col-sm-2 control-label">姓名：</label>
                         <div class="col-sm-8">
                             <input id="myname" name="myname" type="text" class="form-control" placeholder="请输入姓名" th:value="${resume.getMyname()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">期望岗位：</label>
+                        <div class="col-sm-8">
+                            <input  name="post" type="text" class="form-control" placeholder="请输入期望岗位" th:value="${resume.getPost()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">期望薪资：</label>
+                        <div class="col-sm-8">
+                            <input  name="money" type="text" class="form-control" placeholder="请输入期望薪资" th:value="${resume.getMoney()}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -165,7 +177,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">工作经历一时间：</label>
                         <div class="col-sm-8">
-                            <input name="wt1" type="text" class="form-control" placeholder="工作经历一时间 " th:value="${resume.getWork1()}">
+                            <input name="wt1" type="text" class="form-control" placeholder="工作经历一时间 " th:value="${resume.getWt1()}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -177,7 +189,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">工作经历二时间：</label>
                         <div class="col-sm-8">
-                            <input name="wt2" type="text" class="form-control" placeholder="工作经历二时间 " th:value="${resume.getWork2()}">
+                            <input name="wt2" type="text" class="form-control" placeholder="工作经历二时间 " th:value="${resume.getWt2()}">
                         </div>
                     </div>
                     <div class="form-group">

@@ -30,6 +30,5 @@ public class Resume {
     private String pt2;
     private String wt1;
     private String wt2;
-    private String et;
     private String selfeval;
 }
