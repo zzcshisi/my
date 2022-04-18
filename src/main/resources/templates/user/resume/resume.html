@@ -7,9 +7,9 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="zzc">
-    <link rel="icon" href="img/icon.jpg">
+    <link rel="icon" th:href="@{/img/icon.jpg}">
 
-    <title>主页</title>
+    <title>个人中心-在线简历</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
@@ -20,6 +20,12 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
 
+    <!-- 自定义CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/css/style.css}">
+
+    <!-- 引入阿里图标库 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/fonts/iconfont.css}">
+
 </head>
 
 <body>
@@ -27,20 +33,12 @@
 <div class="container-fluid">
     <div class="row">
         <div th:replace="~{commons/usercommon::sidebar1}"></div>
-
         <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
-            <h1 class="page-header">Dashboard1</h1>
-            <div class="row placeholders">
-                <div class="col-xs-6 col-sm-5 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
-                <div class="col-xs-6 col-sm-5 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
+            <div class="alert alert-success" role="alert">
+                <strong>这里是您的在线简历!</strong> <a href="/user/resume/edit">点击此处完善您的简历</a>.
+            </div>
+            <h1 class="page-header">在线简历</h1>
+            <div class="jumbotron">
             </div>
         </div>
     </div>

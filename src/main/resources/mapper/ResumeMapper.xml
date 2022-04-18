@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.ResumeMapper">
+
+    <insert id="add">INSERT InTO resume (id)values(#{id}) </insert>
+
+    <delete parameterType="int" id="delete">DELETE FROM resume WHERE id = #{id}</delete>
+
+    <select resultType="zzc.recruitment.bean.Resume" id="getById">SELECT *FROM resume where id=#{id}</select>
+
+    <update id="updateAvatar">UPDATE resume SET avatar=#{avatar} WHERE id = #{id} </update>
+    <update parameterType="zzc.recruitment.bean.Resume" id="update">UPDATE resume SET sex=#{sex},
+                  age=#{age},
+                  myname=#{myname},
+                  place=#{place},
+                  money=#{money},
+                  post=#{post},
+                  phone=#{phone},
+                  email=#{email},
+                  web=#{web},
+                  skills=#{skills},
+                  pro1=#{pro1},
+                  pro2=#{pro2},
+                  work1=#{work1},
+                  work2=#{work2},
+                  edu=#{edu},
+                  pt1=#{pt1},
+                  pt2=#{pt2},
+                  wt1=#{wt1},
+                  wt2=#{wt2},
+                  et=#{et},
+                  selfeval=#{selfeval}
+                  WHERE id = #{id} </update>
+
+
+</mapper>

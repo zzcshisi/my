@@ -9,6 +9,7 @@ import zzc.recruitment.bean.User;
 import zzc.recruitment.bean.Userinfo;
 import zzc.recruitment.bean.Businessinfo;
 import zzc.recruitment.service.BusinessinfoService;
+import zzc.recruitment.service.ResumeService;
 import zzc.recruitment.service.PositionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -42,6 +43,8 @@ public class ManagerController {
     BusinessinfoService businessinfoService;
     @Autowired
     PositionService positionService;
+    @Autowired
+    ResumeService resumeService;
 
     @RequestMapping("/manager/mindex")
     public String mindex(Model model,HttpServletRequest request){
@@ -104,6 +107,7 @@ public class ManagerController {
         userinfoService.deleteUser(id);
         businessinfoService.deleteBusiness(id);
         positionService.deleteByBid(id);
+        resumeService.delete(id);
         return "redirect:/manager/muser";
     }
 

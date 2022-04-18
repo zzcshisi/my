@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="zzc">
-    <link rel="icon" href="img/icon.jpg">
+    <link rel="icon" th:href="@{/img/icon.jpg}">
 
     <title>编辑个人信息</title>
 
@@ -92,10 +92,10 @@
                         <label class="col-sm-2 control-label">性别：</label>
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input id="gender-male" type="radio" name="sex" value="1" th:checked="${userinfo.sex}==1">男
+                                <input id="gender-male" type="radio" name="sex" value="1" th:checked="${userinfo.getSex()}==1">男
                             </label>
                             <label class="radio-inline">
-                                <input id="gender-female" type="radio" name="sex" value="0" th:checked="${userinfo.sex}==0">女
+                                <input id="gender-female" type="radio" name="sex" value="0" th:checked="${userinfo.getSex()}==0">女
                             </label>
                         </div>
                     </div>

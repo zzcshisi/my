@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" th:href="@{/img/icon.jpg}">
+
+    <title>完善在线简历</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+    <!-- 日历控件相关 -->
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script type="text/javascript" language="javascript" th:src="@{/js/linkageProvinceCity.js}"></script>
+    <script type="text/javascript" language="javascript" th:src="@{/js/linkclass.js}"></script>
+    <script type="text/javascript" language="javascript" th:src="@{/js/linkpost.js}"></script>
+
+</head>
+
+<body>
+<div th:replace="~{commons/usercommon::nvbar(active='info')}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/usercommon::sidebar1}"></div>
+        <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
+            <h1 class="page-header">在线简历修改</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="/index">首页</a></li>
+                <li class="breadcrumb-item"><a href="/user/resume">在线简历</a></li>
+                <li class="breadcrumb-item active">完善在线简历</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <span class="glyphicon glyphicon-user"> 完善在线简历</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <p style="color:#ff0000" th:text="${msg}" th:if="${! #strings.isEmpty(msg)}" ></p>
+                <form id="form-change-avatar" class="form-horizontal" role="form">
+                    <div class="form-group row placeholders">
+                        <div class="col-sm-10 placeholder">
+                            <img id="img-avatar" th:src="'/img/avatar/'+${resume.getAvatar()}" style="width:120px;height:120px;" class="img-circle img-responsive">
+                            <div class="row">
+                                <div class="col-sm-offset-5 col-sm-12">
+                                    <input type="file" name="avatar_name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row placeholders">
+                        <div class="col-sm-10 placeholder">
+                            <input id="btn-change-avatar" name="btn-change-avatar" type="button" class="btn btn-primary" value="上传头像" />
+                        </div>
+                    </div>
+                </form>
+                <form class="form-horizontal" th:action="@{/user/resume/edit}" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账号：</label>
+                        <div class="col-sm-8">
+                            <input id="id" name='id' type="text" class="form-control" th:value="${resume.getId()}" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <input id="avatar" name='avatar' type="text" class="form-control hidden" th:value="${resume.getAvatar()}" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别：</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input id="gender-male" type="radio" name="sex" value="1" th:checked="${resume.getSex()}==1">男
+                            </label>
+                            <label class="radio-inline">
+                                <input id="gender-female" type="radio" name="sex" value="0" th:checked="${resume.getSex()}==0">女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年龄：</label>
+                        <div class="col-sm-8">
+                            <input id="age" name="age" type="text" class="form-control" placeholder="请输入年龄" th:value="${resume.getAge()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名：</label>
+                        <div class="col-sm-8">
+                            <input id="myname" name="myname" type="text" class="form-control" placeholder="请输入姓名" th:value="${resume.getMyname()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">现居城市：</label>
+                        <div class="col-sm-8">
+                            <input id="place" name="place" type="text" class="form-control" placeholder="请输入现居城市" th:value="${resume.getPlace()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话号码：</label>
+                        <div class="col-sm-8">
+                            <input id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" th:value="${resume.getPhone()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电子邮箱：</label>
+                        <div class="col-sm-8">
+                            <input id="email" name="email" type="text" class="form-control" placeholder="请输入电子邮箱" th:value="${resume.getEmail()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">个人网站：</label>
+                        <div class="col-sm-8">
+                            <input name="web" type="text" class="form-control" placeholder="请输入个人网站链接 " th:value="${resume.getWeb()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">个人技能：</label>
+                        <div class="col-sm-8">
+                            <input name="skills" type="text" class="form-control" placeholder="请输入个人技能 " th:value="${resume.getSkills()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">项目经历一：</label>
+                        <div class="col-sm-8">
+                            <textarea th:text="${resume.getPro1()}" name = "pro1" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">项目经历一时间：</label>
+                        <div class="col-sm-8">
+                            <input name="pt1" type="text" class="form-control" placeholder="项目经历一时间 " th:value="${resume.getPt1()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">项目经历二：</label>
+                        <div class="col-sm-8">
+                            <textarea th:text="${resume.getPro2()}" name = "pro2" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">项目经历二时间：</label>
+                        <div class="col-sm-8">
+                            <input name="pt2" type="text" class="form-control" placeholder="项目经历二时间 " th:value="${resume.getPt2()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">工作经历一：</label>
+                        <div class="col-sm-8">
+                            <textarea th:text="${resume.getWork1()}" name = "work1" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工作经历一时间：</label>
+                        <div class="col-sm-8">
+                            <input name="wt1" type="text" class="form-control" placeholder="工作经历一时间 " th:value="${resume.getWork1()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">工作经历二：</label>
+                        <div class="col-sm-8">
+                            <textarea th:text="${resume.getWork2()}" name = "work2" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工作经历二时间：</label>
+                        <div class="col-sm-8">
+                            <input name="wt2" type="text" class="form-control" placeholder="工作经历二时间 " th:value="${resume.getWork2()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">教育经历：</label>
+                        <div class="col-sm-8">
+                            <textarea th:text="${resume.getEdu()}" name = "edu" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">自我评价：</label>
+                        <div class="col-sm-8">
+                            <textarea th:text="${resume.getSelfeval()}" name = "selfeval" placeholder="输入内容" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5 ">
+                            <input id="btn-change-info" type="submit" class="btn btn-primary" value="修改" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"><\/script>')</script>
+<script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
+<script type="text/javascript">
+    $("#btn-change-avatar").click(function() {
+        $.ajax({
+            url: "/user/resume/editavatar",
+            type: "POST",
+            data: new FormData($("#form-change-avatar")[0]),
+            dataType: "JSON",
+            processData: false, // processData处理数据
+            contentType: false, // contentType发送数据的格式
+            success: function(json) {
+                if (json.state == 200) {
+                    location.reload();
+                    alert("修改成功！");
+                } else {
+                    alert("修改失败！" );
+                }
+            },
+            error: function(xhr) {
+                alert("错误操作，未选择文件，文件格式不正确或文件过大");
+                location.reload();
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>

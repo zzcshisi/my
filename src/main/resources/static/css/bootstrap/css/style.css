@@ -1,0 +1,38 @@
+body{
+	background-image: url(../image/background.png);
+}
+.padding{
+	padding: 5px;
+}
+.margin-top{
+	margin-top: 10px
+}
+
+.row{
+	height: auto;
+	margin: 20px 0;
+}
+.row>.c{
+	padding: 15px;
+}
+.content{
+	background-color: #FFF;
+	box-shadow: 2px 2px 3px #CCC;
+}
+.logo{
+	width: 150px;
+	height: 150px;
+	margin-top: 20px;
+}
+.demo{
+	width: 70px;
+	height: 70px;
+}
+.nav-title{
+	font-size: 18px;
+}
+.nav-title>.iconfont{
+	font-size: 20px;
+	color: #1abc9c;
+	padding: 2px;
+}

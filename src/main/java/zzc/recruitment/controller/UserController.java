@@ -6,13 +6,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
-import zzc.recruitment.bean.Businessinfo;
-import zzc.recruitment.bean.Notice;
+import zzc.recruitment.bean.*;
 import zzc.recruitment.ex.*;
 import zzc.recruitment.service.NoticeService;
-import zzc.recruitment.bean.User;
+import zzc.recruitment.service.ResumeService;
 import zzc.recruitment.service.UserService;
-import zzc.recruitment.bean.Userinfo;
 import zzc.recruitment.service.UserinfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -37,6 +35,8 @@ public class UserController {
     UserinfoService userinfoService;
     @Autowired
     NoticeService noticeService;
+    @Autowired
+    ResumeService resumeService;
 
     @RequestMapping("/index")
     public String userindex(Model model,
@@ -244,9 +244,141 @@ public class UserController {
         return "/manager/minfo/edituserinfo"; */
     }
 
-
     @RequestMapping("/user/search")
     public String usersearch(){
-        return "/user/userinfo";
+        return "/user/info/userinfo";
+    }
+
+
+    @RequestMapping("/user/resume")
+    public String ToResume(HttpServletRequest request,Model model){
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+        Resume resume=resumeService.getById(id);
+        if(resume==null){
+            resumeService.add(id);
+        }
+        model.addAttribute("resume", resume);
+        return "/user/resume/resume";
+    }
+    @GetMapping("/user/resume/edit")
+    public String ToResumeEdit(HttpServletRequest request,Model model){
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+        Resume resume=resumeService.getById(id);
+        if(resume==null){
+            resumeService.add(id);
+        }
+        model.addAttribute("resume", resume);
+        return "/user/resume/editresume";
+    }
+
+    //    信息编辑响应
+    @PostMapping("/user/resume/edit")
+    public String EditResume(Resume resume,
+                                   HttpServletRequest request,
+                                   Model model) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+
+        User user = userService.getUserById(resume.getId());
+
+        if(id==resume.getId()){
+            Resume tmp=resumeService.getById(id);
+            if(tmp==null){
+                resumeService.add(id);
+            }
+            resumeService.update(resume);
+            model.addAttribute("msg", "修改成功");
+            model.addAttribute("resume", resume);
+        }
+        else{
+            model.addAttribute("msg", "您无法操作他人的信息");
+            model.addAttribute("resume", resume);
+        }
+        return "/user/resume/editresume";
+    }
+    @PostMapping("/user/resume/editavatar")
+    @ResponseBody
+    public JsonResult<String> Editresumeavatar(@RequestParam("avatar_name") MultipartFile file,
+                                         HttpServletRequest request){
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);
+        // 判断上传的文件是否为空
+        if (file.isEmpty()) {
+            // 是：抛出异常
+            throw new FileEmptyException("上传的头像文件不允许为空");
+        }
+
+        // 判断上传的文件大小是否超出限制值
+        if (file.getSize() > AVATAR_MAX_SIZE) { // getSize()：返回文件的大小，以字节为单位
+            // 是：抛出异常
+            throw new FileSizeException("不允许上传超过" + (AVATAR_MAX_SIZE / 1024) + "KB的头像文件");
+        }
+
+        // 判断上传的文件类型是否超出限制
+        String contentType = file.getContentType();
+        // public boolean list.contains(Object o)：当前列表若包含某元素，返回结果为true；若不包含该元素，返回结果为false。
+        if (!AVATAR_TYPES.contains(contentType)) {
+            // 是：抛出异常
+            throw new FileTypeException("不支持使用该类型的文件作为头像，允许的文件类型：\n" + AVATAR_TYPES);
+        }
+
+        // 获取当前项目的绝对磁盘路径
+        String file_path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/img/avatar";
+        // 保存头像文件的文件夹
+        File dir = new File(file_path);
+        if (!dir.exists()) {
+            dir.mkdirs();
+            System.out.print(file_path);
+        }
+
+        // 保存的头像文件的文件名
+        String suffix = "";
+        String originalFilename = file.getOriginalFilename();
+        int beginIndex = originalFilename.lastIndexOf(".");
+        if (beginIndex > 0) {
+            suffix = originalFilename.substring(beginIndex);
+        }
+        String filename = UUID.randomUUID().toString() + suffix;
+        String path = file_path+filename;
+        // 执行保存头像文件
+        try {
+            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(file_path, filename));
+        } catch (IllegalStateException e) {
+            // 抛出异常
+            throw new FileStateException("文件状态异常，可能文件已被移动或删除");
+        } catch (IOException e) {
+            // 抛出异常
+            throw new FileUploadIOException("上传文件时读写错误，请稍后重尝试");
+        }
+        //删除旧头像
+        String old_avatar=userinfoService.getById(id).getAvatar();
+        if(old_avatar!=null&&!old_avatar.equals("user.jpg")){
+            File old_file=new File(file_path,old_avatar);
+            old_file.delete();
+        }
+        // 头像路径
+        String avatar = filename;
+        // 将头像写入到数据库中
+        resumeService.updateAvatar(avatar,id);
+        // 返回成功头像路径
+        return new JsonResult<String>(200, avatar);
     }
 }
