@@ -66,8 +66,14 @@ public class UserController {
             String loginname = (String) obj;
             int loginId = Integer.parseInt(loginname);
             User user=userService.getUserById(loginId);
+            Userinfo userinfo=userinfoService.getById(loginId);
+            if(userinfo==null){
+                userinfo= new Userinfo();
+                userinfo.setId(loginId);
+                userinfoService.addUser(userinfo);
+            }
             model.addAttribute("username", user.getUserName());
-            model.addAttribute("avatar", userinfoService.getById(loginId).getAvatar());
+            model.addAttribute("avatar", userinfo.getAvatar());
         }
 
         return "/index";
@@ -369,7 +375,7 @@ public class UserController {
             throw new FileUploadIOException("上传文件时读写错误，请稍后重尝试");
         }
         //删除旧头像
-        String old_avatar=userinfoService.getById(id).getAvatar();
+        String old_avatar=resumeService.getById(id).getAvatar();
         if(old_avatar!=null&&!old_avatar.equals("user.jpg")){
             File old_file=new File(file_path,old_avatar);
             old_file.delete();

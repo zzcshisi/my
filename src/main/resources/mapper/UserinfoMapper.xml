@@ -5,7 +5,7 @@
     <!--插入新用户信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
 
 
-    <insert parameterType="zzc.recruitment.bean.Userinfo" id="addUser">INSERT InTO userinfo(id,avatar,sex, intro,phone,email,home,gradeyear,xueli,school,zhuanye,status,hposition,hplace,hleft,hright)values(#{id},#{avatar},#{sex},#{intro},#{phone},#{email},#{home},date_format(#{gradeyear},'%Y-%m-%d'),#{xueli},#{school},#{zhuanye},#{status},#{hposition},#{hplace},#{hleft},#{hright})</insert>
+    <insert parameterType="zzc.recruitment.bean.Userinfo" id="addUser">INSERT InTO userinfo(id,avatar,sex, intro,phone,email,home,gradeyear,xueli,school,zhuanye,status,hposition,hplace,hleft,hright)values(#{id},"user.jpg",#{sex},#{intro},#{phone},#{email},#{home},date_format(#{gradeyear},'%Y-%m-%d'),#{xueli},#{school},#{zhuanye},#{status},#{hposition},#{hplace},#{hleft},#{hright})</insert>
 
     <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
     

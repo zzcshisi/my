@@ -5,7 +5,7 @@
     <!--插入新用户信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
 
 
-    <insert parameterType="zzc.recruitment.bean.Businessinfo" id="addBusinessinfo">INSERT InTO businessinfo(id,avatar,city,address,businessname,web,founding,industry,bscale,nature,intro,postnum) values (#{id},#{avatar},#{city},#{address},#{businessname},#{web},date_format(#{founding},'%Y-%m-%d'),#{industry},#{bscale},#{nature},#{intro},#{postnum})</insert>
+    <insert parameterType="zzc.recruitment.bean.Businessinfo" id="addBusinessinfo">INSERT InTO businessinfo(id,avatar,city,address,businessname,web,founding,industry,bscale,nature,intro) values (#{id},"user.jpg",#{city},#{address},#{businessname},#{web},date_format(#{founding},'%Y-%m-%d'),#{industry},#{bscale},#{nature},#{intro})</insert>
 
     <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
 
@@ -14,7 +14,7 @@
     <!--根据ID修改用户信息，返回数据库操作影响行数，为0则是失败-->
 
 
-    <update parameterType="zzc.recruitment.bean.Businessinfo" id="updateBusiness">UPDATE businessinfo SET city=#{city},address=#{address},businessname=#{businessname},web=#{web},founding=date_format(#{founding},'%Y-%m-%d'),industry=#{industry},bscale=#{bscale},nature=#{nature},intro=#{intro},postnum=#{postnum} WHERE id = #{id} </update>
+    <update parameterType="zzc.recruitment.bean.Businessinfo" id="updateBusiness">UPDATE businessinfo SET city=#{city},address=#{address},businessname=#{businessname},web=#{web},founding=date_format(#{founding},'%Y-%m-%d'),industry=#{industry},bscale=#{bscale},nature=#{nature},intro=#{intro}WHERE id = #{id} </update>
     <update id="updateAvatar">UPDATE businessinfo SET avatar=#{avatar} WHERE id = #{id} </update>
     <!--查询所有用户信息，返回一个List<Bean>-->
 

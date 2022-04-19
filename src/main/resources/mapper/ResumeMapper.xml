@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="zzc.recruitment.mapper.ResumeMapper">
 
-    <insert id="add">INSERT InTO resume (id)values(#{id}) </insert>
+    <insert id="add">INSERT InTO resume (id,avatar)values(#{id},"user.jpg") </insert>
 
     <delete parameterType="int" id="delete">DELETE FROM resume WHERE id = #{id}</delete>
 

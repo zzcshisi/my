@@ -12,6 +12,7 @@ import zzc.recruitment.bean.Userinfo;
 import zzc.recruitment.bean.Position;
 import zzc.recruitment.ex.*;
 import zzc.recruitment.service.UserService;
+import zzc.recruitment.service.UserinfoService;
 import zzc.recruitment.bean.Businessinfo;
 import zzc.recruitment.service.BusinessinfoService;
 import zzc.recruitment.service.PositionService;
@@ -34,6 +35,8 @@ public class BusinessController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserinfoService userinfoService;
     @Autowired
     BusinessinfoService businessinfoService;
     @Autowired
@@ -350,6 +353,43 @@ public class BusinessController {
         }
         model.addAttribute("last_search",name);
         return "business/bposition/searchposition";
+    }
+    @RequestMapping("/business/invite")
+    String Invite(Model model,
+                  HttpServletRequest request,
+                  @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                  @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+        List<Position> positions=positionService.getByBid(id);
+        model.addAttribute("positions",positions);
+        List<Userinfo> userinfos=userinfoService.getAllUser();
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(userinfos, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        return "business/invite/invite";
+    }
+    @PostMapping("/business/invite/invite")
+    String Inviteuser(Model model,
+                  @RequestParam("id")String id,
+                  HttpServletRequest request){
+        System.out.print(id);
+        return "redirect:/business/invite";
     }
 
 }

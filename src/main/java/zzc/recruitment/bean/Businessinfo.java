@@ -22,5 +22,4 @@ public class Businessinfo {
     private String bscale;
     private String nature;
     private String intro;
-    private int postnum;
 }

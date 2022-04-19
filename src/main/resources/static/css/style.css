@@ -1525,3 +1525,30 @@ select.form-control:focus::-ms-value {
 }
 .fl {float:left;}
 .fr {float:right;}
+
+
+select
+{
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+select {
+    text-transform: none;
+}
+select {
+    word-wrap: normal;
+}
+select.form-control:focus::-ms-value {
+    color: #495057;
+    background-color: #fff;
+}
+select.form-control:focus::-ms-value {
+    color: #495057;
+    background-color: #fff;
+}
+select.form-control[size], select.form-control[multiple] {
+    height: auto;
+}

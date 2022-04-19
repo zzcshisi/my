@@ -104,10 +104,6 @@ public class ManagerController {
     @GetMapping("/manager/muser/delete/{id}")
     public String toDelete(@PathVariable("id") Integer id,Model model) {
         userService.dropUser(id);
-        userinfoService.deleteUser(id);
-        businessinfoService.deleteBusiness(id);
-        positionService.deleteByBid(id);
-        resumeService.delete(id);
         return "redirect:/manager/muser";
     }
 
