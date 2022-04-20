@@ -23,6 +23,8 @@ public interface UserinfoMapper {
     //查询所有用户
     List<Userinfo> getAllUser();
 
+    List<Userinfo> SelectUser(int xueli,String zhuanye,String status);
+
     Userinfo getById(int id);
 
     //根据id模糊查找

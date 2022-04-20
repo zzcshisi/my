@@ -62,6 +62,9 @@
                         <tr>
                             <th width="10%">标题</th>
                             <th width="60%">内容</th>
+                            <th width="10%">发布人</th>
+                            <th width="10%">发布时间</th>
+                            <th width="10%">截止时间</th>
                             <th width="10%">操作</th>
                         </tr>
                         </thead>
@@ -70,6 +73,9 @@
                         <tr th:each="noticeinfo:${pageInfo.getList()}">
                             <td th:text="${noticeinfo.getTitle}"></td>
                             <td th:text="${noticeinfo.getContent()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td>
+                            <td th:text="${noticeinfo.getPublisher}"></td>
+                            <td th:text="${noticeinfo.getPublishtime()}"></td>
+                            <td th:text="${noticeinfo.getEndtime()}"></td>
                             <td>
                                 <a class = "btn btn-sm btn-primary" th:href="@{/manager/mnotice/edit/}+${noticeinfo.getId()}">编辑</a>
                                 <a class = "btn btn-sm btn-danger" th:href="@{/manager/mnotice/delete/}+${noticeinfo.getId()}">删除</a>

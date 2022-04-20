@@ -43,7 +43,7 @@ public class NoticeServiceImpl implements NoticeService {
     public int updateNotice(Notice noticeBean){return NoticeMapper.updateNotice(noticeBean);}
 
     @Override
-    public List<Notice> getCarousel(){return NoticeMapper.getCarousel();}
+    public List<Notice> getShow(){return NoticeMapper.getShow();}
 
     @Override
     public List<Notice> searchTitle(String title){

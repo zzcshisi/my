@@ -7,15 +7,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
-import zzc.recruitment.bean.User;
-import zzc.recruitment.bean.Userinfo;
-import zzc.recruitment.bean.Position;
+import zzc.recruitment.bean.*;
 import zzc.recruitment.ex.*;
-import zzc.recruitment.service.UserService;
-import zzc.recruitment.service.UserinfoService;
-import zzc.recruitment.bean.Businessinfo;
-import zzc.recruitment.service.BusinessinfoService;
-import zzc.recruitment.service.PositionService;
+import zzc.recruitment.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +35,8 @@ public class BusinessController {
     BusinessinfoService businessinfoService;
     @Autowired
     PositionService positionService;
+    @Autowired
+    InviteService inviteService;
 
     @RequestMapping("/business/info")
     public String businessinfo(HttpServletRequest request,Model model){
@@ -354,10 +350,11 @@ public class BusinessController {
         model.addAttribute("last_search",name);
         return "business/bposition/searchposition";
     }
-    @RequestMapping("/business/invite")
+    @GetMapping("/business/invite")
     String Invite(Model model,
                   HttpServletRequest request,
                   @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                  @RequestParam(required = false, defaultValue = "请选择岗位进行推荐") String msg,
                   @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
 
         // 获取HttpSession对象
@@ -382,13 +379,73 @@ public class BusinessController {
         PageHelper.startPage(pageNum, pageSize);//定位显示页
         PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(userinfos, pageSize);
         model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("msg",msg);
         return "business/invite/invite";
     }
+
+    @PostMapping("/business/invite")
+    String Inviteselect(Model model,
+                        HttpServletRequest request,
+                        @RequestParam(defaultValue = "-1",value="xueli") int xueli,
+                        @RequestParam(defaultValue = "",value="zhuanye") String zhuanye,
+                        @RequestParam(defaultValue = "",value="status") String status,
+                        @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                        @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+        List<Position> positions=positionService.getByBid(id);
+        model.addAttribute("positions",positions);
+        List<Userinfo> userinfos=userinfoService.SelectUser(xueli,zhuanye,status);
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(userinfos, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("xueli", xueli);
+        model.addAttribute("zhuanye", zhuanye);
+        model.addAttribute("status", status);
+        return "business/invite/invite";
+    }
+
     @PostMapping("/business/invite/invite")
     String Inviteuser(Model model,
-                  @RequestParam("id")String id,
-                  HttpServletRequest request){
-        System.out.print(id);
+                      @RequestParam(defaultValue = "",value="uid")String uid,
+                      @RequestParam(defaultValue = "-1",value="pid")int pid,
+                      HttpServletRequest request){
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+        System.out.print(uid);
+        String[] uids = uid.split(",");
+        if(pid!=-1){
+            String pname=positionService.getByPid(pid).getPname();
+            String bname=businessinfoService.getById(id).getBusinessname();
+            Invite invite=new Invite();
+            invite.setBname(bname);
+            invite.setPname(pname);
+            invite.setPid(pid);
+            for (int i = 0; i < uids.length; i++) {
+                invite.setUid(Integer.parseInt(uids[i]));
+                inviteService.addInvite(invite);
+            }
+            return "redirect:/business/invite?msg=success";
+        }
         return "redirect:/business/invite";
     }
 

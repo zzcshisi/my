@@ -36,6 +36,11 @@ public class UserinfoServiceImpl implements UserinfoService {
     public List<Userinfo> getAllUser(){return userinfoMapper.getAllUser();}
 
     @Override
+    public List<Userinfo> SelectUser(int xueli,String zhuanye,String status){
+        return userinfoMapper.SelectUser(xueli,zhuanye,status);
+    }
+
+    @Override
     public Userinfo getById(int id){return userinfoMapper.getById(id);}
 
     //根据id模糊查找

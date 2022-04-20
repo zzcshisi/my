@@ -22,7 +22,7 @@ public interface NoticeMapper {
 
     int updateNotice(Notice noticeBean);
 
-    List<Notice> getCarousel();
+    List<Notice> getShow();
 
     List<Notice> searchTitle(String title);
 }

@@ -53,7 +53,7 @@ public class UserController {
             pageSize = 10;    //设置默认每页显示的数据数
         }
         PageHelper.startPage(pageNum, pageSize);//定位显示页
-        List<Notice> notices = noticeService.getAll();
+        List<Notice> notices = noticeService.getShow();
         PageInfo<Notice> pageInfo = new PageInfo<Notice>(notices, pageSize);
         model.addAttribute("pageInfo", pageInfo);
         HttpSession session = request.getSession();       // 获取登录信息

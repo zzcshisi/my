@@ -58,23 +58,23 @@
                     </div>
                     <p style="color:#ff0000" th:text="${msg}" th:if="${! #strings.isEmpty(msg)}" ></p>
                     <div class="card-body">
-                        <form th:action="@{/business/invite/select}" method="post">
+                        <form th:action="@{/business/invite}" method="post">
                             <div class="row">
                                 <select class="selectpicker col-sm-2 col-md-2" name="xueli" title="请选择学历" data-style="btn-info" >
-                                    <option value=0>专科</option>
-                                    <option value=1>本科</option>
-                                    <option value=2>硕士</option>
-                                    <option value=3>博士</option>
+                                    <option th:selected="${xueli}==0" value=0>专科</option>
+                                    <option th:selected="${xueli}==1" value=1>本科</option>
+                                    <option th:selected="${xueli}==2" value=2>硕士</option>
+                                    <option th:selected="${xueli}==3" value=3>博士</option>
                                 </select>
                                 <select class="selectpicker col-sm-2 col-md-2" title="请选择专业分类" data-style="btn-info" id="selectClass" onchange="class_onChange()">
-                                    <option>请选择</option>
                                 </select>
                                 <select id="selectSpec" onchange="Spe_onChange()" name="zhuanye">
+                                    <option th:value="${zhuanye}" th:text="${zhuanye}"></option>
                                 </select>
                                 <select class="selectpicker col-sm-2 col-md-2" name="status" title="请选择求职状态" data-style="btn-info" >
-                                    <option value="实习">实习</option>
-                                    <option value="校招">校招</option>
-                                    <option value="社招">社招</option>
+                                    <option th:selected="${status}=='实习'" value="实习">实习</option>
+                                    <option th:selected="${status}=='校招'" value="校招">校招</option>
+                                    <option th:selected="${status}=='社招'" value="社招">社招</option>
                                 </select>
                             </div>
                             <h2> </h2>
@@ -108,12 +108,12 @@
                                     <tbody>
                                     <tr th:each="userinfo:${pageInfo.getList()}">
                                         <td><div class="checkbox">
-                                            <label><input type="checkbox" th:value="${userinfo.getId()}" name="id"></label>
+                                            <label><input type="checkbox" th:value="${userinfo.getId()}" name="uid"></label>
                                         </div></td>
                                         <td th:text="${userinfo.getId()}"></td>
                                         <td th:text="${userinfo.getSchool()}"></td>
                                         <td th:text="${userinfo.getGradeyear()}"></td>
-                                        <td th:text="${userinfo.getXueli()}"></td>
+                                        <td th:text="${userinfo.getXueli()==0?'专科':(userinfo.getXueli()==1?'本科':(userinfo.getXueli()==2?'硕士':(userinfo.getXueli()==3?'博士':'')))}"></td>
                                         <td th:text="${userinfo.getZhuanye()}"></td>
                                         <td th:text="${userinfo.getStatus()}"></td>
                                     </tr>
