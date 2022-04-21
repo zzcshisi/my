@@ -20,7 +20,7 @@
 
     <select resultType="zzc.recruitment.bean.Userinfo" id="getAllUser">SELECT * FROM userinfo </select>
 
-    <select resultType="zzc.recruitment.bean.Userinfo" id="SelectUser">SELECT * FROM userinfo where xueli=${xueli} AND zhuanye=#{zhuanye} AND status=#{status}</select>
+    <select resultType="zzc.recruitment.bean.Userinfo" id="SelectUser">SELECT * FROM userinfo where (xueli=${xueli} OR ${xueli}=-1) AND (zhuanye=#{zhuanye} OR #{zhuanye}="")AND (status=#{status} OR #{status}="")</select>
 
     <select resultType="zzc.recruitment.bean.Userinfo" id="getById">SELECT * FROM userinfo where id=#{id}</select>
 

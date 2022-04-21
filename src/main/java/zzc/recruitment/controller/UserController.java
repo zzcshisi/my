@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import zzc.recruitment.bean.*;
 import zzc.recruitment.ex.*;
-import zzc.recruitment.service.NoticeService;
-import zzc.recruitment.service.ResumeService;
-import zzc.recruitment.service.UserService;
-import zzc.recruitment.service.UserinfoService;
+import zzc.recruitment.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,10 @@ public class UserController {
     NoticeService noticeService;
     @Autowired
     ResumeService resumeService;
+    @Autowired
+    InviteService inviteService;
+    @Autowired
+    PositionService positionService;
 
     @RequestMapping("/index")
     public String userindex(Model model,
@@ -251,8 +252,14 @@ public class UserController {
     }
 
     @RequestMapping("/user/search")
-    public String usersearch(){
-        return "/user/info/userinfo";
+    public String usersearch(HttpServletRequest request,
+                             Model model,
+                             @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                             @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+        List<Position> posts=positionService.getAll();
+        PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        return "/user/search/search";
     }
 
 
@@ -386,5 +393,42 @@ public class UserController {
         resumeService.updateAvatar(avatar,id);
         // 返回成功头像路径
         return new JsonResult<String>(200, avatar);
+    }
+    @RequestMapping("/user/invite")
+    public String ToInvite(HttpServletRequest request,
+                           Model model,
+                           @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                           @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            // 获取HttpSession对象
+            HttpSession session = request.getSession();
+            // 获取我们登录后存在session中的用户信息
+            Object obj = session.getAttribute("username");
+            String loginname = (String) obj;
+            int id = Integer.parseInt(loginname);                // 强制转换成 String
+            List<Invite> invites=inviteService.getByUid(id);
+            PageInfo<Invite> pageInfo = new PageInfo<Invite>(invites, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+
+        return "/user/invite/invite";
+    }
+    @RequestMapping("/user/invite/refuse")
+    public String RefuseInvite(@RequestParam("id") int id) {
+        inviteService.deleteById(id);
+
+        return "redirect:/user/invite";
     }
 }

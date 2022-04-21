@@ -9,7 +9,7 @@
     <meta name="author" content="zzc">
     <link rel="icon" href="img/icon.jpg">
 
-    <title>主页</title>
+    <title>收到邀请</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
@@ -42,271 +42,69 @@
                     <span class="hamb-middle"></span>
                     <span class="hamb-bottom"></span>
                 </button>
-                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2 main">
-                    <div class="page-header">
-                        <div class="alert alert-info" role="alert">
-                            <strong>Welcome!</strong> Seize the opportunity and win the future.
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
-                            <form th:action="@{/user/search}" method="post">
-                                <div class="input-group">
-                                    <input type="text" name="searchword" placeholder="按照岗位关键词/公司名查找" style="height:50px;" class="form-control">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-success" style="height:50px;">Search</button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div><!-- /input-group -->
-                    </div>
-                    <h2></h2>
-                    <div class="col-sm-2 col-md-2">
-                        <div class="btn-group-vertical  btn-group-justified">
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">互联网IT
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='java')}">java</a></li>
-                                        <li><a th:href="@{/user/search(searchword='python')}">python</a></li>
-                                        <li><a th:href="@{/user/search(searchword='C++')}">C++</a></li>
-                                        <li><a th:href="@{/user/search(searchword='PHP')}">PHP</a></li>
-                                        <li><a th:href="@{/user/search(searchword='测试')}">测试</a></li>
-                                        <li><a th:href="@{/user/search(searchword='运营')}">运营</a></li>
-                                        <li><a th:href="@{/user/search(searchword='人工智能')}">人工智能</a></li>
-                                        <li><a th:href="@{/user/search(searchword='算法')}">算法</a></li>
-                                        <li><a th:href="@{/user/search(searchword='数据分析')}">数据分析</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">金融/房地产/建筑
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='投资')}">投资</a></li>
-                                        <li><a th:href="@{/user/search(searchword='理财')}">理财</a></li>
-                                        <li><a th:href="@{/user/search(searchword='保险')}">保险</a></li>
-                                        <li><a th:href="@{/user/search(searchword='房地产开发')}">房地产开发</a></li>
-                                        <li><a th:href="@{/user/search(searchword='保安')}">保安</a></li>
-                                        <li><a th:href="@{/user/search(searchword='物业')}">物业</a></li>
-                                        <li><a th:href="@{/user/search(searchword='主管')}">主管</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">教育/传媒/广告
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='教师')}">教师</a></li>
-                                        <li><a th:href="@{/user/search(searchword='助教')}">助教</a></li>
-                                        <li><a th:href="@{/user/search(searchword='课程顾问')}">课程顾问</a></li>
-                                        <li><a th:href="@{/user/search(searchword='记者')}">记者</a></li>
-                                        <li><a th:href="@{/user/search(searchword='编导')}">编导</a></li>
-                                        <li><a th:href="@{/user/search(searchword='摄影师')}">摄影师</a></li>
-                                        <li><a th:href="@{/user/search(searchword='广告')}">广告</a></li>
-                                        <li><a th:href="@{/user/search(searchword='美术设计')}">美术设计</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">贸易/物流
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='采购')}">采购</a></li>
-                                        <li><a th:href="@{/user/search(searchword='外贸')}">外贸</a></li>
-                                        <li><a th:href="@{/user/search(searchword='营业员')}">营业员</a></li>
-                                        <li><a th:href="@{/user/search(searchword='物流')}">物流</a></li>
-                                        <li><a th:href="@{/user/search(searchword='货运')}">货运</a></li>
-                                        <li><a th:href="@{/user/search(searchword='店长')}">店长</a></li>
-                                        <li><a th:href="@{/user/search(searchword='仓库')}">仓库</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">服务业
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='美容师')}">美容师</a></li>
-                                        <li><a th:href="@{/user/search(searchword='收银员')}">收银员</a></li>
-                                        <li><a th:href="@{/user/search(searchword='营业员')}">营业员</a></li>
-                                        <li><a th:href="@{/user/search(searchword='保安')}">保安</a></li>
-                                        <li><a th:href="@{/user/search(searchword='服务员')}">服务员</a></li>
-                                        <li><a th:href="@{/user/search(searchword='店长')}">店长</a></li>
-                                        <li><a th:href="@{/user/search(searchword='保洁')}">保洁</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">人事/财务/行政
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='人力资源主管')}">人力资源主管</a></li>
-                                        <li><a th:href="@{/user/search(searchword='人力资源专员')}">人力资源专员</a></li>
-                                        <li><a th:href="@{/user/search(searchword='HR')}">HR</a></li>
-                                        <li><a th:href="@{/user/search(searchword='会计')}">会计</a></li>
-                                        <li><a th:href="@{/user/search(searchword='出纳')}">出纳</a></li>
-                                        <li><a th:href="@{/user/search(searchword='税务')}">税务</a></li>
-                                        <li><a th:href="@{/user/search(searchword='律师')}">律师</a></li>
-                                        <li><a th:href="@{/user/search(searchword='后勤')}">后勤</a></li>
-                                        <li><a th:href="@{/user/search(searchword='行政')}">行政</a></li>
-                                        <li><a th:href="@{/user/search(searchword='司机')}">司机</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <div class="dropright">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">市场/销售
-                                        <span class="glyphicon glyphicon-chevron-right" style="float:right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a th:href="@{/user/search(searchword='营销')}">营销</a></li>
-                                        <li><a th:href="@{/user/search(searchword='策划')}">策划</a></li>
-                                        <li><a th:href="@{/user/search(searchword='顾问')}">顾问</a></li>
-                                        <li><a th:href="@{/user/search(searchword='SEO')}">SEO</a></li>
-                                        <li><a th:href="@{/user/search(searchword='SEM')}">SEM</a></li>
-                                        <li><a th:href="@{/user/search(searchword='销售经理')}">销售经理</a></li>
-                                        <li><a th:href="@{/user/search(searchword='客户代表')}">客户代表</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <a href="/user/search">
-                                    <button class="btn btn-default dropdown-toggle" style="height:50px;background: #ffffff" data-toggle="dropdown">全部</button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-8 col-md-8">
-                        <div id="mycarousel" class="carousel slide" data-ride="carousel" >
-                            <ol class="carousel-indicators">
-                                <li data-target="#mycarousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#mycarousel" data-slide-to="1"></li>
-                                <li data-target="#mycarousel" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner" role="listbox">
-                                <div class="item active">
-                                    <a href="#"><img src="/img/c1.jpeg" alt="First slide" style="width:100%;height:400px;background-size: 100% 100%;"></a>
-                                </div>
-                                <div class="item">
-                                    <a href="#"><img src="/img/c2.jpg" alt="Second slide" style="width:100%;height:400px;background-size: 100% 100%;"></a>
-                                </div>
-                                <div class="item">
-                                    <a href="#"><img src="/img/c3.jpg" alt="Third slide" style="width:100%;height:400px;background-size: 100% 100%;"></a>
-                                </div>
-                            </div>
-                            <a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="right carousel-control" href="#mycarousel" role="button" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 col-md-2">
-                        <div class="panel panel-info" style="height: 400px">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">
-                                    欢迎回来
-                                </h3>
-                            </div>
-                            <div class="panel-body">
-                                <img id="img-avatar" th:src="'/img/avatar/'+${avatar}" style="width:120px;height:120px;" class="img-circle img-responsive center-block">
-                                <h5><span class="label label-success center-block" th:text="'Hello,'+${username}" style="text-align: center;"></span></h5>
-                                <div class="btn-group-vertical  btn-group-justified">
-                                    <div class="btn-group">
-                                        <a href="user/info">
-                                            <button class="btn btn-default " style="height:50px;background: #ffffff" >个人中心</button>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a href="#">
-                                            <button class="btn btn-default " style="height:50px;background: #ffffff" >我的简历</button>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a href="#">
-                                            <button class="btn btn-default" style="height:50px;background: #ffffff" >我的投递</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
-                    <h2></h2>
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">
-                                最新消息
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a th:href="'/notice?id='+${noticeinfo.getId()}" class="list-group-item" th:each="noticeinfo:${pageInfo.getList()}">
-                                    <h4 class="list-group-item-heading" th:text="${noticeinfo.getTitle()}"></h4>
-                                    <p class="list-group-item-text" th:text="${noticeinfo.getContent()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></p>
-                                </a>
-                            </div>
-                            <div class="modal-footer no-margin-top" >
-                                <div class="col-md-6">
-                                    正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
-                                </div>
-                                <div class="row">
-                                    <form th:action="@{/index}" method="post">
-                                        <div class="col-lg-1">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" name="pageNum" style="width:50px">
-                                                <span class="input-group-btn"><button class="btn btn-default"  type="submit">跳转</button></span>
-                                            </div><!-- /input-group -->
-                                        </div><!-- /.col-lg-6 -->
-                                    </form>
-                                </div>
-                                <ul class="pagination pull-right no-margin">
-                                    <li th:if="${pageInfo.hasPreviousPage}">
-                                        <a th:href="'/index?pageNum=1'">首页</a>
-                                    </li>
-
-                                    <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-                                        <a th:href="'/index?pageNum='+${pageInfo.prePage}">
-                                            <i class="ace-icon fa fa-angle-double-left"></i>
-                                        </a>
-                                    </li>
-                                    <!--遍历条数:这里分页数与每页大小相同？-->
-                                    <li th:each="nav:${pageInfo.navigatepageNums}">
-                                        <a th:href="'/index?pageNum='+${nav}" th:text="${nav}"
-                                           th:if="${nav != pageInfo.pageNum}"></a>
-                                        <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
-                                              th:text="${nav}"></span>
-                                    </li>
-
-                                    <li class="next" th:if="${pageInfo.hasNextPage}">
-                                        <a th:href="'/index?pageNum='+${pageInfo.nextPage}">
-                                            <i class="ace-icon fa fa-angle-double-right"></i>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a th:href="'/index?pageNum='+${pageInfo.pages}">尾页</a>
-                                    </li>
-                                </ul>
-                            </div>
+                    <h1 class="page-header">收到邀请</h1>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            来自企业的邀请,点击查看详情
                         </div>
                     </div>
+
+                    <div class="list-group">
+                        <a th:href="@{/user/position/check(pid=${invite.getPid()})}" class="list-group-item" th:each="invite:${pageInfo.getList()}">
+                            <h4 class="list-group-item-heading" th:text="${invite.getPname()}">
+                            </h4>
+                            <p class="list-group-item-text">
+                            <div th:text="${invite.getBname()}"></div>
+                            </p>
+                            <a class = "btn btn-sm btn-info" th:href="@{/user/position/check(pid=${invite.getPid()})}">查看详情</a>
+                            <a class = "btn btn-sm btn-danger" th:href="@{/user/invite/refuse(id=${invite.getId()})}">拒绝邀约</a>
+                        </a>
+                    </div>
+                    <div class="modal-footer no-margin-top" >
+                        <div class="col-md-6">
+                            正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
+                        </div>
+                        <div class="row">
+                            <form th:action="@{/user/invite}" method="post">
+                                <div class="col-lg-1">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="pageNum" style="width:50px">
+                                        <span class="input-group-btn"><button class="btn btn-default"  type="submit">跳转</button></span>
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </form>
+                        </div>
+                        <ul class="pagination pull-right no-margin">
+                            <li th:if="${pageInfo.hasPreviousPage}">
+                                <a th:href="'/user/invite?pageNum=1'">首页</a>
+                            </li>
+
+                            <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                                <a th:href="'/user/invite?pageNum='+${pageInfo.prePage}">
+                                    <i class="ace-icon fa fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <!--遍历条数:这里分页数与每页大小相同？-->
+                            <li th:each="nav:${pageInfo.navigatepageNums}">
+                                <a th:href="'/user/invite?pageNum='+${nav}" th:text="${nav}"
+                                   th:if="${nav != pageInfo.pageNum}"></a>
+                                <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                                      th:text="${nav}"></span>
+                            </li>
+
+                            <li class="next" th:if="${pageInfo.hasNextPage}">
+                                <a th:href="'/user/invite?pageNum='+${pageInfo.nextPage}">
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a th:href="'/user/invite?pageNum='+${pageInfo.pages}">尾页</a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>

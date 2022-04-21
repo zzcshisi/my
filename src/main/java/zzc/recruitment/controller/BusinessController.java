@@ -353,6 +353,9 @@ public class BusinessController {
     @GetMapping("/business/invite")
     String Invite(Model model,
                   HttpServletRequest request,
+                  @RequestParam(defaultValue = "-1",value="xueli") int xueli,
+                  @RequestParam(defaultValue = "",value="zhuanye") String zhuanye,
+                  @RequestParam(defaultValue = "",value="status") String status,
                   @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                   @RequestParam(required = false, defaultValue = "请选择岗位进行推荐") String msg,
                   @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
@@ -365,7 +368,7 @@ public class BusinessController {
         int id = Integer.parseInt(loginname);                // 强制转换成 String
         List<Position> positions=positionService.getByBid(id);
         model.addAttribute("positions",positions);
-        List<Userinfo> userinfos=userinfoService.getAllUser();
+        List<Userinfo> userinfos=userinfoService.SelectUser(xueli,zhuanye,status);
         if (pageNum == null) {
             pageNum = 1;   //设置默认当前页
         }
@@ -379,6 +382,9 @@ public class BusinessController {
         PageHelper.startPage(pageNum, pageSize);//定位显示页
         PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(userinfos, pageSize);
         model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("xueli", xueli);
+        model.addAttribute("zhuanye", zhuanye);
+        model.addAttribute("status", status);
         model.addAttribute("msg",msg);
         return "business/invite/invite";
     }
@@ -431,7 +437,6 @@ public class BusinessController {
         Object obj = session.getAttribute("username");
         String loginname = (String) obj;
         int id = Integer.parseInt(loginname);                // 强制转换成 String
-        System.out.print(uid);
         String[] uids = uid.split(",");
         if(pid!=-1){
             String pname=positionService.getByPid(pid).getPname();
