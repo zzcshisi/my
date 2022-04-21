@@ -254,11 +254,54 @@ public class UserController {
     @RequestMapping("/user/search")
     public String usersearch(HttpServletRequest request,
                              Model model,
+                             @RequestParam(defaultValue = "", value = "searchword") String searchword,
+                             @RequestParam(defaultValue = "", value = "city") String city,
+                             @RequestParam(defaultValue = "", value = "industry") String industry,
+                             @RequestParam(defaultValue = "", value = "nature") String nature,
+                             @RequestParam(defaultValue = "", value = "bscale") String bscale,
+                             @RequestParam(defaultValue = "", value = "kind") String kind,
+                             @RequestParam(defaultValue = "", value = "cate") String cate,
+                             @RequestParam(defaultValue = "10", value = "xueli") int xueli,
+                             @RequestParam(defaultValue = "10", value = "exp") int exp,
+                             @RequestParam(defaultValue = "0", value = "money") String money,
+                             @RequestParam(required = false, defaultValue = "请选择岗位进行投递") String msg,
                              @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                              @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
-        List<Position> posts=positionService.getAll();
+
+        int pleft,pright;
+        if(money.contains(",")){
+            String[] moneys = money.split(",");
+            pleft=Integer.parseInt(moneys[0]);
+            pright=Integer.parseInt(moneys[1]);
+        }
+        else {
+            pleft=Integer.parseInt(money);
+            pright=99999999;
+        }
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        List<Position> posts=positionService.searchPosition(searchword,city,industry,nature,bscale,kind,cate,xueli,exp,pleft,pright);
         PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
         model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("searchword",searchword);
+        model.addAttribute("city",city);
+        model.addAttribute("industry",industry);
+        model.addAttribute("nature",nature);
+        model.addAttribute("bscale",bscale);
+        model.addAttribute("kind",kind);
+        model.addAttribute("cate",cate);
+        model.addAttribute("xueli",xueli);
+        model.addAttribute("exp",exp);
+        model.addAttribute("money",money);
+        model.addAttribute("msg",msg);
         return "/user/search/search";
     }
 

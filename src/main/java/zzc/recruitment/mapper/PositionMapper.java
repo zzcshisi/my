@@ -1,5 +1,6 @@
 package zzc.recruitment.mapper;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import zzc.recruitment.bean.Position;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -25,5 +26,5 @@ public interface PositionMapper {
 
     List<Position> getByPname(String pname,int bid);
 
-    List<Position> searchPosition(String searchword,Position position);
+    List<Position> searchPosition(String searchword,String city,String industry,String nature,String bscale,String kind,String cate, int xueli, int exp, int pleft,int pright);
 }

@@ -64,7 +64,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public List<Position> searchPosition(String searchword,Position position){
-        return positionMapper.searchPosition(searchword,position);
+    public List<Position> searchPosition(String searchword,String city,String industry,String nature,String bscale,String kind,String cate, int xueli, int exp, int pleft,int pright){
+        return positionMapper.searchPosition(searchword,city,industry,nature,bscale,kind,cate,xueli,exp,pleft,pright);
     }
 }

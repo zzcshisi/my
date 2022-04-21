@@ -7,16 +7,12 @@
 
     <insert parameterType="zzc.recruitment.bean.Position" id="addPosition">INSERT InTO positions(bid,pname,bname,kind,cate,city,xueli,exp,pleft,pright,releasetime,endtime,intro,token1,token2,token3)values(#{bid},#{pname},#{bname},#{kind},#{cate},#{city},#{xueli},#{exp},#{pleft},#{pright},date_format(#{releasetime},'%Y-%m-%d'),date_format(#{endtime},'%Y-%m-%d'),#{intro},#{token1},#{token2},#{token3}) </insert>
 
-    <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
-
     <delete parameterType="int" id="deleteByPid">DELETE FROM positions WHERE pid = #{pid} </delete>
-    <delete parameterType="int" id="deleteByBid">DELETE FROM positions WHERE bid = #{bid} </delete>
-    <!--根据ID修改用户信息，返回数据库操作影响行数，为0则是失败-->
 
+    <delete parameterType="int" id="deleteByBid">DELETE FROM positions WHERE bid = #{bid} </delete>
 
     <update parameterType="zzc.recruitment.bean.Position" id="updatePosition">UPDATE positions SET kind=#{kind},city=#{city},xueli=#{xueli},exp=#{exp},pleft=#{pleft},pright=#{pright},endtime=date_format(#{endtime},'%Y-%m-%d'),intro=#{intro},token1=#{token1},token2=#{token2},token3=#{token3} WHERE pid = #{pid} </update>
 
-    <!--查询所有用户信息，返回一个List<Bean>-->
 
     <select resultType="zzc.recruitment.bean.Position" id="getAll">SELECT * FROM positions </select>
 
@@ -27,6 +23,17 @@
     <!--模糊查找，返回一个List<Bean>-->
     <select resultType="zzc.recruitment.bean.Position" id="getByPname">SELECT * FROM positions where pname like concat('%',concat(#{pname},'%')) and bid=#{bid}</select>
 
-    <select resultType="zzc.recruitment.bean.Position" id="searchPosition">SELECT * FROM positions where id like concat(#{id},'%')</select>
+    <select resultType="zzc.recruitment.bean.Position" id="searchPosition">SELECT * FROM positions where (#{searchword}='' or pname like concat('%',concat(#{searchword},'%')) or #{searchword} like concat('%',concat(pname,'%'))) AND
+                              (#{city}='' or #{city}='不限' or #{city}='请选择市区' or city=#{city})AND
+                              (#{kind}='' or kind=#{kind} or #{kind}='不限' )AND
+                              (#{cate}='' or cate=#{cate} or #{cate}='不限')AND
+                              (xueli &lt;= #{xueli}) AND
+                              (exp &lt;=#{exp}) AND
+                              pleft &gt;= #{pleft} AND
+                              pright &lt;= #{pright} AND
+                              timestampdiff(day,CURRENT_TIMESTAMP,endtime) >=0 AND
+                              bid in (SELECT id FROM businessinfo WHERE ( #{industry}='' or industry=#{industry} or #{industry}='不限')AND
+                                                                                                       ( #{nature}='' or nature=#{nature}or #{nature}='不限')AND
+                                                                                                       (#{bscale}='' or bscale=#{bscale} or #{bscale}='不限'))</select>
 
 </mapper>
