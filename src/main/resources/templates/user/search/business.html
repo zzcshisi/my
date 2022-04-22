@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" href="img/icon.jpg">
+
+    <title>企业详情</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+
+</head>
+
+<body>
+<body background="/img/bg3.jpg"
+      style=" background-repeat:no-repeat ;
+      background-size:100% 100%;
+      background-attachment: fixed;"
+></body>
+<div class="container">
+    <div th:replace="~{commons/usercommon::nvbar(active='business')}"></div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div id="wrapper">
+            <div class="overlay"></div>
+            <div th:replace="~{commons/usercommon::sidebar}"></div>
+            <div id="page-content-wrapper">
+                <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+                    <span class="hamb-top"></span>
+                    <span class="hamb-middle"></span>
+                    <span class="hamb-bottom"></span>
+                </button>
+                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
+                    <h1 class="page-header">企业信息</h1>
+                    <div class="jumbotron">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" >
+                                <img id="img-avatar" th:src="'/img/avatar/'+${businessinfo.getAvatar()}" style="width:700px;height:400px;" class="img-thumbnail">
+                            </div>
+                            <div class="col-md-6 col-sm-6" >
+                                <h2 th:text="${businessinfo.getBusinessname()}"></h2>
+                                <h4 th:text="'创立于'+${businessinfo.getFounding()}+'/'+${businessinfo.getBscale()}"></h4>
+                                <h4><span class="label label-info" th:text="${businessinfo.getIndustry()}"></span></h4>
+                                <h4><span class="label label-info" th:text="${businessinfo.getNature()}"></span></h4>
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" th:text="${businessinfo.getCity()}"></h3>
+                                    </div>
+                                    <div class="panel-body" th:text="${businessinfo.getAddress()}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="blog-post-title">企业简介</h2>
+                        <p class="blog-post-meta"><a th:href="'http://'+${businessinfo.getWeb()}">企业官网</a></p>
+                        <p th:text="${businessinfo.getIntro()}"></p>
+                    </div>
+                    <h1 class="page-header">在招岗位</h1>
+                    <div th:each="post:${pageInfo.getList()}" style="BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset;  BACKGROUND: #ffffff;  BORDER-LEFT: 2px inset;  WIDTH: 100%;  BORDER-BOTTOM: 2px outset;  HEIGHT: 100%">
+                        <div class="row">
+                            <div class="col-sm-10 col-md-10" style="height: 120px">
+                                <div class="col-sm-offset-1 col-md-offset-1">
+                                    <a th:href="@{/user/position(pid=${post.getPid()})}" style="text-decoration: none;">
+                                        <h3 th:text="${post.getPname()}"></h3>
+                                        <h4><span th:text="${post.getPleft()}+'---'+${post.getPright()}" style="color: #ff0000"></span>&emsp;&emsp;&emsp;&emsp;&emsp;<span th:text="${post.getCity()}+'&emsp;|&emsp;'+${post.getExp()==0?'无经验':(post.getExp()==1?'1年以下':(post.getExp()==2?'1-3年':(post.getExp()==3?'3-6年':(post.getExp()==4?'6-10年':'10年以上'))))}+'&emsp;|&emsp;'+(${post.getXueli()==0?'专科':(post.getXueli()==1?'本科':(post.getXueli()==2?'硕士':(post.getXueli()==3?'博士':'')))})" style="color: #000000"></span></h4>
+                                        <h4><span style="width:auto" class="label label-success" th:if="${post.getToken1()}!=null" th:text="${post.getToken1()}"></span>&emsp;&emsp;<span style="width:auto" class="label label-success" th:if="${post.getToken2()}!=null" th:text="${post.getToken2()}"></span>&emsp;&emsp;<span style="width:auto" class="label label-success" th:if="${post.getToken3()}!=null" th:text="${post.getToken3()}"></span></h4>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-md-2" style="height: 120px;">
+                                <h3></h3>
+                                <a th:href="@{/user/business(bid=${post.getBid()})}"><h4 th:text="${post.getBname()}" style="color: #000000"></h4></a>
+                                <h3></h3>
+                                <div class="btn-group">
+                                    <a class = "btn btn-lg btn-default" href="#"><span class="glyphicon glyphicon-star-empty"></span>收藏</a>
+                                    <a class = "btn btn-lg btn-primary" href="#">申请职位</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer no-margin-top" >
+                        <div class="col-md-6">
+                            正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
+                        </div>
+                        <div class="row">
+                            <form th:action="@{/user/business(bid=${businessinfo.getId()})}" method="post">
+                                <div class="col-lg-1">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="pageNum" style="width:50px">
+                                        <span class="input-group-btn"><button class="btn btn-sm btn-default"  type="submit">跳转</button></span>
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </form>
+                        </div>
+                        <ul class="pagination pull-right no-margin">
+                            <li th:if="${pageInfo.hasPreviousPage}">
+                                <a th:href="@{/user/business(bid=${businessinfo.getId()},pageNum=1)}">首页</a>
+                            </li>
+
+                            <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                                <a th:href="@{/user/business(bid=${businessinfo.getId()},pageNum=${pageInfo.prePage})}">
+                                    <i class="ace-icon fa fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <!--遍历条数:这里分页数与每页大小相同？-->
+                            <li th:each="nav:${pageInfo.navigatepageNums}">
+                                <a th:href="@{/user/business(bid=${businessinfo.getId()},pageNum=${nav})}" th:text="${nav}"
+                                   th:if="${nav != pageInfo.pageNum}"></a>
+                                <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                                      th:text="${nav}"></span>
+                            </li>
+
+                            <li class="next" th:if="${pageInfo.hasNextPage}">
+                                <a th:href="@{/user/business(bid=${businessinfo.getId()},pageNum=${pageInfo.nextPage})}">
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a th:href="@{/user/business(bid=${businessinfo.getId()},pageNum=${pageInfo.pages})}">尾页</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"><\/script>')</script>
+<script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+</script>
+
+
+</body>
+</html>

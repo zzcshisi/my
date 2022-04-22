@@ -38,6 +38,8 @@ public class UserController {
     InviteService inviteService;
     @Autowired
     PositionService positionService;
+    @Autowired
+    BusinessinfoService businessinfoService;
 
     @RequestMapping("/index")
     public String userindex(Model model,
@@ -304,7 +306,68 @@ public class UserController {
         model.addAttribute("msg",msg);
         return "/user/search/search";
     }
+    @RequestMapping("/user/searchbusiness")
+    public String businesssearch(HttpServletRequest request,
+                                 Model model,
+                                 @RequestParam(defaultValue = "", value = "searchword") String searchword,
+                                 @RequestParam(defaultValue = "", value = "city") String city,
+                                 @RequestParam(defaultValue = "", value = "industry") String industry,
+                                 @RequestParam(defaultValue = "", value = "nature") String nature,
+                                 @RequestParam(defaultValue = "", value = "bscale") String bscale,
+                                 @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                                 @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        List<Businessinfo> businesssinfos=businessinfoService.searchName(searchword,city,industry,nature,bscale);
+        PageInfo<Businessinfo> pageInfo = new PageInfo<Businessinfo>(businesssinfos, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("searchword",searchword);
+        model.addAttribute("city",city);
+        model.addAttribute("industry",industry);
+        model.addAttribute("nature",nature);
+        model.addAttribute("bscale",bscale);
+        return "user/search/searchbusiness";
+    }
 
+    @RequestMapping("/user/business")
+    public String ToBusiness(@RequestParam(value = "bid") int bid,
+                             Model model,
+                             @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                             @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+        Businessinfo businessinfo=businessinfoService.getById(bid);
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        List<Position> posts=positionService.getByBid(bid);
+        PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("businessinfo",businessinfo);
+        return "/user/search/business";
+    }
+
+    @RequestMapping("/user/position")
+    public String ToPosition(@RequestParam(value = "pid") int pid,
+                             Model model){
+        Position post=positionService.getByPid(pid);
+        model.addAttribute("post",post);
+        model.addAttribute("business",businessinfoService.getById(post.getBid()));
+        return "/user/search/position";
+    }
 
     @RequestMapping("/user/resume")
     public String ToResume(HttpServletRequest request,Model model){

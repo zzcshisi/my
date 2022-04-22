@@ -57,7 +57,7 @@
                             <p class="list-group-item-text">
                             <div th:text="${invite.getBname()}"></div>
                             </p>
-                            <a class = "btn btn-sm btn-info" th:href="@{/user/position/check(pid=${invite.getPid()})}">查看详情</a>
+                            <a class = "btn btn-sm btn-info" th:href="@{/user/position(pid=${invite.getPid()})}">查看详情</a>
                             <a class = "btn btn-sm btn-danger" th:href="@{/user/invite/refuse(id=${invite.getId()})}">拒绝邀约</a>
                         </a>
                     </div>

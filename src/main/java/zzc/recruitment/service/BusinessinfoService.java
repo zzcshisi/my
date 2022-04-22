@@ -22,4 +22,6 @@ public interface BusinessinfoService {
 
     //根据id模糊查找
     List<Businessinfo> searchId(String id);
+
+    List<Businessinfo> searchName(String name,String city,String industry,String nature,String bscale);
 }

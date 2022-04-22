@@ -51,4 +51,7 @@ public class BusinessinfoServiceImpl implements BusinessinfoService {
     public List<Businessinfo> searchId(String id){
         return businessinfoMapper.searchId(id);
     }
+
+    @Override
+    public List<Businessinfo> searchName(String name,String city,String industry,String nature,String bscale){return businessinfoMapper.searchName(name,city,industry,nature,bscale);}
 }

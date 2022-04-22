@@ -27,4 +27,10 @@
 
     <select resultType="zzc.recruitment.bean.Businessinfo" id="searchId">SELECT * FROM businessinfo where id like concat(#{id},'%')</select>
 
+    <select resultType="zzc.recruitment.bean.Businessinfo" id="searchName">SELECT * FROM businessinfo where (businessname like concat('%',concat(#{name},'%')) or #{name} like concat('%',concat(businessname,'%'))) AND
+                                 ( #{city}='' or #{city}='不限' or #{city}='请选择市区' or city=#{city})AND
+                                 ( #{industry}='' or industry=#{industry} or #{industry}='不限')AND
+                                 ( #{nature}='' or nature=#{nature}or #{nature}='不限')AND
+                                 ( #{bscale}='' or bscale=#{bscale} or #{bscale}='不限')</select>
+
 </mapper>
