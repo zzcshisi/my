@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Userinfo {
     private int id;
     private String avatar;
-    private Byte sex;
+    private String sex;
     private String intro;
     private String phone;
     private String email;

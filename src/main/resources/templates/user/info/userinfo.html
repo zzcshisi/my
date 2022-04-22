@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3" style="height: 600px">
                         <img id="img-avatar" th:src="'/img/avatar/'+${userinfo.getAvatar()}" style="width:200px;height:200px;" class="img-thumbnail img-circle center-block">
-                        <h3><span style="width:auto" class="label label-success" th:text="${userinfo.getSex()}==1?'男':'女'"></span> | <span style="width:auto" class="label label-success" th:text="${userinfo.getXueli()==0?'专科':(userinfo.getXueli()==1?'本科':(userinfo.getXueli()==2?'硕士':(userinfo.getXueli()==3?'博士':'')))}"></span> | <span style="width:auto" class="label label-success" th:text="${userinfo.getSchool()}"></span></h3>
+                        <h3><span style="width:auto" class="label label-success" th:text="${userinfo.getSex()}"></span> | <span style="width:auto" class="label label-success" th:text="${userinfo.getXueli()==0?'专科':(userinfo.getXueli()==1?'本科':(userinfo.getXueli()==2?'硕士':(userinfo.getXueli()==3?'博士':'')))}"></span> | <span style="width:auto" class="label label-success" th:text="${userinfo.getSchool()}"></span></h3>
                         <h3><span style="width:auto" class="label label-primary" th:text="'家住'+${userinfo.getHome()}+', '+${userinfo.getGradeyear()}+'毕业'"></span></h3>
                         <h3><span style="width:auto" class="label label-info" th:text="${userinfo.getPhone()}"></span></h3>
                         <h3><span style="width:auto" class="label label-warning" th:text="${userinfo.getEmail()}"></span></h3>

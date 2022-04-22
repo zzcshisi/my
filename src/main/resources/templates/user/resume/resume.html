@@ -55,7 +55,7 @@
                                 <HR>
                                 <div class="row">
                                     <div class="col-sm-5">个人信息</div>
-                                    <div class="col-sm-7" th:text="${resume.getMyname()}+'/'+(${resume.getSex()}==1?'男':'女')+'/'+${resume.getAge()}"></div>
+                                    <div class="col-sm-7" th:text="${resume.getMyname()}+'/'+${resume.getSex()}+'/'+${resume.getAge()}"></div>
 
                                     <div class="col-sm-5">居住地址</div>
                                     <div class="col-sm-7" th:text="${resume.getPlace()}"></div>

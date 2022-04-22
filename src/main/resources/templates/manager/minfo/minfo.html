@@ -67,7 +67,7 @@
                         <tr th:each="userinfo:${pageInfo.getList()}">
                             <td><img id="avatar" th:src="'/img/avatar/'+${userinfo.getAvatar()}" style="width:80px;height:80px;" class="img-circle"></td>
                             <td th:text="${userinfo.getId()}"></td>
-                            <td th:text="${userinfo.getSex()}==1?'男':'女'"></td>
+                            <td th:text="${userinfo.getSex()}"></td>
                             <td th:text="${userinfo.getIntro()}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td>
                             <td>
                                 <a class = "btn btn-sm btn-primary" th:href="@{/manager/minfo/edit/}+${userinfo.getId()}">编辑信息</a>

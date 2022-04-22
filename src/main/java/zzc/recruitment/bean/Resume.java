@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Resume {
     private int id;
-    private int sex;
+    private String sex;
     private int age;
     private String avatar;
     private String myname;
