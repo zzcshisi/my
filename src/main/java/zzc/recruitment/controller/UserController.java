@@ -40,6 +40,8 @@ public class UserController {
     PositionService positionService;
     @Autowired
     BusinessinfoService businessinfoService;
+    @Autowired
+    StoreService storeService;
 
     @RequestMapping("/index")
     public String userindex(Model model,
@@ -292,6 +294,16 @@ public class UserController {
         PageHelper.startPage(pageNum, pageSize);//定位显示页
         List<Position> posts=positionService.searchPosition(searchword,city,industry,nature,bscale,kind,cate,xueli,exp,pleft,pright);
         PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
+
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);
+        List<Integer> stores=storeService.getStores(id);
+
+        model.addAttribute("stores",stores);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("searchword",searchword);
         model.addAttribute("city",city);
@@ -307,8 +319,7 @@ public class UserController {
         return "/user/search/search";
     }
     @RequestMapping("/user/searchbusiness")
-    public String businesssearch(HttpServletRequest request,
-                                 Model model,
+    public String businesssearch(Model model,
                                  @RequestParam(defaultValue = "", value = "searchword") String searchword,
                                  @RequestParam(defaultValue = "", value = "city") String city,
                                  @RequestParam(defaultValue = "", value = "industry") String industry,
@@ -340,6 +351,7 @@ public class UserController {
     @RequestMapping("/user/business")
     public String ToBusiness(@RequestParam(value = "bid") int bid,
                              Model model,
+                             HttpServletRequest request,
                              @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                              @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
         Businessinfo businessinfo=businessinfoService.getById(bid);
@@ -355,6 +367,15 @@ public class UserController {
         PageHelper.startPage(pageNum, pageSize);//定位显示页
         List<Position> posts=positionService.getByBid(bid);
         PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);
+        List<Integer> stores=storeService.getStores(id);
+
+        model.addAttribute("stores",stores);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("businessinfo",businessinfo);
         return "/user/search/business";
@@ -362,8 +383,18 @@ public class UserController {
 
     @RequestMapping("/user/position")
     public String ToPosition(@RequestParam(value = "pid") int pid,
+                             HttpServletRequest request,
                              Model model){
         Position post=positionService.getByPid(pid);
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);
+        List<Integer> stores=storeService.getStores(id);
+
+        model.addAttribute("stores",stores);
         model.addAttribute("post",post);
         model.addAttribute("business",businessinfoService.getById(post.getBid()));
         return "/user/search/position";
@@ -536,5 +567,68 @@ public class UserController {
         inviteService.deleteById(id);
 
         return "redirect:/user/invite";
+    }
+
+    @RequestMapping("/user/store")
+    public String RefuseInvite(HttpServletRequest request,
+                               Model model,
+                               @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                               @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            // 获取HttpSession对象
+            HttpSession session = request.getSession();
+            // 获取我们登录后存在session中的用户信息
+            Object obj = session.getAttribute("username");
+            String loginname = (String) obj;
+            int id = Integer.parseInt(loginname);                // 强制转换成 String
+            List<Position> posts=storeService.getPost(id);
+            PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+
+        return "/user/store/store";
+    }
+
+    @PostMapping("/user/store/add")
+    @ResponseBody
+    public String addStore(HttpServletRequest request,
+                           @RequestParam("pid") int pid) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int uid = Integer.parseInt(loginname);
+        if(storeService.get(uid,pid)==0){
+            storeService.addStore(uid,pid);
+            return "成功收藏!";
+        }
+        return "您已经收藏过该岗位啦!";
+    }
+
+    @PostMapping("/user/store/delete")
+    @ResponseBody
+    public String deleteStore(HttpServletRequest request,
+                           @RequestParam("pid") int pid) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int uid = Integer.parseInt(loginname);
+        storeService.deleteStore(uid,pid);
+        return "已取消收藏!";
     }
 }

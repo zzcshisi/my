@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.StoreMapper">
+
+    <insert id="addStore">INSERT InTO store (uid,pid)values(#{uid},#{pid}) </insert>
+
+    <delete parameterType="int" id="deleteStore">DELETE FROM store WHERE uid = #{uid} AND pid=#{pid}</delete>
+
+    <select resultType="int" id="get">SELECT count(*) FROM store WHERE uid=#{uid} AND pid=#{pid}</select>
+
+    <select resultType="int" id="getStores">SELECT pid FROM store WHERE uid=#{uid} </select>
+
+    <select resultType="zzc.recruitment.bean.Position" id="getPost">SELECT * FROM positions WHERE pid in (select pid from store where uid=#{uid}) </select>
+</mapper>
