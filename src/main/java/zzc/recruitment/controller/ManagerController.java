@@ -1,6 +1,7 @@
 package zzc.recruitment.controller;
 
 
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import zzc.recruitment.bean.Notice;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -85,7 +87,7 @@ public class ManagerController {
     //  添加用户页面
     @GetMapping("/manager/muser/add")
     public String toAddpage(HttpServletRequest request) {
-        return "/manager/muser/adduser";
+        return "manager/muser/adduser";
     }
 
     //    用户添加响应
@@ -94,7 +96,7 @@ public class ManagerController {
         int i=user.getId();
         if(userService.getUserById(i)!=null){
             model.addAttribute("msg","该账号已被注册！");
-            return "/manager/muser/adduser";
+            return "manager/muser/adduser";
         }
         userService.addUser(user);
         return "redirect:/manager/muser";
@@ -140,12 +142,12 @@ public class ManagerController {
         User user = userService.getUserById(id);
         if (user!=null){
             model.addAttribute("user", user);
-            return "/manager/muser/edituser";
+            return "manager/muser/edituser";
         }
         else{
             model.addAttribute("msg","该用户不存在,请添加！");
             model.addAttribute("id",id);
-            return "/manager/muser/adduser";
+            return "manager/muser/adduser";
         }
 
     }
@@ -156,7 +158,7 @@ public class ManagerController {
         userService.modifyUser(user);
         model.addAttribute("msg", "修改成功");
         model.addAttribute("user", user);
-        return "/manager/muser/edituser";
+        return "manager/muser/edituser";
     }
 
 
@@ -190,7 +192,7 @@ public class ManagerController {
     //  添加公告页面
     @GetMapping("/manager/mnotice/add")
     public String toAddnotice() {
-        return "/manager/mnotice/addnotice";
+        return "manager/mnotice/addnotice";
     }
 
     //    公告添加响应
@@ -239,7 +241,7 @@ public class ManagerController {
     public String toEditnotice(@PathVariable("id") Integer id, Model model) {
         Notice notice = noticeService.searchNotice(id);
         model.addAttribute("notice", notice);
-        return "/manager/mnotice/editnotice";
+        return "manager/mnotice/editnotice";
     }
 
     //    公告编辑响应
@@ -250,7 +252,7 @@ public class ManagerController {
         noticeService.updateNotice(notice);
         model.addAttribute("msg", "修改成功");
         model.addAttribute("notice",notice);
-        return "/manager/mnotice/editnotice";
+        return "manager/mnotice/editnotice";
     }
     //用户信息管理
     @RequestMapping("/manager/minfo")
@@ -322,12 +324,12 @@ public class ManagerController {
         if (user!=null){
             model.addAttribute("userName", user.getUserName());
             model.addAttribute("userinfo", userinfo);
-            return "/manager/minfo/edituserinfo";
+            return "manager/minfo/edituserinfo";
         }
         else{
             model.addAttribute("msg","该用户不存在,请添加！");
             model.addAttribute("id",id);
-            return "/manager/muser/adduser";
+            return "manager/muser/adduser";
         }
 
     }
@@ -344,12 +346,12 @@ public class ManagerController {
             model.addAttribute("userName", user.getUserName());
             model.addAttribute("msg", "修改成功");
             model.addAttribute("userinfo", userinfo);
-            return "/manager/minfo/edituserinfo";
+            return "manager/minfo/edituserinfo";
         }
         else{
             model.addAttribute("msg","该用户不存在,请添加！");
             model.addAttribute("id",userinfo.getId());
-            return "/manager/muser/adduser";
+            return "manager/muser/adduser";
         }
 
     }
@@ -395,7 +397,18 @@ public class ManagerController {
         }
 
         // 获取当前项目的绝对磁盘路径
-        String file_path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/img/avatar";
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            // nothing to do
+        }
+        if (path == null || !path.exists()) {
+            path = new File("");
+        }
+        String pathStr = path.getAbsolutePath();
+        // 如果是jar部署到服务器，则默认和jar包同级
+        String file_path = pathStr+"/static/img/avatar";
         // 保存头像文件的文件夹
         File dir = new File(file_path);
         if (!dir.exists()) {
@@ -411,7 +424,6 @@ public class ManagerController {
             suffix = originalFilename.substring(beginIndex);
         }
         String filename = UUID.randomUUID().toString() + suffix;
-        String path = file_path+filename;
         // 执行保存头像文件
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), new File(file_path, filename));
@@ -439,7 +451,7 @@ public class ManagerController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("userinfo", userinfo);
         model.addAttribute("msg", "上传成功");
-        return "/manager/minfo/edituserinfo"; */
+        return "manager/minfo/edituserinfo"; */
     }
     //企业信息管理
     @RequestMapping("/manager/mbusinessinfo")
@@ -513,12 +525,12 @@ public class ManagerController {
         if (user!=null){
             model.addAttribute("userName", user.getUserName());
             model.addAttribute("businessinfo", businessinfo);
-            return "/manager/mbusinessinfo/editbusinessinfo";
+            return "manager/mbusinessinfo/editbusinessinfo";
         }
         else{
             model.addAttribute("msg","该用户不存在,请添加！");
             model.addAttribute("id",id);
-            return "/manager/muser/adduser";
+            return "manager/muser/adduser";
         }
 
     }
@@ -535,12 +547,12 @@ public class ManagerController {
             model.addAttribute("userName", user.getUserName());
             model.addAttribute("msg", "修改成功");
             model.addAttribute("businessinfo", businessinfo);
-            return "/manager/mbusinessinfo/editbusinessinfo";
+            return "manager/mbusinessinfo/editbusinessinfo";
         }
         else{
             model.addAttribute("msg","该用户不存在,请添加！");
             model.addAttribute("id",businessinfo.getId());
-            return "/manager/muser/adduser";
+            return "manager/muser/adduser";
         }
 
     }
@@ -572,7 +584,18 @@ public class ManagerController {
         }
 
         // 获取当前项目的绝对磁盘路径
-        String file_path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/img/avatar";
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            // nothing to do
+        }
+        if (path == null || !path.exists()) {
+            path = new File("");
+        }
+        String pathStr = path.getAbsolutePath();
+        // 如果是jar部署到服务器，则默认和jar包同级
+        String file_path = pathStr+"/static/img/avatar";
         // 保存头像文件的文件夹
         File dir = new File(file_path);
         if (!dir.exists()) {
@@ -588,7 +611,6 @@ public class ManagerController {
             suffix = originalFilename.substring(beginIndex);
         }
         String filename = UUID.randomUUID().toString() + suffix;
-        String path = file_path+filename;
         // 执行保存头像文件
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), new File(file_path, filename));
@@ -616,7 +638,7 @@ public class ManagerController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("userinfo", userinfo);
         model.addAttribute("msg", "上传成功");
-        return "/manager/minfo/edituserinfo"; */
+        return "manager/minfo/edituserinfo"; */
     }
 
 

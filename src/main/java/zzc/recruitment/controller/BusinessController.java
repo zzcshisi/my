@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import zzc.recruitment.util.JsonResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class BusinessController {
             businessinfoService.addBusinessinfo(businessinfo);
         }
         model.addAttribute("businessinfo",businessinfo);
-        return "/business/binfo/businessinfo";
+        return "business/binfo/businessinfo";
     }
 
     @GetMapping("/business/info/edit")
@@ -73,7 +75,7 @@ public class BusinessController {
         }
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("businessinfo",businessinfo);
-        return "/business/binfo/editbusinessinfo";
+        return "business/binfo/editbusinessinfo";
     }
 
     //    信息编辑响应
@@ -92,7 +94,7 @@ public class BusinessController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("msg", "修改成功");
         model.addAttribute("businessinfo", businessinfo);
-        return "/business/binfo/editbusinessinfo";
+        return "business/binfo/editbusinessinfo";
     }
 
     //头像编辑响应
@@ -140,7 +142,18 @@ public class BusinessController {
         }
 
         // 获取当前项目的绝对磁盘路径
-        String file_path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/img/avatar";
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            // nothing to do
+        }
+        if (path == null || !path.exists()) {
+            path = new File("");
+        }
+        String pathStr = path.getAbsolutePath();
+        // 如果是jar部署到服务器，则默认和jar包同级
+        String file_path = pathStr+"/static/img/avatar";
         // 保存头像文件的文件夹
         File dir = new File(file_path);
         if (!dir.exists()) {
@@ -156,7 +169,6 @@ public class BusinessController {
             suffix = originalFilename.substring(beginIndex);
         }
         String filename = UUID.randomUUID().toString() + suffix;
-        String path = file_path+filename;
         // 执行保存头像文件
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), new File(file_path, filename));
@@ -184,7 +196,7 @@ public class BusinessController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("userinfo", userinfo);
         model.addAttribute("msg", "上传成功");
-        return "/manager/minfo/edituserinfo"; */
+        return "manager/minfo/edituserinfo"; */
     }
 
     @RequestMapping("/business/position")
@@ -215,7 +227,7 @@ public class BusinessController {
         } finally {
             PageHelper.clearPage();
         }
-        return "/business/bposition/businessposition";
+        return "business/bposition/businessposition";
     }
     //  添加岗位页面
     @GetMapping("business/position/add")
@@ -229,7 +241,7 @@ public class BusinessController {
         int id = Integer.parseInt(loginname);
         model.addAttribute("bid",id);
         model.addAttribute("bname",businessinfoService.getById(id).getBusinessname());
-        return "/business/bposition/addposition";
+        return "business/bposition/addposition";
     }
 
     //    岗位添加响应
@@ -264,7 +276,7 @@ public class BusinessController {
         }
         else{
             model.addAttribute("msg","您无权操作非自己发布的岗位，请重新登录");
-            return "/login";
+            return "login";
         }
     }
 
@@ -281,18 +293,18 @@ public class BusinessController {
             Position position=positionService.getByPid(id);
             if (position!=null){
                 model.addAttribute("position", position);
-                return "/business/bposition/editposition";
+                return "business/bposition/editposition";
             }
             else{
                 model.addAttribute("msg","该岗位不存在,请添加！");
                 model.addAttribute("bid",id);
                 model.addAttribute("bname",businessinfoService.getById(id).getBusinessname());
-                return "/business/bposition/addposition";
+                return "business/bposition/addposition";
             }
         }
         else{
             model.addAttribute("msg","您无权操作非自己发布的岗位，请重新登录");
-            return "/login";
+            return "login";
         }
     }
 
@@ -309,11 +321,11 @@ public class BusinessController {
             positionService.updatePosition(position);
             model.addAttribute("msg", "修改成功");
             model.addAttribute("position", position);
-            return "/business/bposition/editposition";
+            return "business/bposition/editposition";
         }
         else{
             model.addAttribute("msg","您无权操作非自己发布的岗位，请重新登录");
-            return "/login";
+            return "login";
         }
     }
 

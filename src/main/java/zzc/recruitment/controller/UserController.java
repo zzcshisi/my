@@ -3,6 +3,7 @@ package zzc.recruitment.controller;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import zzc.recruitment.util.JsonResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,14 +83,14 @@ public class UserController {
             model.addAttribute("avatar", userinfo.getAvatar());
         }
 
-        return "/index";
+        return "index";
     }
 
     @RequestMapping("/notice")
     public String notice( @RequestParam("id") int id,
                           Model model){
         model.addAttribute("notice", noticeService.searchNotice(id));
-        return "/notice";
+        return "notice";
     }
 
 
@@ -107,7 +109,7 @@ public class UserController {
             userinfoService.addUser(userinfo);
         }
         model.addAttribute("userinfo",userinfo);
-        return "/user/info/userinfo";
+        return "user/info/userinfo";
     }
 
     @GetMapping("/user/info/edit")
@@ -127,7 +129,7 @@ public class UserController {
         }
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("userinfo",userinfo);
-        return "/user/info/edituserinfo";
+        return "user/info/edituserinfo";
     }
 
     //    信息编辑响应
@@ -160,7 +162,7 @@ public class UserController {
             model.addAttribute("msg", "您无法操作他人的信息");
             model.addAttribute("userinfo", userinfo);
         }
-        return "/user/info/edituserinfo";
+        return "user/info/edituserinfo";
     }
 
     //头像编辑响应
@@ -208,7 +210,20 @@ public class UserController {
         }
 
         // 获取当前项目的绝对磁盘路径
-        String file_path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/img/avatar";
+
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            // nothing to do
+        }
+        if (path == null || !path.exists()) {
+            path = new File("");
+        }
+        String pathStr = path.getAbsolutePath();
+        // 如果是jar部署到服务器，则默认和jar包同级
+        String file_path = pathStr+"/static/img/avatar";
+
         // 保存头像文件的文件夹
         File dir = new File(file_path);
         if (!dir.exists()) {
@@ -224,7 +239,6 @@ public class UserController {
             suffix = originalFilename.substring(beginIndex);
         }
         String filename = UUID.randomUUID().toString() + suffix;
-        String path = file_path+filename;
         // 执行保存头像文件
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), new File(file_path, filename));
@@ -252,7 +266,7 @@ public class UserController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("userinfo", userinfo);
         model.addAttribute("msg", "上传成功");
-        return "/manager/minfo/edituserinfo"; */
+        return "manager/minfo/edituserinfo"; */
     }
 
     @RequestMapping("/user/search")
@@ -316,7 +330,7 @@ public class UserController {
         model.addAttribute("exp",exp);
         model.addAttribute("money",money);
         model.addAttribute("msg",msg);
-        return "/user/search/search";
+        return "user/search/search";
     }
     @RequestMapping("/user/searchbusiness")
     public String businesssearch(Model model,
@@ -378,7 +392,7 @@ public class UserController {
         model.addAttribute("stores",stores);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("businessinfo",businessinfo);
-        return "/user/search/business";
+        return "user/search/business";
     }
 
     @RequestMapping("/user/position")
@@ -397,7 +411,7 @@ public class UserController {
         model.addAttribute("stores",stores);
         model.addAttribute("post",post);
         model.addAttribute("business",businessinfoService.getById(post.getBid()));
-        return "/user/search/position";
+        return "user/search/position";
     }
 
     @RequestMapping("/user/resume")
@@ -413,7 +427,7 @@ public class UserController {
             resumeService.add(id);
         }
         model.addAttribute("resume", resume);
-        return "/user/resume/resume";
+        return "user/resume/resume";
     }
     @GetMapping("/user/resume/edit")
     public String ToResumeEdit(HttpServletRequest request,Model model){
@@ -428,7 +442,7 @@ public class UserController {
             resumeService.add(id);
         }
         model.addAttribute("resume", resume);
-        return "/user/resume/editresume";
+        return "user/resume/editresume";
     }
 
     //    信息编辑响应
@@ -458,7 +472,7 @@ public class UserController {
             model.addAttribute("msg", "您无法操作他人的信息");
             model.addAttribute("resume", resume);
         }
-        return "/user/resume/editresume";
+        return "user/resume/editresume";
     }
     @PostMapping("/user/resume/editavatar")
     @ResponseBody
@@ -491,7 +505,18 @@ public class UserController {
         }
 
         // 获取当前项目的绝对磁盘路径
-        String file_path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/img/avatar";
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            // nothing to do
+        }
+        if (path == null || !path.exists()) {
+            path = new File("");
+        }
+        String pathStr = path.getAbsolutePath();
+        // 如果是jar部署到服务器，则默认和jar包同级
+        String file_path = pathStr+"/static/img/avatar";
         // 保存头像文件的文件夹
         File dir = new File(file_path);
         if (!dir.exists()) {
@@ -507,7 +532,6 @@ public class UserController {
             suffix = originalFilename.substring(beginIndex);
         }
         String filename = UUID.randomUUID().toString() + suffix;
-        String path = file_path+filename;
         // 执行保存头像文件
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), new File(file_path, filename));
@@ -560,7 +584,7 @@ public class UserController {
             PageHelper.clearPage();
         }
 
-        return "/user/invite/invite";
+        return "user/invite/invite";
     }
     @RequestMapping("/user/invite/refuse")
     public String RefuseInvite(@RequestParam("id") int id) {
@@ -598,7 +622,7 @@ public class UserController {
             PageHelper.clearPage();
         }
 
-        return "/user/store/store";
+        return "user/store/store";
     }
 
     @PostMapping("/user/store/add")
