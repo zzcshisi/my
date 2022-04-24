@@ -512,7 +512,8 @@ public class BusinessController {
             for(int i=0;i<records.size();i++){
                 Record record=records.get(i);
                 Position post=positionService.getByPid(record.getPid());
-                record.setBname(post.getBname());
+                Resume resume=recordService.getResumeById(record.getId());
+                record.setBname(resume.getMyname());
                 record.setPname(post.getPname());
                 records.set(i,record);
             }

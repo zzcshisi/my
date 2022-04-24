@@ -49,7 +49,7 @@
                     <h1 class="page-header">投递管理</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="/business/info">企业端</a></li>
-                        <li class="breadcrumb-item active">邀请人投递管理才</li>
+                        <li class="breadcrumb-item active">投递管理</li>
                     </ol>
                     <div class="card mb-4">
                         <div class="card-header">
@@ -60,6 +60,7 @@
                         <form th:action="@{/business/record}" method="post">
                             <div class="row">
                                 <select class="selectpicker col-sm-2 col-md-2" name="pid" title="请选择岗位" data-style="btn-info" >
+                                    <option th:value=-1 data-th-text="全部"></option>
                                     <option th:selected="${post.getPid()}==${pid}" th:each="post:${positions}" th:value="${post.getPid()}" data-th-text="${post.getPname}"></option>
                                 </select>
                                 <select class="selectpicker col-sm-2 col-md-2" name="status" title="请选择状态" data-style="btn-info" >
@@ -81,7 +82,7 @@
                                     <div class="col-sm-offset-1 col-md-offset-1">
                                         <a th:href="@{/user/position(pid=${record.getPid()})}" style="text-decoration: none;">
                                             <h3 th:text="${record.getPname()}"></h3>
-                                            <h4 th:text="${record.getBname()}" style="color: #000000"></h4>
+                                            <h4 th:text="'来自'+${record.getBname()}+'的投递'" style="color: #000000"></h4>
                                         </a>
                                     </div>
                                 </div>
