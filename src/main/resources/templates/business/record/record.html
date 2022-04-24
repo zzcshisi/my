@@ -7,68 +7,95 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="zzc">
-    <link rel="icon" href="img/icon.jpg">
+    <link rel="icon" th:href="@{/img/icon.jpg}">
 
-    <title>收藏岗位</title>
+    <title>企业端-投递管理</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
 
     <!--格式设置等-->
     <link th:href="@{/css/style.css}" rel="stylesheet">
+
+
     <link href="https://cdn.bootcss.com/bootstrap-select/1.12.1/css/bootstrap-select.min.css" rel="stylesheet">
     <link rel="stylesheet" target="_blank" class="external-link" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
-
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" language="javascript" th:src="@{/js/linkageProvinceCity.js}"></script>
 
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript" th:src="@{/js/linkclass.js}"></script>
 
 </head>
 
 <body>
-<body background="/img/bg3.jpg"
-      style=" background-repeat:no-repeat ;
-      background-size:100% 100%;
-      background-attachment: fixed;"
-></body>
+
 <div class="container">
-    <div th:replace="~{commons/usercommon::nvbar(active='store')}"></div>
+    <div th:replace="~{commons/businesscommon::nvbar(active='record')}"></div>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div id="wrapper">
             <div class="overlay"></div>
-            <div th:replace="~{commons/usercommon::sidebar}"></div>
+            <div th:replace="~{commons/businesscommon::sidebar}"></div>
             <div id="page-content-wrapper">
                 <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
                     <span class="hamb-top"></span>
                     <span class="hamb-middle"></span>
                     <span class="hamb-bottom"></span>
                 </button>
-                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
-                    <h1 class="page-header">我的收藏</h1>
-                    <div class="col-sm-11 col-md-11">
-                        <div th:each="post:${pageInfo.getList()}" style="BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset;  BACKGROUND: #ffffff;  BORDER-LEFT: 2px inset;  WIDTH: 100%;  BORDER-BOTTOM: 2px outset;  HEIGHT: 100%">
+
+                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2 main">
+                    <h1 class="page-header">投递管理</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="/business/info">企业端</a></li>
+                        <li class="breadcrumb-item active">邀请人投递管理才</li>
+                    </ol>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            投递信息
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/business/record}" method="post">
                             <div class="row">
-                                <div class="col-sm-10 col-md-10" style="height: 120px">
+                                <select class="selectpicker col-sm-2 col-md-2" name="pid" title="请选择岗位" data-style="btn-info" >
+                                    <option th:selected="${post.getPid()}==${pid}" th:each="post:${positions}" th:value="${post.getPid()}" data-th-text="${post.getPname}"></option>
+                                </select>
+                                <select class="selectpicker col-sm-2 col-md-2" name="status" title="请选择状态" data-style="btn-info" >
+                                    <option th:selected="${status}=='全部'">全部</option>
+                                    <option th:selected="${status}=='待筛选'">待筛选</option>
+                                    <option th:selected="${status}=='笔试中'">笔试中</option>
+                                    <option th:selected="${status}=='面试中'">面试中</option>
+                                    <option th:selected="${status}=='审核中'">审核中</option>
+                                    <option th:selected="${status}=='已通过'">已通过</option>
+                                    <option th:selected="${status}=='已拒绝'">已拒绝</option>
+                                </select>
+                                <button class="btn btn-lg btn-primary"  type="submit">确定筛选</button>
+                            </div>
+                        </form>
+                        <h2></h2>
+                        <div th:each="record:${pageInfo.getList()}" style="BORDER-RIGHT: 2px outset; BORDER-TOP: 2px inset;  BACKGROUND: #ffffff;  BORDER-LEFT: 2px inset;  WIDTH: 100%;  BORDER-BOTTOM: 2px outset;  HEIGHT: 100%">
+                            <div class="row">
+                                <div class="col-sm-9 col-md-9" style="height: 120px">
                                     <div class="col-sm-offset-1 col-md-offset-1">
-                                        <a th:href="@{/user/position(pid=${post.getPid()})}" style="text-decoration: none;">
-                                            <h3 th:text="${post.getPname()}"></h3>
-                                            <h4><span th:text="${post.getPleft()}+'---'+${post.getPright()}" style="color: #ff0000"></span>&emsp;&emsp;&emsp;&emsp;&emsp;<span th:text="${post.getCity()}+'&emsp;|&emsp;'+${post.getExp()==0?'无经验':(post.getExp()==1?'1年以下':(post.getExp()==2?'1-3年':(post.getExp()==3?'3-6年':(post.getExp()==4?'6-10年':'10年以上'))))}+'&emsp;|&emsp;'+(${post.getXueli()==0?'专科':(post.getXueli()==1?'本科':(post.getXueli()==2?'硕士':(post.getXueli()==3?'博士':'')))})" style="color: #000000"></span></h4>
-                                            <h4><span style="width:auto" class="label label-success" th:if="${post.getToken1()}!=null" th:text="${post.getToken1()}"></span>&emsp;&emsp;<span style="width:auto" class="label label-success" th:if="${post.getToken2()}!=null" th:text="${post.getToken2()}"></span>&emsp;&emsp;<span style="width:auto" class="label label-success" th:if="${post.getToken3()}!=null" th:text="${post.getToken3()}"></span></h4>
+                                        <a th:href="@{/user/position(pid=${record.getPid()})}" style="text-decoration: none;">
+                                            <h3 th:text="${record.getPname()}"></h3>
+                                            <h4 th:text="${record.getBname()}" style="color: #000000"></h4>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-sm-2 col-md-2" style="height: 120px;">
+                                <div class="col-sm-3 col-md-3" style="height: 120px;">
                                     <h3></h3>
-                                    <a th:href="@{/user/business(bid=${post.getBid()})}"><h4 th:text="${post.getBname()}" style="color: #000000"></h4></a>
+                                    <h3>
+                                        <span class="label label-success" th:text="${record.getStatus()}"></span>
+                                    </h3>
                                     <h3></h3>
-                                    <div class="btn-group">
-                                        <button class = "btn btn-lg btn-default" th:onclick="deleteStore([[${post.getPid()}]])"><span class="glyphicon glyphicon-star"></span>取消收藏</button>
-                                        <button class = "btn btn-lg btn-primary" th:onclick="addRecord([[${post.getPid()}]])">申请职位</button>
-                                    </div>
+                                     <div class="btn-group">
+                                        <button class = "btn btn-lg btn-default" th:onclick="deleteRecord([[${record.getId()}]])">查看简历</button>
+                                        <button class = "btn btn-lg btn-primary" th:onclick="deleteRecord([[${record.getId()}]])">进入下一阶段</button>
+                                        <button class = "btn btn-lg btn-danger" th:onclick="deleteRecord([[${record.getId()}]])">拒绝</button>
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +104,7 @@
                                 正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
                             </div>
                             <div class="row">
-                                <form th:action="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money})}" method="post">
+                                <form th:action="@{/business/record(pid=${pid},status=${status})}" method="post">
                                     <div class="col-lg-1">
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="pageNum" style="width:50px">
@@ -88,30 +115,30 @@
                             </div>
                             <ul class="pagination pull-right no-margin">
                                 <li th:if="${pageInfo.hasPreviousPage}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=1)}">首页</a>
+                                    <a th:href="@{/business/record(pid=${pid},status=${status},pageNum=1)}">首页</a>
                                 </li>
 
                                 <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${pageInfo.prePage})}">
+                                    <a th:href="@{/business/record(pid=${pid},status=${status},pageNum=${pageInfo.prePage})}">
                                         <i class="ace-icon fa fa-angle-double-left"></i>
                                     </a>
                                 </li>
                                 <!--遍历条数:这里分页数与每页大小相同？-->
                                 <li th:each="nav:${pageInfo.navigatepageNums}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${nav})}" th:text="${nav}"
+                                    <a th:href="@{/business/record(pid=${pid},status=${status},pageNum=${nav})}" th:text="${nav}"
                                        th:if="${nav != pageInfo.pageNum}"></a>
                                     <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
                                           th:text="${nav}"></span>
                                 </li>
 
                                 <li class="next" th:if="${pageInfo.hasNextPage}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${pageInfo.nextPage})}">
+                                    <a th:href="@{/business/record(pid=${pid},status=${status},pageNum=${pageInfo.nextPage})}">
                                         <i class="ace-icon fa fa-angle-double-right"></i>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${pageInfo.pages})}">尾页</a>
+                                    <a th:href="@{/business/record(pid=${pid},status=${status},pageNum=${pageInfo.pages})}">尾页</a>
                                 </li>
                             </ul>
                         </div>
@@ -120,7 +147,6 @@
             </div>
         </div>
     </div>
-    <!-- /#page-content-wrapper -->
 </div>
 <!-- /#wrapper -->
 
@@ -162,44 +188,6 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<script type="text/javascript">
-    function deleteStore(pid) {
-        var dataParams={};
-        dataParams["pid"]=pid;
-        $.ajax({
-            url: "/user/store/delete",
-            type: "POST",
-            data: dataParams,
-            dataType: "TEXT",
-            success: function(data) {
-                location.reload();
-                alert(data);
-            },
-            error: function(xhr) {
-                alert("错误操作");
-                location.reload();
-            }
-        });
-    }
-    function addRecord(pid) {
-        var dataParams={};
-        dataParams["pid"]=pid;
-        $.ajax({
-            url: "/user/position/add",
-            type: "POST",
-            data: dataParams,
-            dataType: "TEXT",
-            success: function(data) {
-                location.reload();
-                alert(data);
-            },
-            error: function(xhr) {
-                alert("错误操作");
-                location.reload();
-            }
-        });
-    }
-</script>
 
 </body>
 </html>

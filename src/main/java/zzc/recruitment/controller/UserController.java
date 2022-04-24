@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 import zzc.recruitment.bean.*;
+import zzc.recruitment.bean.Record;
 import zzc.recruitment.ex.*;
 import zzc.recruitment.service.*;
 import com.github.pagehelper.PageHelper;
@@ -44,6 +45,8 @@ public class UserController {
     BusinessinfoService businessinfoService;
     @Autowired
     StoreService storeService;
+    @Autowired
+    RecordService recordService;
 
     @RequestMapping("/index")
     public String userindex(Model model,
@@ -654,5 +657,69 @@ public class UserController {
         int uid = Integer.parseInt(loginname);
         storeService.deleteStore(uid,pid);
         return "已取消收藏!";
+    }
+
+    @PostMapping("/user/position/add")
+    @ResponseBody
+    public String addRecord(HttpServletRequest request,
+                           @RequestParam("pid") int pid) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int uid = Integer.parseInt(loginname);
+        if(recordService.getRecordByUidPid(uid,pid)==null){
+            recordService.addRecord(uid,pid);
+            return "成功申请!";
+        }
+        return "您已经申请过该岗位啦!请勿重复申请";
+    }
+
+    @RequestMapping("/user/record")
+    public String ToRecord(HttpServletRequest request,
+                           Model model,
+                           @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                           @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            // 获取HttpSession对象
+            HttpSession session = request.getSession();
+            // 获取我们登录后存在session中的用户信息
+            Object obj = session.getAttribute("username");
+            String loginname = (String) obj;
+            int id = Integer.parseInt(loginname);                // 强制转换成 String
+            List<Record> records=recordService.getRecordByUid(id);
+            for(int i=0;i<records.size();i++){
+                Record record=records.get(i);
+                Position post=positionService.getByPid(record.getPid());
+                record.setBname(post.getBname());
+                record.setPname(post.getPname());
+                records.set(i,record);
+            }
+            PageInfo<Record> pageInfo = new PageInfo<Record>(records, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
+
+        return "user/record";
+    }
+    @PostMapping("/user/record/delete")
+    @ResponseBody
+    public String deleteRecord(HttpServletRequest request,
+                              @RequestParam("id") int id) {
+
+        recordService.delete(id);
+        return "已删除申请!";
     }
 }

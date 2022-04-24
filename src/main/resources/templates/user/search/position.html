@@ -58,7 +58,7 @@
                                 <div class="btn-group" >
                                     <button class = "btn btn-lg btn-default" style="width:80px" th:if="${!(#lists.contains(stores, post.getPid()))}" th:onclick="addStore([[${post.getPid()}]])"><span class="glyphicon glyphicon-star-empty"></span>收藏</button>
                                     <button class = "btn btn-lg btn-default" style="width:80px" th:if="${#lists.contains(stores, post.getPid())}" th:onclick="deleteStore([[${post.getPid()}]])"><span class="glyphicon glyphicon-star"></span>已收藏</button>
-                                    <button class = "btn btn-lg btn-primary" style="width:80px" th:onclick="addStore([[${post.getPid()}]])">申请职位</button>
+                                    <button class = "btn btn-lg btn-primary" style="width:80px" th:onclick="addRecord([[${post.getPid()}]])">申请职位</button>
                                 </div>
                             </div>
                         </div>
@@ -155,6 +155,24 @@
         dataParams["pid"]=pid;
         $.ajax({
             url: "/user/store/delete",
+            type: "POST",
+            data: dataParams,
+            dataType: "TEXT",
+            success: function(data) {
+                location.reload();
+                alert(data);
+            },
+            error: function(xhr) {
+                alert("错误操作");
+                location.reload();
+            }
+        });
+    }
+    function addRecord(pid) {
+        var dataParams={};
+        dataParams["pid"]=pid;
+        $.ajax({
+            url: "/user/position/add",
             type: "POST",
             data: dataParams,
             dataType: "TEXT",

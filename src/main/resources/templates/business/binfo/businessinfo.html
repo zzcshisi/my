@@ -119,10 +119,15 @@
 <script th:src="@{/js/jchart.js}"></script>
 <script>
     $(document).ready(function() {
+        var a='[[${a}]]'
+        var b='[[${b}]]'
+        var c='[[${c}]]'
+        var d='[[${d}]]'
+        var e='[[${e}]]'
         $("#population_chart").jChart({
             name: "岗位处理情况表",
-            headers: ["在招岗位","待筛选","笔试中","面试中","审核中"],
-            values: [25,47,8,42,42],
+            headers: ["待处理简历","待筛选","笔试中","面试中","审核中"],
+            values: [a,b,c,d,e],
             footers: [0],
             colors: ["#4169E1","#38BCFF","#00A9FF","#008DD3","#0074AA"],
             x_label: "数量"

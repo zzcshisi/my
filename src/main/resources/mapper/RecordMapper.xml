@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzc.recruitment.mapper.RecordMapper">
+
+    <insert id="addRecord">INSERT InTO record (uid,pid,status)values(#{uid},#{pid},"待筛选") </insert>
+
+    <insert parameterType="zzc.recruitment.bean.Resume" id="addRecord_resume">INSERT InTo record_resume(id,sex,age,avatar,myname, place,money,post,phone,email,web,skills,pro1,pro2,work1,work2,edu,pt1,pt2,wt1,wt2,selfeval)values(#{id},#{sex},#{age},#{avatar},#{myname}, #{place},#{money},#{post},#{phone},#{email},#{web},#{skills},#{pro1},#{pro2},#{work1},#{work2},#{edu},#{pt1},#{pt2},#{wt1},#{wt2},#{selfeval})</insert>
+
+    <delete parameterType="int" id="delete">DELETE FROM record WHERE id = #{id}</delete>
+
+    <update id="updateStatus">UPDATE record SET status=#{status} WHERE id = #{id} </update>
+
+    <select resultType="int" id="getStatusNum">SELECT count(*) FROM record where status=#{status} and pid in (select pid from positions where bid=#{bid})</select>
+
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordByUid">SELECT * FROM record WHERE uid=#{uid}</select>
+
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordByPid">SELECT * FROM record WHERE pid=#{pid} AND (#{status}='全部' or #{status}='' or status=#{status})</select>
+
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordByBid">SELECT * FROM record WHERE pid in (select pid from positions where bid=#{bid}) AND (#{status}='全部' or #{status}='' or status=#{status})</select>
+
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordByUidPid">SELECT * FROM record WHERE uid=#{uid} AND pid=#{pid}</select>
+
+    <select resultType="zzc.recruitment.bean.Resume" id="getResumeById">SELECT * FROM record_resume WHERE id=#{id}</select>
+</mapper>

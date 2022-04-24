@@ -8,13 +8,13 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ResumeMapper {
-    //插入新的用户
+    //插入
     int add(int id);
 
-    //删除用户
+    //删除
     int delete(int id);
 
-    //修改用户
+    //修改
     int update(Resume resume);
     int updateAvatar(String avatar,int id);
 

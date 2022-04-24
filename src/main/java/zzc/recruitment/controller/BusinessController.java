@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 import zzc.recruitment.bean.*;
+import zzc.recruitment.bean.Record;
 import zzc.recruitment.ex.*;
 import zzc.recruitment.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class BusinessController {
     PositionService positionService;
     @Autowired
     InviteService inviteService;
+    @Autowired
+    RecordService recordService;
 
     @RequestMapping("/business/info")
     public String businessinfo(HttpServletRequest request,Model model){
@@ -54,6 +57,17 @@ public class BusinessController {
             businessinfo.setId(id);
             businessinfoService.addBusinessinfo(businessinfo);
         }
+        int a,b,c,d,e;
+        b=recordService.getStatusNum(id,"待筛选");
+        c=recordService.getStatusNum(id,"笔试中");
+        d=recordService.getStatusNum(id,"面试中");
+        e=recordService.getStatusNum(id,"审核中");
+        a=b+c+d+e;
+        model.addAttribute("a",a);
+        model.addAttribute("b",b);
+        model.addAttribute("c",c);
+        model.addAttribute("d",d);
+        model.addAttribute("e",e);
         model.addAttribute("businessinfo",businessinfo);
         return "business/binfo/businessinfo";
     }
@@ -429,7 +443,6 @@ public class BusinessController {
             pageSize = 10;    //设置默认每页显示的数据数
         }
         PageHelper.startPage(pageNum, pageSize);//定位显示页
-        PageHelper.startPage(pageNum, pageSize);//定位显示页
         PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(userinfos, pageSize);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("xueli", xueli);
@@ -465,5 +478,54 @@ public class BusinessController {
         }
         return "redirect:/business/invite";
     }
+    @RequestMapping("/business/record")
+    public String ToRecord(HttpServletRequest request,
+                           Model model,
+                           @RequestParam(defaultValue = "-1",value="pid")int pid,
+                           @RequestParam(defaultValue = "", value="status")String status,
+                           @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
+                           @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
+        if (pageNum == null) {
+            pageNum = 1;   //设置默认当前页
+        }
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;    //设置默认每页显示的数据数
+        }
+        PageHelper.startPage(pageNum, pageSize);//定位显示页
+        try {
+            // 获取HttpSession对象
+            HttpSession session = request.getSession();
+            // 获取我们登录后存在session中的用户信息
+            Object obj = session.getAttribute("username");
+            String loginname = (String) obj;
+            int id = Integer.parseInt(loginname);                // 强制转换成 String
+            List<Record> records;
+            if(pid==-1){
+                records=recordService.getRecordByBid(id,status);
+            }
+            else{
+                records=recordService.getRecordByPid(pid,status);
+            }
+            for(int i=0;i<records.size();i++){
+                Record record=records.get(i);
+                Position post=positionService.getByPid(record.getPid());
+                record.setBname(post.getBname());
+                record.setPname(post.getPname());
+                records.set(i,record);
+            }
+            PageInfo<Record> pageInfo = new PageInfo<Record>(records, pageSize);
+            List<Position> positions=positionService.getByBid(id);
+            model.addAttribute("pid",pid);
+            model.addAttribute("status",status);
+            model.addAttribute("positions",positions);
+            model.addAttribute("pageInfo", pageInfo);
+        } finally {
+            PageHelper.clearPage();
+        }
 
+        return "business/record/record";
+    }
 }

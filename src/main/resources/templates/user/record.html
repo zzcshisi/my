@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="zzc">
+    <link rel="icon" href="img/icon.jpg">
+
+    <title>投递记录</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+
+    <!--格式设置等-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-select/1.12.1/css/bootstrap-select.min.css" rel="stylesheet">
+    <link rel="stylesheet" target="_blank" class="external-link" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+
+</head>
+<body>
+<div th:replace="~{commons/usercommon::nvbar(active='info')}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/usercommon::sidebar1}"></div>
+        <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main">
+            <h1 class="page-header">投递记录</h1>
+            <div class="col-sm-11 col-md-11">
+                <div th:each="record:${pageInfo.getList()}" style="BORDER-RIGHT: 2px outset; BORDER-TOP: 2px inset;  BACKGROUND: #ffffff;  BORDER-LEFT: 2px inset;  WIDTH: 100%;  BORDER-BOTTOM: 2px outset;  HEIGHT: 100%">
+                    <div class="row">
+                        <div class="col-sm-10 col-md-10" style="height: 120px">
+                            <div class="col-sm-offset-1 col-md-offset-1">
+                                <a th:href="@{/user/position(pid=${record.getPid()})}" style="text-decoration: none;">
+                                    <h3 th:text="${record.getPname()}"></h3>
+                                    <h4 th:text="${record.getBname()}" style="color: #000000"></h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2" style="height: 120px;">
+                            <h3></h3>
+                            <h3>
+                                <span class="label label-success" th:text="${record.getStatus()}"></span>
+                            </h3>
+                            <h3></h3>
+                            <button class = "btn btn-lg btn-default" th:if="${record.getStatus()=='待筛选'}" th:onclick="deleteRecord([[${record.getId()}]])">取消申请</button>
+                            <button class = "btn btn-lg btn-default" th:if="${record.getStatus()=='已拒绝'}" th:onclick="deleteRecord([[${record.getId()}]])">删除申请</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer no-margin-top" >
+                    <div class="col-md-6">
+                        正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
+                    </div>
+                    <div class="row">
+                        <form th:action="@{/user/record}" method="post">
+                            <div class="col-lg-1">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="pageNum" style="width:50px">
+                                    <span class="input-group-btn"><button class="btn btn-sm btn-default"  type="submit">跳转</button></span>
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </form>
+                    </div>
+                    <ul class="pagination pull-right no-margin">
+                        <li th:if="${pageInfo.hasPreviousPage}">
+                            <a th:href="@{/user/record(pageNum=1)}">首页</a>
+                        </li>
+
+                        <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+                            <a th:href="@{/user/record(pageNum=${pageInfo.prePage})}">
+                                <i class="ace-icon fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <!--遍历条数:这里分页数与每页大小相同？-->
+                        <li th:each="nav:${pageInfo.navigatepageNums}">
+                            <a th:href="@{/user/record(pageNum=${nav})}" th:text="${nav}"
+                               th:if="${nav != pageInfo.pageNum}"></a>
+                            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                                  th:text="${nav}"></span>
+                        </li>
+
+                        <li class="next" th:if="${pageInfo.hasNextPage}">
+                            <a th:href="@{/user/record(pageNum=${pageInfo.nextPage})}">
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a th:href="@{/user/record(pageNum=${pageInfo.pages})}">尾页</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"><\/script>')</script>
+<script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}" ></script>
+
+<script type="text/javascript">
+    function deleteRecord(id) {
+        var dataParams={};
+        dataParams["id"]=id;
+        $.ajax({
+            url: "/user/record/delete",
+            type: "POST",
+            data: dataParams,
+            dataType: "TEXT",
+            success: function(data) {
+                location.reload();
+                alert(data);
+            },
+            error: function(xhr) {
+                alert("错误操作");
+                location.reload();
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
