@@ -47,7 +47,7 @@ public class UserController {
     StoreService storeService;
     @Autowired
     RecordService recordService;
-
+//主页
     @RequestMapping("/index")
     public String userindex(Model model,
                             HttpServletRequest request,
@@ -88,7 +88,7 @@ public class UserController {
 
         return "index";
     }
-
+    //公告
     @RequestMapping("/notice")
     public String notice( @RequestParam("id") int id,
                           Model model){
@@ -96,7 +96,7 @@ public class UserController {
         return "notice";
     }
 
-
+    //个人信息
     @RequestMapping("/user/info")
     public String userinfo(HttpServletRequest request,Model model){
         // 获取HttpSession对象
@@ -271,7 +271,7 @@ public class UserController {
         model.addAttribute("msg", "上传成功");
         return "manager/minfo/edituserinfo"; */
     }
-
+    //搜索岗位
     @RequestMapping("/user/search")
     public String usersearch(HttpServletRequest request,
                              Model model,
@@ -335,6 +335,7 @@ public class UserController {
         model.addAttribute("msg",msg);
         return "user/search/search";
     }
+    //搜索公司
     @RequestMapping("/user/searchbusiness")
     public String businesssearch(Model model,
                                  @RequestParam(defaultValue = "", value = "searchword") String searchword,
@@ -364,7 +365,7 @@ public class UserController {
         model.addAttribute("bscale",bscale);
         return "user/search/searchbusiness";
     }
-
+    //查看公司信息
     @RequestMapping("/user/business")
     public String ToBusiness(@RequestParam(value = "bid") int bid,
                              Model model,
@@ -397,7 +398,7 @@ public class UserController {
         model.addAttribute("businessinfo",businessinfo);
         return "user/search/business";
     }
-
+    //查看岗位信息
     @RequestMapping("/user/position")
     public String ToPosition(@RequestParam(value = "pid") int pid,
                              HttpServletRequest request,
@@ -416,7 +417,7 @@ public class UserController {
         model.addAttribute("business",businessinfoService.getById(post.getBid()));
         return "user/search/position";
     }
-
+    //个人简历
     @RequestMapping("/user/resume")
     public String ToResume(HttpServletRequest request,Model model){
         // 获取HttpSession对象
@@ -589,13 +590,14 @@ public class UserController {
 
         return "user/invite/invite";
     }
+    //查看邀请
     @RequestMapping("/user/invite/refuse")
     public String RefuseInvite(@RequestParam("id") int id) {
         inviteService.deleteById(id);
 
         return "redirect:/user/invite";
     }
-
+    //查看收藏
     @RequestMapping("/user/store")
     public String RefuseInvite(HttpServletRequest request,
                                Model model,
@@ -658,7 +660,7 @@ public class UserController {
         storeService.deleteStore(uid,pid);
         return "已取消收藏!";
     }
-
+    //申请岗位
     @PostMapping("/user/position/add")
     @ResponseBody
     public String addRecord(HttpServletRequest request,
@@ -675,7 +677,7 @@ public class UserController {
         }
         return "您已经申请过该岗位啦!请勿重复申请";
     }
-
+    //投递记录
     @RequestMapping("/user/record")
     public String ToRecord(HttpServletRequest request,
                            Model model,

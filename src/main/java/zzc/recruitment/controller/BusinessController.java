@@ -376,6 +376,7 @@ public class BusinessController {
         model.addAttribute("last_search",name);
         return "business/bposition/searchposition";
     }
+    //邀请人才功能
     @GetMapping("/business/invite")
     String Invite(Model model,
                   HttpServletRequest request,
@@ -478,6 +479,7 @@ public class BusinessController {
         }
         return "redirect:/business/invite";
     }
+    //岗位投递管理
     @RequestMapping("/business/record")
     public String ToRecord(HttpServletRequest request,
                            Model model,
