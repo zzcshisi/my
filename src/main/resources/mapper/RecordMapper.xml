@@ -14,11 +14,13 @@
 
     <select resultType="zzc.recruitment.bean.Record" id="getRecordByUid">SELECT * FROM record WHERE uid=#{uid}</select>
 
-    <select resultType="zzc.recruitment.bean.Record" id="getRecordByPid">SELECT * FROM record WHERE pid=#{pid} AND (#{status}='全部' or #{status}='' or status=#{status})</select>
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordByPid">SELECT * FROM record WHERE pid=#{pid} AND (#{status} like '%全部%' or #{status}='' or #{status} like concat('%',concat(status,'%')))</select>
 
-    <select resultType="zzc.recruitment.bean.Record" id="getRecordByBid">SELECT * FROM record WHERE pid in (select pid from positions where bid=#{bid}) AND (#{status}='全部' or #{status}='' or status=#{status})</select>
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordByBid">SELECT * FROM record WHERE pid in (select pid from positions where bid=#{bid}) AND (#{status} like '%全部%' or #{status}='' or #{status} like concat('%',concat(status,'%')))</select>
 
     <select resultType="zzc.recruitment.bean.Record" id="getRecordByUidPid">SELECT * FROM record WHERE uid=#{uid} AND pid=#{pid}</select>
+
+    <select resultType="zzc.recruitment.bean.Record" id="getRecordById">SELECT * FROM record WHERE id=#{id}</select>
 
     <select resultType="zzc.recruitment.bean.Resume" id="getResumeById">SELECT * FROM record_resume WHERE id=#{id}</select>
 </mapper>

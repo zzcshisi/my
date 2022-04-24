@@ -28,5 +28,6 @@ public interface RecordMapper {
     List<Record> getRecordByPid(int pid,String status);
 
     Record getRecordByUidPid(int uid,int pid);
+    Record getRecordById(int id);
     Resume getResumeById(int id);
 }

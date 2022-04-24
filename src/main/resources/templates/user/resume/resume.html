@@ -100,7 +100,8 @@
                                     <div class="col-sm-10" th:text="${resume.getPro1()}" th:if="${resume.getPro1()}!=null"></div>
                                     <div class="col-sm-2 text-right" th:text="${resume.getPt1()}" th:if="${resume.getPt1()}!=null"></div>
                                 </div>
-                                <div class="row">
+                                <div class="row" th:if="${resume.getPro2()}!=null">
+                                    <h3></h3>
                                     <div class="col-sm-10" th:text="${resume.getPro2()}" th:if="${resume.getPro2()}!=null"></div>
                                     <div class="col-sm-2 text-right" th:text="${resume.getPt2()}" th:if="${resume.getPt2()}!=null"></div>
                                 </div>
@@ -114,7 +115,8 @@
                                     <div class="col-sm-10" th:text="${resume.getWork1()}" th:if="${resume.getWork1()}!=null"></div>
                                     <div class="col-sm-2 text-right" th:text="${resume.getWt1()}" th:if="${resume.getWt1()}!=null"></div>
                                 </div>
-                                <div class="row">
+                                <div class="row" th:if="${resume.getWork2()}!=null">
+                                    <h3></h3>
                                     <div class="col-sm-10" th:text="${resume.getWork2()}" th:if="${resume.getWork2()}!=null"></div>
                                     <div class="col-sm-2 text-right" th:text="${resume.getWt2()}" th:if="${resume.getWt2()}!=null"></div>
                                 </div>

@@ -529,4 +529,68 @@ public class BusinessController {
 
         return "business/record/record";
     }
+    @PostMapping("/business/record/update")
+    @ResponseBody
+    public String updateRecord(@RequestParam("status")String status,
+                               @RequestParam("id") int id,
+                               HttpServletRequest request
+                               ) {
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int bid = Integer.parseInt(loginname);                // 强制转换成 String
+        if(bid!=positionService.getByPid(recordService.getRecordById(id).getPid()).getBid()){
+            return"您无权操作该记录";
+        }
+
+        if(status.equals("待筛选")){
+            recordService.updateStatus(id,"笔试中");
+            return "该申请者进入笔试阶段";
+        }
+        else if(status.equals("笔试中")){
+            recordService.updateStatus(id,"面试中");
+            return "该申请者进入面试阶段";
+        }
+        else if(status.equals("面试中")){
+            recordService.updateStatus(id,"审核中");
+            return "该申请者进入审核阶段";
+        }
+        else if(status.equals("审核中")){
+            recordService.updateStatus(id,"已通过");
+            return "该申请者通过审核！";
+        }
+        else if(status.equals("已通过")){
+            return "该申请者已通过！";
+        }
+        else if(status.equals("已拒绝")){
+            recordService.updateStatus(id,"已拒绝");
+            return "该申请者已被拒绝，流程结束";
+        }
+        else{
+            recordService.updateStatus(id,"待筛选");
+            return "该申请者状态异常，重新进入筛选！";
+        }
+    }
+
+    @RequestMapping("/business/record/resume")
+    public String ToResume(@RequestParam("id")int id,
+                           @RequestParam("pid")int pid,
+                           HttpServletRequest request,
+                           Model model){
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int bid = Integer.parseInt(loginname);                // 强制转换成 String
+        if(bid==positionService.getByPid(pid).getBid()){
+            Record record=recordService.getRecordById(id);
+            Resume resume=recordService.getResumeById(id);
+            model.addAttribute("record",record);
+            model.addAttribute("resume", resume);
+            return "business/record/resume";
+        }
+        return "redirect:/business/record";
+    }
+
 }

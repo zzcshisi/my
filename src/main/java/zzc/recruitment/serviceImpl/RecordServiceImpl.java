@@ -59,7 +59,10 @@ public class RecordServiceImpl implements RecordService{
     public List<Record> getRecordByPid(int pid,String status){
         return recordMapper.getRecordByPid(pid,status);
     }
-
+    @Override
+    public Record getRecordById(int id){
+        return recordMapper.getRecordById(id);
+    }
     @Override
     public Record getRecordByUidPid(int uid,int pid){
         return recordMapper.getRecordByUidPid(uid,pid);
