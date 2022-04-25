@@ -332,6 +332,9 @@ public class BusinessController {
         String loginname = (String) obj;
         int uid = Integer.parseInt(loginname);                // 强制转换成 String
         if(uid==position.getBid()){
+            if(position.getEndtime().replace(" ","").equals("")) {
+               position.setEndtime("2023-12-31");
+            }
             positionService.updatePosition(position);
             model.addAttribute("msg", "修改成功");
             model.addAttribute("position", position);
