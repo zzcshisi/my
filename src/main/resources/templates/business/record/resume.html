@@ -85,6 +85,15 @@
                                                 <div class="col-sm-5">个人信息</div>
                                                 <div class="col-sm-7" th:text="${resume.getMyname()}+'/'+${resume.getSex()}+'/'+${resume.getAge()}"></div>
 
+                                                <div class="col-sm-5">毕业院校</div>
+                                                <div class="col-sm-7" th:text="${resume.getSchool()}"></div>
+
+                                                <div class="col-sm-5">专业</div>
+                                                <div class="col-sm-7" th:text="${resume.getZhuanye()}"></div>
+
+                                                <div class="col-sm-5">学历</div>
+                                                <div class="col-sm-7" th:text="${resume.getXueli()}"></div>
+
                                                 <div class="col-sm-5">居住地址</div>
                                                 <div class="col-sm-7" th:text="${resume.getPlace()}"></div>
 

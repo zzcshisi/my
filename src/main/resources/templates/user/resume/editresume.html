@@ -103,6 +103,24 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-2 control-label">学校：</label>
+                        <div class="col-sm-8">
+                            <input id="school" name="school" type="text" class="form-control" placeholder="请输入学校" th:value="${resume.getSchool()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">专业：</label>
+                        <div class="col-sm-8">
+                            <input id="zhuanye" name="zhuanye" type="text" class="form-control" placeholder="请输入专业" th:value="${resume.getZhuanye()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学历：</label>
+                        <div class="col-sm-8">
+                            <input id="xueli" name="xueli" type="text" class="form-control" placeholder="请输入学历" th:value="${resume.getXueli()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">期望岗位：</label>
                         <div class="col-sm-8">
                             <input  name="post" type="text" class="form-control" placeholder="请输入期望岗位" th:value="${resume.getPost()}">

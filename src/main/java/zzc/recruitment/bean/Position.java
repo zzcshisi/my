@@ -25,4 +25,5 @@ public class Position {
     private String token1;
     private String token2;
     private String token3;
+    private double compareCount;
 }

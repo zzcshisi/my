@@ -27,4 +27,6 @@ public interface PositionMapper {
     List<Position> getByPname(String pname,int bid);
 
     List<Position> searchPosition(String searchword,String city,String industry,String nature,String bscale,String kind,String cate, int xueli, int exp, int pleft,int pright);
+
+    List<Position> getRecommend(String status,String hposition,String hplace,int hleft,int hright,int xueli);
 }

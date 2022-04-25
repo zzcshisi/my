@@ -14,6 +14,9 @@ public class Resume {
     private int age;
     private String avatar;
     private String myname;
+    private String xueli;
+    private String school;
+    private String zhuanye;
     private String place;
     private String money;
     private String post;

@@ -11,7 +11,7 @@
 
     <delete parameterType="int" id="deleteByBid">DELETE FROM positions WHERE bid = #{bid} </delete>
 
-    <update parameterType="zzc.recruitment.bean.Position" id="updatePosition">UPDATE positions SET kind=#{kind},city=#{city},xueli=#{xueli},exp=#{exp},pleft=#{pleft},pright=#{pright},endtime=date_format(#{endtime},'%Y-%m-%d'),intro=#{intro},token1=#{token1},token2=#{token2},token3=#{token3} WHERE pid = #{pid} </update>
+    <update parameterType="zzc.recruitment.bean.Position" id="updatePosition">UPDATE positions SET pname=#{pname},kind=#{kind},city=#{city},xueli=#{xueli},exp=#{exp},pleft=#{pleft},pright=#{pright},endtime=date_format(#{endtime},'%Y-%m-%d'),intro=#{intro},token1=#{token1},token2=#{token2},token3=#{token3} WHERE pid = #{pid} </update>
 
 
     <select resultType="zzc.recruitment.bean.Position" id="getAll">SELECT * FROM positions </select>
@@ -20,6 +20,13 @@
     <select resultType="zzc.recruitment.bean.Position" id="getByPid">SELECT * FROM positions where pid=#{pid}</select>
 
     <select resultType="zzc.recruitment.bean.Position" id="getByBid">SELECT * FROM positions where bid=#{bid}</select>
+
+    <select resultType="zzc.recruitment.bean.Position" id="getRecommend">SELECT * FROM positions where cate=#{status}
+                          AND kind=#{hposition}
+                          AND (#{hplace}='' or #{hplace}='不限' or #{hplace}='请选择市区' or city=#{hplace})
+                          AND pleft &gt;= #{hleft}
+                          AND pright&lt;=(#{hright}+5000)
+                          AND xueli&lt;=#{xueli} </select>
     <!--模糊查找，返回一个List<Bean>-->
     <select resultType="zzc.recruitment.bean.Position" id="getByPname">SELECT * FROM positions where pname like concat('%',concat(#{pname},'%')) and bid=#{bid}</select>
 
