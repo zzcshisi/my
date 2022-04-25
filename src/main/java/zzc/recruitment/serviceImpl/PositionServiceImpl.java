@@ -107,7 +107,7 @@ public class PositionServiceImpl implements PositionService {
                 {"生物制药"}
         };
         boolean flag=false;
-        String name=hposition.toLowerCase();
+        String name=hposition==null?"":hposition.toLowerCase();
         for(int i=0;i<13;i++){
             if(flag){
                 break;
@@ -123,9 +123,16 @@ public class PositionServiceImpl implements PositionService {
         }
         List<Position> positions=positionMapper.getRecommend(status,hposition,hplace,hleft,hright,xueli);
         Resume resume=resumeMapper.getById(id);
-        String zhuanye= resume.getZhuanye().toLowerCase();
-        String[] skills=resume.getSkills().toLowerCase().replace("。"," ").split(",|，|/|、| ");
-        String selfeval=resume.getSelfeval().toLowerCase();
+        if(resume==null){
+            resumeMapper.add(id);
+            resume=resumeMapper.getById(id);
+        }
+        String zhuanye= resume.getZhuanye()==null?"": resume.getZhuanye().toLowerCase();
+        String[] skills={};
+        if(resume.getSkills()!=null){
+            skills=resume.getSkills().toLowerCase().replace("。"," ").split(",|，|/|、| ");
+        }
+        String selfeval=resume.getSelfeval()==null?"": resume.getSelfeval().toLowerCase();
         for(int i=0;i<positions.size();i++){
             double count=0.0;
             Position position=positions.get(i);
