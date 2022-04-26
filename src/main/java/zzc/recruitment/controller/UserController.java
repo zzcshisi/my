@@ -359,6 +359,11 @@ public class UserController {
             String loginname = (String) obj;
             int id = Integer.parseInt(loginname);                // 强制转换成 String
             Userinfo userinfo=userinfoService.getById(id);
+            if(userinfo==null){
+                userinfo= new Userinfo();
+                userinfo.setId(id);
+                userinfoService.addUser(userinfo);
+            }
             List<Position> posts=positionService.getRecommend(id,userinfo.getStatus(),userinfo.getHposition(),userinfo.getHplace(),userinfo.getHleft(),userinfo.getHright(),userinfo.getXueli());
             PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
             List<Integer> stores=storeService.getStores(id);
@@ -465,22 +470,28 @@ public class UserController {
         Resume resume=resumeService.getById(id);
         if(resume==null){
             resumeService.add(id);
+            resume=resumeService.getById(id);
             Userinfo userinfo=userinfoService.getById(id);
-            resume.setSchool(userinfo.getSchool());
-            resume.setZhuanye(userinfo.getZhuanye());
-            if(userinfo.getXueli()==0){
-                resume.setXueli("专科");
+            if(userinfo!=null){
+                resume.setSchool(userinfo.getSchool());
+                resume.setZhuanye(userinfo.getZhuanye());
+                resume.setSex(userinfo.getSex());
+                resume.setEmail(userinfo.getEmail());
+                resume.setPhone(userinfo.getPhone());
+                if(userinfo.getXueli()==0){
+                    resume.setXueli("专科");
+                }
+                else if(userinfo.getXueli()==1){
+                    resume.setXueli("本科");
+                }
+                else if(userinfo.getXueli()==2){
+                    resume.setXueli("硕士");
+                }
+                else if(userinfo.getXueli()==3){
+                    resume.setXueli("学历");
+                }
+                resumeService.update(resume);
             }
-            else if(userinfo.getXueli()==1){
-                resume.setXueli("本科");
-            }
-            else if(userinfo.getXueli()==2){
-                resume.setXueli("硕士");
-            }
-            else if(userinfo.getXueli()==3){
-                resume.setXueli("学历");
-            }
-            resumeService.update(resume);
         }
         model.addAttribute("resume", resume);
         return "user/resume/resume";
@@ -723,6 +734,7 @@ public class UserController {
         Object obj = session.getAttribute("username");
         String loginname = (String) obj;
         int uid = Integer.parseInt(loginname);
+        if(resumeService.getById(uid)==null) return "您还未完善简历！";
         if(recordService.getRecordByUidPid(uid,pid)==null){
             recordService.addRecord(uid,pid);
             return "成功申请!";

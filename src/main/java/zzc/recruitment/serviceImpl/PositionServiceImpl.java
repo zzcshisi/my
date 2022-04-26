@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import zzc.recruitment.bean.Position ;
 import zzc.recruitment.bean.Resume;
+import zzc.recruitment.bean.Userinfo;
 import zzc.recruitment.mapper.PositionMapper;
 import zzc.recruitment.mapper.ResumeMapper;
 import zzc.recruitment.mapper.UserinfoMapper;
@@ -126,6 +127,27 @@ public class PositionServiceImpl implements PositionService {
         if(resume==null){
             resumeMapper.add(id);
             resume=resumeMapper.getById(id);
+            Userinfo userinfo=userinfoMapper.getById(id);
+            if(userinfo!=null){
+                resume.setSchool(userinfo.getSchool());
+                resume.setZhuanye(userinfo.getZhuanye());
+                resume.setSex(userinfo.getSex());
+                resume.setEmail(userinfo.getEmail());
+                resume.setPhone(userinfo.getPhone());
+                if(userinfo.getXueli()==0){
+                    resume.setXueli("专科");
+                }
+                else if(userinfo.getXueli()==1){
+                    resume.setXueli("本科");
+                }
+                else if(userinfo.getXueli()==2){
+                    resume.setXueli("硕士");
+                }
+                else if(userinfo.getXueli()==3){
+                    resume.setXueli("学历");
+                }
+                resumeMapper.update(resume);
+            }
         }
         String zhuanye= resume.getZhuanye()==null?"": resume.getZhuanye().toLowerCase();
         String[] skills={};
@@ -152,6 +174,12 @@ public class PositionServiceImpl implements PositionService {
             for(int j=0;j< skills.length;j++){
                 if(intro.contains(skills[j])||tokens.contains(skills[j])){
                     count+=20/ skills.length;
+                }
+            }
+            for(int j=0;j< skills.length;j++){
+                if(pname.contains(skills[j])){
+                    count+=8;
+                    break;
                 }
             }
             position.setCompareCount(count);
