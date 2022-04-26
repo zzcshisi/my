@@ -77,7 +77,7 @@
                                 正在浏览第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.共 [[${pageInfo.total}]] 条记录
                             </div>
                             <div class="row">
-                                <form th:action="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money})}" method="post">
+                                <form th:action="@{/user//user/store}" method="post">
                                     <div class="col-lg-1">
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="pageNum" style="width:50px">
@@ -88,30 +88,30 @@
                             </div>
                             <ul class="pagination pull-right no-margin">
                                 <li th:if="${pageInfo.hasPreviousPage}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=1)}">首页</a>
+                                    <a th:href="@{/user//user/store(pageNum=1)}">首页</a>
                                 </li>
 
                                 <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${pageInfo.prePage})}">
+                                    <a th:href="@{/user//user/store(pageNum=${pageInfo.prePage})}">
                                         <i class="ace-icon fa fa-angle-double-left"></i>
                                     </a>
                                 </li>
                                 <!--遍历条数:这里分页数与每页大小相同？-->
                                 <li th:each="nav:${pageInfo.navigatepageNums}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${nav})}" th:text="${nav}"
+                                    <a th:href="@{/user//user/store(pageNum=${nav})}" th:text="${nav}"
                                        th:if="${nav != pageInfo.pageNum}"></a>
                                     <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
                                           th:text="${nav}"></span>
                                 </li>
 
                                 <li class="next" th:if="${pageInfo.hasNextPage}">
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${pageInfo.nextPage})}">
+                                    <a th:href="@{/user//user/store(pageNum=${pageInfo.nextPage})}">
                                         <i class="ace-icon fa fa-angle-double-right"></i>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a th:href="@{/user/search(searchword=${searchword},city=${city},industry=${industry},nature=${nature},bscale=${bscale},kind=${kind},cate=${cate},xueli=${xueli},exp=${exp},money=${money},pageNum=${pageInfo.pages})}">尾页</a>
+                                    <a th:href="@{/user//user/store(pageNum=${pageInfo.pages})}">尾页</a>
                                 </li>
                             </ul>
                         </div>

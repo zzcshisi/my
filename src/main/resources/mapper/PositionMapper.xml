@@ -11,7 +11,7 @@
 
     <delete parameterType="int" id="deleteByBid">DELETE FROM positions WHERE bid = #{bid} </delete>
 
-    <update parameterType="zzc.recruitment.bean.Position" id="updatePosition">UPDATE positions SET pname=#{pname},kind=#{kind},city=#{city},xueli=#{xueli},exp=#{exp},pleft=#{pleft},pright=#{pright},endtime=date_format(#{endtime},'%Y-%m-%d'),intro=#{intro},token1=#{token1},token2=#{token2},token3=#{token3} WHERE pid = #{pid} </update>
+    <update parameterType="zzc.recruitment.bean.Position" id="updatePosition">UPDATE positions SET pname=#{pname},bname=(select businessname from businessinfo where id=#{bid}),kind=#{kind},city=#{city},xueli=#{xueli},exp=#{exp},pleft=#{pleft},pright=#{pright},endtime=date_format(#{endtime},'%Y-%m-%d'),intro=#{intro},token1=#{token1},token2=#{token2},token3=#{token3} WHERE pid = #{pid} </update>
 
 
     <select resultType="zzc.recruitment.bean.Position" id="getAll">SELECT * FROM positions </select>

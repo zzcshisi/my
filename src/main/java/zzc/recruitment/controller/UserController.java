@@ -2,6 +2,7 @@ package zzc.recruitment.controller;
 
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -341,6 +342,18 @@ public class UserController {
                                Model model,
                                @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                                @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 获取我们登录后存在session中的用户信息
+        Object obj = session.getAttribute("username");
+        String loginname = (String) obj;
+        int id = Integer.parseInt(loginname);                // 强制转换成 String
+        Userinfo userinfo=userinfoService.getById(id);
+        if(userinfo==null){
+            userinfo= new Userinfo();
+            userinfo.setId(id);
+            userinfoService.addUser(userinfo);
+        }
         if (pageNum == null) {
             pageNum = 1;   //设置默认当前页
         }
@@ -352,24 +365,18 @@ public class UserController {
         }
         PageHelper.startPage(pageNum, pageSize);//定位显示页
         try {
-            // 获取HttpSession对象
-            HttpSession session = request.getSession();
-            // 获取我们登录后存在session中的用户信息
-            Object obj = session.getAttribute("username");
-            String loginname = (String) obj;
-            int id = Integer.parseInt(loginname);                // 强制转换成 String
-            Userinfo userinfo=userinfoService.getById(id);
-            if(userinfo==null){
-                userinfo= new Userinfo();
-                userinfo.setId(id);
-                userinfoService.addUser(userinfo);
-            }
+            List<Position> postspage=positionService.getRecommend(id,userinfo.getStatus(),userinfo.getHposition(),userinfo.getHplace(),userinfo.getHleft(),userinfo.getHright(),userinfo.getXueli());
             List<Position> posts=positionService.getRecommend(id,userinfo.getStatus(),userinfo.getHposition(),userinfo.getHplace(),userinfo.getHleft(),userinfo.getHright(),userinfo.getXueli());
-            PageInfo<Position> pageInfo = new PageInfo<Position>(posts, pageSize);
+            Integer maxindex=posts.size()/pageNum;
+            List<Position> ps=posts.subList(maxindex*pageSize<(pageNum-1)*pageSize?maxindex*pageSize:(pageNum-1)*pageSize,posts.size()<pageNum*pageSize?posts.size():pageNum*pageSize);
+            PageInfo<Position> source = new PageInfo<Position>(postspage, pageSize);
+            PageInfo<Position> target = new PageInfo<>();
+            // 复制分页属性
+            BeanUtils.copyProperties(source, target);
+            target.setList(ps);
             List<Integer> stores=storeService.getStores(id);
-
             model.addAttribute("stores",stores);
-            model.addAttribute("pageInfo", pageInfo);
+            model.addAttribute("pageInfo", target);
         } finally {
             PageHelper.clearPage();
         }
@@ -689,7 +696,6 @@ public class UserController {
         } finally {
             PageHelper.clearPage();
         }
-
         return "user/store/store";
     }
 
