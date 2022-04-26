@@ -46,7 +46,6 @@ public class loginController {
             session.setAttribute("identity", user.getIdentity());
 //            Coolie
             if (user.getIdentity().equals("0")) {
-                System.out.print(user.getIdentity());
                 return "redirect:/index";
             } else if (user.getIdentity().equals("1")) {
                 return "redirect:/business/info";

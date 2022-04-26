@@ -55,7 +55,8 @@
                                 <h3 class="panel-title text-center" th:text="${notice.getTitle()}+' 由'+${notice.getPublisher()}+'发布于'+${notice.getPublishtime()}">
                                 </h3>
                             </div>
-                            <div class="panel-body" th:text="${notice.getContent()}" style="min-height: 1200px">
+                            <div class="panel-body"  style="min-height: 1200px">
+                                <pre th:text="${notice.getContent()}"></pre>
                             </div>
                         </div>
                     </div>
