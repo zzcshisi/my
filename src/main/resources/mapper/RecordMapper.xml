@@ -4,7 +4,7 @@
 
     <insert id="addRecord">INSERT InTO record (uid,pid,status)values(#{uid},#{pid},"待筛选") </insert>
 
-    <insert parameterType="zzc.recruitment.bean.Resume" id="addRecord_resume">INSERT InTo record_resume(id,sex,age,avatar,myname,school,zhuanye,xueli,place,money,post,phone,email,web,skills,pro1,pro2,work1,work2,edu,pt1,pt2,wt1,wt2,selfeval)values(#{id},#{sex},#{age},#{avatar},#{myname},#{school},#{zhuanye},#{xueli},#{place},#{money},#{post},#{phone},#{email},#{web},#{skills},#{pro1},#{pro2},#{work1},#{work2},#{edu},#{pt1},#{pt2},#{wt1},#{wt2},#{selfeval})</insert>
+    <update parameterType="zzc.recruitment.bean.Resume" id="addRecord_resume">UPDATE record SET sex=#{sex},age=#{age},avatar=#{avatar},myname=#{myname},school=#{school},zhuanye=#{zhuanye},xueli=#{xueli},place=#{place},money=#{money},post=#{post},phone=#{phone},email=#{email},web=#{web},skills=#{skills},pro1=#{pro1},pro2=#{pro2},work1=#{work1},work2=#{work2},edu=#{edu},pt1=#{pt1},pt2=#{pt2},wt1=#{wt1},wt2=#{wt2},selfeval=#{selfeval} WHERE id=#{id}</update>
 
     <delete parameterType="int" id="delete">DELETE FROM record WHERE id = #{id}</delete>
 
@@ -22,5 +22,5 @@
 
     <select resultType="zzc.recruitment.bean.Record" id="getRecordById">SELECT * FROM record WHERE id=#{id}</select>
 
-    <select resultType="zzc.recruitment.bean.Resume" id="getResumeById">SELECT * FROM record_resume WHERE id=#{id}</select>
+    <select resultType="zzc.recruitment.bean.Resume" id="getResumeById">SELECT * FROM record WHERE id=#{id}</select>
 </mapper>
