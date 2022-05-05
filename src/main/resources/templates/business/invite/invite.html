@@ -103,6 +103,8 @@
                                         <th width="10%">学历</th>
                                         <th width="10%">专业</th>
                                         <th width="10%">求职状态</th>
+                                        <th width="10%">求职意向</th>
+                                        <th width="30%">个人简介</th>
                                     </tr>
                                     </thead>
 
@@ -118,6 +120,8 @@
                                         <td th:text="${userinfo.getXueli()==0?'专科':(userinfo.getXueli()==1?'本科':(userinfo.getXueli()==2?'硕士':(userinfo.getXueli()==3?'博士':'')))}"></td>
                                         <td th:text="${userinfo.getZhuanye()}"></td>
                                         <td th:text="${userinfo.getStatus()}"></td>
+                                        <td th:text="${userinfo.getHposition()}"></td>
+                                        <td th:text="${userinfo.getIntro()}"></td>
                                     </tr>
                                     </tbody>
                                 </table>

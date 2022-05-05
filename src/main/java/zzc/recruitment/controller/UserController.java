@@ -597,7 +597,6 @@ public class UserController {
             dir.mkdirs();
             System.out.print(file_path);
         }
-
         // 保存的头像文件的文件名
         String suffix = "";
         String originalFilename = file.getOriginalFilename();
